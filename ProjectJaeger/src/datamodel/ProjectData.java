@@ -20,6 +20,14 @@ public class ProjectData {
 		return video;
 	}
 	
+	public List<AnimalTrack> getTracks() {
+		return tracks;
+	}
+
+	public List<AnimalTrack> getUnassignedSegments() {
+		return unassignedSegments;
+	}
+
 	public void exportCSVFile(File outFile) {
 		
 	}
