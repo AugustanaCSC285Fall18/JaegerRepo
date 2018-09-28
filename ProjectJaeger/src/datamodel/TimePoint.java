@@ -1,4 +1,4 @@
-package edu.augustana.csc285.jaeger;
+package datamodel;
 
 import java.awt.Point;
 

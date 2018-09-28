@@ -12,6 +12,8 @@ import org.opencv.core.Mat;
 import org.opencv.videoio.VideoCapture;
 import org.opencv.videoio.Videoio;
 
+import datamodel.ProjectData;
+import datamodel.Video;
 import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.value.ChangeListener;
@@ -24,7 +26,9 @@ import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import javafx.stage.Window;
+//import utils.UtilsForOpenCV;
 
 public class MainWindowController {
 	private VideoCapture capture = new VideoCapture();
@@ -33,30 +37,35 @@ public class MainWindowController {
 	@FXML	private Button btnBrowse;
 	@FXML	private ImageView videoView;
 	
+	private ProjectData project;
+	private Stage stage;
+	
+	
 	@FXML
-	protected void displayVideo(ActionEvent event) {
-		capture.open("S:\\CLASS\\CS\\285\\sample_videos\\sample1.mp4");
-		System.out.println("Video opened:" + capture.isOpened());
-		
-		Runnable frameGrabber = new Runnable() {
-			public void run() {
-				System.out.println("m");
-				// effectively grab and process a single frame
-				Mat frame = grabFrame();
-				if (frame.width()!=0) {
-					// convert and show the frame
-					Image imageToShow =  mat2Image(frame);
-					updateImageView(videoView, imageToShow);
-				} else {
-					timer.shutdown();
-					capture.release();
-				}
+	public void handleBrowse()  {
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Open Video File");
+		File chosenFile = fileChooser.showOpenDialog(stage);
+		if (chosenFile != null) {
+			loadVideo(chosenFile.getPath());
+		}		
+	}
+	
+	public void loadVideo(String filePath) {
+		try {
+			capture.open(filePath);
+			System.out.println("Video opened:" + capture.isOpened());
+			Mat frame = grabFrame();
+			if (frame.width() != 0) {
+				// convert and show the frame
+				Image imageToShow = mat2Image(frame);
+				videoView.setImage(imageToShow);
+			} else {
+				capture.release();
 			}
-		
-		};
-		
-		this.timer = Executors.newSingleThreadScheduledExecutor();
-		this.timer.scheduleAtFixedRate(frameGrabber, 0, 10, TimeUnit.MILLISECONDS);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 		
 	}
 	

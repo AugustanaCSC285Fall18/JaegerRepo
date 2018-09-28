@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainWindowController">
+   <center>
+      <BorderPane prefHeight="757.0" prefWidth="884.0" BorderPane.alignment="CENTER">
+         <center>
+            <ImageView fx:id="videoView" fitHeight="452.0" fitWidth="653.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
+         </center>
+         <top>
+            <Button fx:id="btnBrowse" mnemonicParsing="false" onAction="#handleBrowse" prefHeight="77.0" prefWidth="143.0" text="Browse.." BorderPane.alignment="CENTER" />
+         </top>
+      </BorderPane>
+   </center>
+</BorderPane>
