@@ -28,13 +28,15 @@
       <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="639.0" prefWidth="705.0" BorderPane.alignment="CENTER">
          <children>
             <Slider fx:id="sliderVideoTime" />
-            <StackPane>
+            <StackPane prefHeight="370.0" prefWidth="680.0">
                <children>
-                  <ImageView fx:id="videoView" pickOnBounds="true" preserveRatio="true" />
-                  <Canvas fx:id="vidCanvas" height="370.0" width="747.0" />
+                  <Canvas fx:id="vidCanvas" height="370.0" width="704.0" StackPane.alignment="BOTTOM_LEFT" />
                </children>
             </StackPane>
          </children>
       </VBox>
    </center>
+   <bottom>
+      <ImageView fx:id="videoView" pickOnBounds="true" visible="false" BorderPane.alignment="CENTER" />
+   </bottom>
 </BorderPane>

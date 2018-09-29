@@ -18,6 +18,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -55,20 +56,10 @@ public class MainWindowController {
 		//loadVideo("S:/class/cs/285/sample_videos/sample1.mp4");		
 
 		sliderVideoTime.valueProperty().addListener((obs, oldV, newV) -> showFrameAt(newV.intValue())); 
-		
 
-		
 		System.out.println(vidCanvas.getHeight() +" "+ vidCanvas.getWidth());
 		System.out.println(videoView.getFitHeight() + " " + videoView.getFitWidth());
 		
-		vidCanvas.setOnMousePressed(new EventHandler<MouseEvent>() {
-		    public void handle(MouseEvent me) {
-		        System.out.println("Mouse pressed: " + me.getX() + " , " + me.getY());
-				System.out.println("h "+vidCanvas.getHeight() +" w "+ vidCanvas.getWidth());
-				System.out.println("h " + videoView.getFitHeight() + " w "+ videoView.getFitWidth());
-				
-		    }
-		});
 	}
 
 public void initializeWithStage(Stage stage) {
@@ -76,7 +67,7 @@ public void initializeWithStage(Stage stage) {
 	
 	// bind it so whenever the Scene changes width, the videoView matches it
 	// (not perfect though... visual problems if the height gets too large.)
-	videoView.fitWidthProperty().bind(videoView.getScene().widthProperty());
+	//videoView.fitWidthProperty().bind(videoView.getScene().widthProperty());
 
 }
 
@@ -89,8 +80,7 @@ public void initializeWithStage(Stage stage) {
 			loadVideo(chosenFile.getPath());
 		}		
 		
-		vidCanvas.setHeight(videoView.getFitHeight());
-		vidCanvas.setWidth(videoView.getFitWidth());
+		//vidCanvas.widthProperty().bind(videoView.getScene().widthProperty());
 
 	}
 	
@@ -100,6 +90,7 @@ public void initializeWithStage(Stage stage) {
 			Video video = project.getVideo();
 			sliderVideoTime.setMax(video.getTotalNumFrames()-1);
 			showFrameAt(0);
+		
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -109,8 +100,17 @@ public void initializeWithStage(Stage stage) {
 	public void showFrameAt(int frameNum) {
 		project.getVideo().setCurrentFrameNum(frameNum);
 		Image curFrame = UtilsForOpenCV.matToJavaFXImage(project.getVideo().readFrame());
-		videoView.setImage(curFrame);
-		textFieldCurFrameNum.setText(String.format("%05d",frameNum));		
+		GraphicsContext gc = vidCanvas.getGraphicsContext2D();
+		gc.drawImage(curFrame, 0, 0, vidCanvas.getWidth(), vidCanvas.getWidth()*vidCanvas.getHeight()/curFrame.getWidth());
+		textFieldCurFrameNum.setText(String.format("%05d",frameNum));	
+		
+		vidCanvas.setOnMousePressed(new EventHandler<MouseEvent>() {
+		    public void handle(MouseEvent me) {
+		        System.out.println("Mouse pressed: " + me.getX() + " , " + me.getY());
+		        gc.fillOval(me.getX(), me.getY(), 10, 10);
+		    }
+		    
+		});
 	}
 	
 }
