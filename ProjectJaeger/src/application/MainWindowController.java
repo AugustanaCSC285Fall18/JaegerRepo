@@ -20,8 +20,10 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Slider;
+import javafx.scene.control.SplitMenuButton;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -39,8 +41,17 @@ public class MainWindowController {
 	@FXML	private ImageView videoView;
 	@FXML private Slider sliderVideoTime;
 	@FXML private TextField textFieldCurFrameNum;
+	@FXML private SplitMenuButton dropDown;
+	
 	private ProjectData project;
 	private Stage stage;
+	
+	
+	@FXML
+	public void handleDropdown()  {
+		dropDown.getItems().addAll(new MenuItem("Chick 1"), new MenuItem("Chick 2"));
+	}
+
 	
 @FXML public void initialize() {
 		
