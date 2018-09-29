@@ -10,40 +10,40 @@ import javafx.scene.image.Image;
 
 public class UtilsForOpenCV {
 	
-	public static Image mat2Image(Mat frame)
-	{
-		try
-		{
-			return SwingFXUtils.toFXImage(matToBufferedImage(frame), null);
-		}
-		catch (Exception e)
-		{
-			System.err.println("Cannot convert the Mat obejct: " + e);
-			return null;
-		}
-	}
-	
-	private static BufferedImage matToBufferedImage(Mat original)
-	{
-		// init
-		BufferedImage image = null;
-		int width = original.width(), height = original.height(), channels = original.channels();
-		byte[] sourcePixels = new byte[width * height * channels];
-		original.get(0, 0, sourcePixels);
-		
-		if (original.channels() > 1)
-		{
-			image = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);
-		}
-		else
-		{
-			image = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_GRAY);
-		}
-		final byte[] targetPixels = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
-		System.arraycopy(sourcePixels, 0, targetPixels, 0, sourcePixels.length);
-		
-		return image;
-	}
+//	public static Image mat2Image(Mat frame)
+//	{
+//		try
+//		{
+//			return SwingFXUtils.toFXImage(matToBufferedImage(frame), null);
+//		}
+//		catch (Exception e)
+//		{
+//			System.err.println("Cannot convert the Mat obejct: " + e);
+//			return null;
+//		}
+//	}
+//	
+//	private static BufferedImage matToBufferedImage(Mat original)
+//	{
+//		// init
+//		BufferedImage image = null;
+//		int width = original.width(), height = original.height(), channels = original.channels();
+//		byte[] sourcePixels = new byte[width * height * channels];
+//		original.get(0, 0, sourcePixels);
+//		
+//		if (original.channels() > 1)
+//		{
+//			image = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);
+//		}
+//		else
+//		{
+//			image = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_GRAY);
+//		}
+//		final byte[] targetPixels = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
+//		System.arraycopy(sourcePixels, 0, targetPixels, 0, sourcePixels.length);
+//		
+//		return image;
+//	}
 	
 	/**
 	 * Converts an OpenCV Mat (matrix) image into a JavaFX Image object.

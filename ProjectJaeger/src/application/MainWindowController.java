@@ -30,7 +30,8 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
-import utils.UtilsForOpenCV;
+import application.UtilsForOpenCV;
+
 
 public class MainWindowController {
 	
