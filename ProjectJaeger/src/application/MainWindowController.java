@@ -29,8 +29,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-
-import application.UtilsForOpenCV;
+import utils.UtilsForOpenCV;
 
 
 public class MainWindowController {
