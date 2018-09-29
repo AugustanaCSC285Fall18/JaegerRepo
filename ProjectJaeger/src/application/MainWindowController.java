@@ -34,6 +34,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+
 import utils.UtilsForOpenCV;
 
 
@@ -43,6 +44,8 @@ public class MainWindowController {
 	@FXML	private Button btnBrowse;
 	@FXML	private ImageView videoView;
 	@FXML 	private Canvas vidCanvas;
+	@FXML 	private Canvas pathCanvas;
+
 	@FXML 	private TextField textFieldCurFrameNum;
 	@FXML private Slider sliderVideoTime;
 
@@ -52,14 +55,23 @@ public class MainWindowController {
 
 	
 @FXML public void initialize() {
-		
 		//loadVideo("S:/class/cs/285/sample_videos/sample1.mp4");		
-
 		sliderVideoTime.valueProperty().addListener((obs, oldV, newV) -> showFrameAt(newV.intValue())); 
-
-		System.out.println(vidCanvas.getHeight() +" "+ vidCanvas.getWidth());
-		System.out.println(videoView.getFitHeight() + " " + videoView.getFitWidth());
 		
+		AnimalTrack trialChick = new AnimalTrack("Chick 1");
+		
+		GraphicsContext pathGc = pathCanvas.getGraphicsContext2D();
+		pathCanvas.setOnMousePressed(new EventHandler<MouseEvent>() {
+		    public void handle(MouseEvent me) {
+		        pathGc.fillOval(me.getX(), me.getY(), 10, 10);
+		        trialChick.add(new TimePoint(me.getX(), me.getY(), (int) sliderVideoTime.getValue()));
+		        System.out.println("Mouse pressed: " + me.getX() + " , " + me.getY() + " at frame:" + (int) sliderVideoTime.getValue());
+		    }
+		});
+		
+		if (pathCanvas.isPressed()){
+			
+		}
 	}
 
 public void initializeWithStage(Stage stage) {
@@ -100,17 +112,17 @@ public void initializeWithStage(Stage stage) {
 	public void showFrameAt(int frameNum) {
 		project.getVideo().setCurrentFrameNum(frameNum);
 		Image curFrame = UtilsForOpenCV.matToJavaFXImage(project.getVideo().readFrame());
-		GraphicsContext gc = vidCanvas.getGraphicsContext2D();
-		gc.drawImage(curFrame, 0, 0, vidCanvas.getWidth(), vidCanvas.getWidth()*vidCanvas.getHeight()/curFrame.getWidth());
+		GraphicsContext vidGc = vidCanvas.getGraphicsContext2D();
+		vidGc.drawImage(curFrame, 0, 0, vidCanvas.getWidth(), vidCanvas.getWidth()*vidCanvas.getHeight()/curFrame.getWidth());
+		 
+		pathCanvas.setWidth(vidCanvas.getWidth());
+		pathCanvas.setHeight(vidCanvas.getWidth()*vidCanvas.getHeight()/curFrame.getWidth() - 20);
+
 		textFieldCurFrameNum.setText(String.format("%05d",frameNum));	
 		
-		vidCanvas.setOnMousePressed(new EventHandler<MouseEvent>() {
-		    public void handle(MouseEvent me) {
-		        System.out.println("Mouse pressed: " + me.getX() + " , " + me.getY());
-		        gc.fillOval(me.getX(), me.getY(), 10, 10);
-		    }
-		    
-		});
 	}
+	
+	
+	
 	
 }

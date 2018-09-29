@@ -30,7 +30,8 @@
             <Slider fx:id="sliderVideoTime" />
             <StackPane prefHeight="370.0" prefWidth="680.0">
                <children>
-                  <Canvas fx:id="vidCanvas" height="370.0" width="704.0" StackPane.alignment="BOTTOM_LEFT" />
+                  <Canvas fx:id="vidCanvas" height="370.0" width="704.0" StackPane.alignment="TOP_LEFT" />
+                  <Canvas fx:id="pathCanvas" height="366.0" width="706.0" StackPane.alignment="TOP_LEFT" />
                </children>
             </StackPane>
          </children>
