@@ -15,6 +15,7 @@ import datamodel.Video;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Alert;
@@ -25,6 +26,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -38,8 +40,9 @@ public class MainWindowController {
 	
 	@FXML	private Button btnBrowse;
 	@FXML	private ImageView videoView;
+	@FXML 	private Canvas vidCanvas;
+	@FXML 	private TextField textFieldCurFrameNum;
 	@FXML private Slider sliderVideoTime;
-	@FXML private TextField textFieldCurFrameNum;
 	private ProjectData project;
 	private Stage stage;
 	
@@ -48,6 +51,20 @@ public class MainWindowController {
 		//loadVideo("S:/class/cs/285/sample_videos/sample1.mp4");		
 
 		sliderVideoTime.valueProperty().addListener((obs, oldV, newV) -> showFrameAt(newV.intValue())); 
+		
+
+		
+		System.out.println(vidCanvas.getHeight() +" "+ vidCanvas.getWidth());
+		System.out.println(videoView.getFitHeight() + " " + videoView.getFitWidth());
+		
+		vidCanvas.setOnMousePressed(new EventHandler<MouseEvent>() {
+		    public void handle(MouseEvent me) {
+		        System.out.println("Mouse pressed: " + me.getX() + " , " + me.getY());
+				System.out.println("h "+vidCanvas.getHeight() +" w "+ vidCanvas.getWidth());
+				System.out.println("h " + videoView.getFitHeight() + " w "+ videoView.getFitWidth());
+				
+		    }
+		});
 	}
 
 public void initializeWithStage(Stage stage) {
@@ -55,7 +72,8 @@ public void initializeWithStage(Stage stage) {
 	
 	// bind it so whenever the Scene changes width, the videoView matches it
 	// (not perfect though... visual problems if the height gets too large.)
-	videoView.fitWidthProperty().bind(videoView.getScene().widthProperty());  
+	videoView.fitWidthProperty().bind(videoView.getScene().widthProperty());
+
 }
 
 	@FXML
@@ -66,6 +84,10 @@ public void initializeWithStage(Stage stage) {
 		if (chosenFile != null) {
 			loadVideo(chosenFile.getPath());
 		}		
+		
+		vidCanvas.setHeight(videoView.getFitHeight());
+		vidCanvas.setWidth(videoView.getFitWidth());
+
 	}
 	
 	public void loadVideo(String filePath) {
