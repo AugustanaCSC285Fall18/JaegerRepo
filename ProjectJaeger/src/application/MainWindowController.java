@@ -52,25 +52,17 @@ public class MainWindowController {
 	
 
 	
-<<<<<<< HEAD
 	@FXML
 	public void initialize() {
 	
 		//TODO: delete this after done debugging.
 //		loadVideo("assets/sample1.mp4");	
 		videoPlaying = false;
-=======
-@FXML public void initialize() {
-		
-		//loadVideo("S:/class/cs/285/sample_videos/sample1.mp4");		
-
->>>>>>> parent of 71d766e... fixing manual tracking
 		sliderVideoTime.valueProperty().addListener((obs, oldV, newV) -> showFrameAt(newV.intValue())); 
 
 		System.out.println(vidCanvas.getHeight() +" "+ vidCanvas.getWidth());
 		System.out.println(videoView.getFitHeight() + " " + videoView.getFitWidth());
 		
-<<<<<<< HEAD
 		GraphicsContext pathGc = pathCanvas.getGraphicsContext2D();
 		
 		int currentTrack = 0;
@@ -94,8 +86,6 @@ public class MainWindowController {
 		if (pathCanvas.isPressed()){
 			
 		}
-=======
->>>>>>> parent of 71d766e... fixing manual tracking
 	}
 
 	public void initializeWithStage(Stage stage) {
@@ -155,15 +145,10 @@ public class MainWindowController {
 	public void showFrameAt(int frameNum) {
 		project.getVideo().setCurrentFrameNum(frameNum);
 		Image curFrame = UtilsForOpenCV.matToJavaFXImage(project.getVideo().readFrame());
-<<<<<<< HEAD
 		GraphicsContext vidGc = vidCanvas.getGraphicsContext2D();
 		vidGc.drawImage(curFrame, 0, 0, vidCanvas.getWidth(), vidCanvas.getHeight());
 		drawPath(0, frameNum);
 
-=======
-		GraphicsContext gc = vidCanvas.getGraphicsContext2D();
-		gc.drawImage(curFrame, 0, 0, vidCanvas.getWidth(), vidCanvas.getWidth()*vidCanvas.getHeight()/curFrame.getWidth());
->>>>>>> parent of 71d766e... fixing manual tracking
 		textFieldCurFrameNum.setText(String.format("%05d",frameNum));	
 		
 		vidCanvas.setOnMousePressed(new EventHandler<MouseEvent>() {
@@ -175,7 +160,6 @@ public class MainWindowController {
 		});
 	}
 	
-<<<<<<< HEAD
 	private void drawPath(int trackNum, int frameNum) {
 		GraphicsContext vidGc = pathCanvas.getGraphicsContext2D();
 		vidGc.clearRect(0, 0, pathCanvas.getWidth(), pathCanvas.getHeight());
@@ -191,6 +175,4 @@ public class MainWindowController {
 		}
 	}
 	
-=======
->>>>>>> parent of 71d766e... fixing manual tracking
 }
