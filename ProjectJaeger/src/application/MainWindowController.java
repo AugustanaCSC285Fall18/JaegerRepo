@@ -146,9 +146,7 @@ public class MainWindowController {
 		project.getVideo().setCurrentFrameNum(frameNum);
 		Image curFrame = UtilsForOpenCV.matToJavaFXImage(project.getVideo().readFrame());
 		GraphicsContext vidGc = vidCanvas.getGraphicsContext2D();
-		GraphicsContext pathGc = pathCanvas.getGraphicsContext2D();
 		vidGc.drawImage(curFrame, 0, 0, vidCanvas.getWidth(), vidCanvas.getHeight());
-		pathGc.clearRect(0, 0, pathCanvas.getWidth(), pathCanvas.getHeight());
 		drawPath(0, frameNum);
 
 		textFieldCurFrameNum.setText(String.format("%05d",frameNum));	

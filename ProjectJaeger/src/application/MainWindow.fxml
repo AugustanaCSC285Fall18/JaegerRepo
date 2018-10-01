@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import javafx.scene.canvas.*?>
 <?import javafx.scene.control.*?>
@@ -32,17 +33,29 @@
    <center>
       <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="639.0" prefWidth="705.0" BorderPane.alignment="CENTER">
          <children>
-            <Slider fx:id="sliderVideoTime" />
             <StackPane prefHeight="370.0" prefWidth="680.0">
                <children>
                   <Canvas fx:id="vidCanvas" height="370.0" width="704.0" StackPane.alignment="TOP_LEFT" />
                   <Canvas fx:id="pathCanvas" height="366.0" width="706.0" StackPane.alignment="TOP_LEFT" />
                </children>
             </StackPane>
+            <FlowPane prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="43.0" text="Play">
+                     <FlowPane.margin>
+                        <Insets right="10.0" />
+                     </FlowPane.margin>
+                  </Button>
+                  <Slider fx:id="sliderVideoTime" prefHeight="37.0" prefWidth="625.0" />
+               </children>
+            </FlowPane>
          </children>
       </VBox>
    </center>
    <bottom>
       <ImageView fx:id="videoView" pickOnBounds="true" visible="false" BorderPane.alignment="CENTER" />
    </bottom>
+   <padding>
+      <Insets top="20.0" />
+   </padding>
 </BorderPane>
