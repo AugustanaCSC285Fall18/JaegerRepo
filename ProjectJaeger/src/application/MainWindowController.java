@@ -21,6 +21,7 @@ import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
@@ -28,6 +29,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Slider;
@@ -61,6 +63,8 @@ public class MainWindowController {
 	@FXML 	private TextField totalDistanceToFrameTextField;
 	@FXML 	private TextField pxPerSqrInchTextField;
 	@FXML	private Slider sliderVideoTime;
+	@FXML	private MenuButton chickMenu;
+	
 
 	private ProjectData project;
 	private Stage stage;
@@ -75,9 +79,9 @@ public class MainWindowController {
 	
 	@FXML
 	public void initialize() {
-//		loadVideo("assets/sample1.mp4");	
+		chickMenu = new MenuButton();
+		chickMenu.getItems().add(new MenuItem("Chick 4"));	
 		sliderVideoTime.valueProperty().addListener((obs, oldV, newV) -> showFrameAt(newV.intValue())); 
-		
 		pathGc = pathCanvas.getGraphicsContext2D();
 		vidGc = vidCanvas.getGraphicsContext2D();
 		
@@ -101,9 +105,6 @@ public class MainWindowController {
 		if (chosenFile != null) {
 			loadVideo(chosenFile.getPath());
 		}		
-		
-
-
 	}
 	
 	@FXML
@@ -168,6 +169,15 @@ public class MainWindowController {
 
 	}
 	
+	@FXML
+	public void handleMenu()  {
+		chickMenu.getItems().get(1).setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent event) {
+		        System.out.println("Option 1 selected");
+		    }
+		});
+	}
+	
 	public void loadVideo(String filePath) {
 		try {
 			project = new ProjectData(filePath);
@@ -195,8 +205,10 @@ public class MainWindowController {
 			Image curFrame = UtilsForOpenCV.matToJavaFXImage(project.getVideo().readFrame());
 			vidGc.drawImage(curFrame, 0, 0, vidCanvas.getWidth(), vidCanvas.getHeight());
 			drawPath(0);
-
-			curFrameNumTextField.setText(String.format("%05d",frameNum));
+			
+			double frameRate = project.getVideo().getFrameRate();
+			//curFrameNumTextField.setText(String.format("%05d",frameNum));
+			curFrameNumTextField.setText(String.format("%5.2f second(s)", frameNum/frameRate));
 
 		} else {
 			timer.stop();
