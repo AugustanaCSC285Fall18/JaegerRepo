@@ -274,16 +274,15 @@ public class MainWindowController {
 			private long lastUpdate = 0;
 			@Override
 			public void handle(long now) {
-//				if (now - lastUpdate >= 3.333e+7) {
+				if (now - lastUpdate >= 3.333e+7) {
 					Platform.runLater(() -> {
 						showFrameAt(project.getVideo().getCurrentFrameNum());
 						sliderVideoTime.setValue(project.getVideo().getCurrentFrameNum());
 					});
-//					lastUpdate = now;
-//				}
+					lastUpdate = now;
+				}
 			}
 		};
-		
 		timer.start();
 		
 
