@@ -81,10 +81,11 @@ public class MainWindowController {
 	public void initialize() {
 		chickMenu = new MenuButton();
 		chickMenu.getItems().add(new MenuItem("Chick 4"));	
+		initializeMenu();
+		
 		sliderVideoTime.valueProperty().addListener((obs, oldV, newV) -> showFrameAt(newV.intValue())); 
 		pathGc = pathCanvas.getGraphicsContext2D();
 		vidGc = vidCanvas.getGraphicsContext2D();
-		
 		
 	}
 
@@ -95,6 +96,17 @@ public class MainWindowController {
 		// (not perfect though... visual problems if the height gets too large.)
 		//videoView.fitWidthProperty().bind(videoView.getScene().widthProperty());
 	
+	}
+
+	
+	public void initializeMenu()  {
+		List<MenuItem> menuItems = chickMenu.getItems();
+		System.err.println(menuItems);
+		for (MenuItem item: menuItems){
+		    item.setOnAction(a->{
+		    	System.err.println(item.getText() + "chosen.");
+		    });
+		}
 	}
 
 	@FXML
@@ -167,15 +179,6 @@ public class MainWindowController {
 	@FXML
 	public void handlePxPerSqrInch()  {
 
-	}
-	
-	@FXML
-	public void handleMenu()  {
-		chickMenu.getItems().get(1).setOnAction(new EventHandler<ActionEvent>() {
-			public void handle(ActionEvent event) {
-		        System.out.println("Option 1 selected");
-		    }
-		});
 	}
 	
 	public void loadVideo(String filePath) {

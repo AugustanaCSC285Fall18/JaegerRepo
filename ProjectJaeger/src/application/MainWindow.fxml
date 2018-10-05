@@ -100,7 +100,7 @@
                            <FlowPane.margin>
                               <Insets top="15.0" />
                            </FlowPane.margin></Button>
-                        <MenuButton fx:id="chickMenu" alignment="CENTER" mnemonicParsing="false" onAction="#handleMenu" prefHeight="45.0" prefWidth="170.0" text="Chick List">
+                        <MenuButton fx:id="chickMenu" alignment="CENTER" mnemonicParsing="false" prefHeight="45.0" prefWidth="170.0" text="Chick List">
                           <items>
                             <MenuItem mnemonicParsing="false" text="Chick 1" />
                             <MenuItem mnemonicParsing="false" text="Chick 2" />
