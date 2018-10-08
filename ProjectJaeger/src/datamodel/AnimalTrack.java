@@ -5,7 +5,6 @@ import java.util.List;
 
 public class AnimalTrack {
 	private String animalID;
-	
 	private List<TimePoint> positions;
 	
 	public AnimalTrack(String id) {
@@ -15,6 +14,10 @@ public class AnimalTrack {
 	
 	public void add(TimePoint pt) {
 		positions.add(pt);
+	}
+	
+	public String getAnimalID() {
+		return animalID;
 	}
 	
 	public TimePoint getTimePointAtIndex(int index) {
@@ -35,7 +38,6 @@ public class AnimalTrack {
 	 * @param frameNum
 	 * @return
 	 */
-	
 	public TimePoint getTimePointAtTime(int frameNum) {
 		//TODO: This method's implementation is inefficient [linear search is O(N)]
 		//      Replace this with binary search (O(log n)] or use a Map for fast access
