@@ -14,7 +14,7 @@ class AnimalTrackTest {
 		testingAnimalTrack.add(new TimePoint(100,200,0));		
 		testingAnimalTrack.add(new TimePoint(210,110,1));		
 		testingAnimalTrack.add(new TimePoint(300,250,4));	
-		testingAnimalTrack.add(new TimePoint(300,250,4));
+		testingAnimalTrack.add(new TimePoint(300,250,5));
 		assertEquals(4, testingAnimalTrack.getTimePoints());
 		
 	}
