@@ -21,13 +21,16 @@ import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.CacheHint;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Slider;
@@ -50,7 +53,7 @@ public class MainWindowController {
 	
 	@FXML	private Button btnBrowse;
 	@FXML	private Button playBtn;
-	@FXML	private Button pauseBtn;
+//	@FXML	private Button pauseBtn;
 	@FXML	private Button startManualBtn;
 	@FXML	private Button undoBtn;
 	@FXML	private ImageView videoView;
@@ -61,8 +64,10 @@ public class MainWindowController {
 	@FXML 	private TextField totalDistanceToFrameTextField;
 	@FXML 	private TextField pxPerSqrInchTextField;
 	@FXML	private Slider sliderVideoTime;
+	@FXML	private MenuButton chickMenu;
+	
 
-	private ProjectData project;
+	private ProjectData project = Main.project;
 	private Stage stage;
 	private AnimationTimer timer;
 	private GraphicsContext vidGc;
@@ -70,17 +75,41 @@ public class MainWindowController {
 	
 	private boolean undoModeToggled;
 	private boolean manualTrackToggled;
+	private boolean videoPlayed;
 	
 
 	
 	@FXML
 	public void initialize() {
-//		loadVideo("assets/sample1.mp4");	
-		sliderVideoTime.valueProperty().addListener((obs, oldV, newV) -> showFrameAt(newV.intValue())); 
 		
+//		chickMenu = new MenuButton("Chick List", null, new MenuItem("Chick 4"));
+		chickMenu.getItems().add(new MenuItem("Chick 4"));	
+		initializeMenu();
+		
+		sliderVideoTime.valueProperty().addListener((obs, oldV, newV) -> showFrameAt(newV.intValue())); 
 		pathGc = pathCanvas.getGraphicsContext2D();
 		vidGc = vidCanvas.getGraphicsContext2D();
+
 		
+		Video video = project.getVideo();
+		sliderVideoTime.setMax(video.getTotalNumFrames()-1);
+
+		// set current videocanvas & overlay to the size of the video
+		Image curFrame = UtilsForOpenCV.matToJavaFXImage(project.getVideo().readFrame());
+//		videoView.setFitHeight(videoView.getFitWidth()*videoView.getFitHeight()/curFrame.getWidth());
+		
+		vidCanvas.setHeight(vidCanvas.getWidth()*curFrame.getHeight()/curFrame.getWidth());
+//		
+//		// make drawing performs better
+//		vidCanvas.setCache(true);
+//		vidCanvas.setCacheHint(CacheHint.SPEED);\
+		
+		pathCanvas.setCache(true);
+		pathCanvas.setCacheHint(CacheHint.SPEED);
+		
+		pathCanvas.setWidth(vidCanvas.getWidth());
+		pathCanvas.setHeight(vidCanvas.getHeight());
+		showFrameAt(0);
 		
 	}
 
@@ -93,35 +122,55 @@ public class MainWindowController {
 	
 	}
 
-	@FXML
-	public void handleBrowse()  {
-		FileChooser fileChooser = new FileChooser();
-		fileChooser.setTitle("Open Video File");
-		File chosenFile = fileChooser.showOpenDialog(stage);
-		if (chosenFile != null) {
-			loadVideo(chosenFile.getPath());
-		}		
-		
-
-
+	
+	public void initializeMenu()  {
+		List<MenuItem> menuItems = chickMenu.getItems();
+		for (MenuItem item: menuItems){
+			item.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+			    	System.err.println(item.getText() + "chosen.");
+					
+				}
+			});
+//		    item.setOnAction(handle->{
+//		    	System.err.println(item.getText() + "chosen.");
+//		    });
+		}
 	}
+
+//	@FXML
+//	public void handleBrowse()  {
+//		FileChooser fileChooser = new FileChooser();
+//		fileChooser.setTitle("Open Video File");
+//		File chosenFile = fileChooser.showOpenDialog(stage);
+//		if (chosenFile != null) {
+//			loadVideo(chosenFile.getPath());
+//		}		
+//	}
 	
 	@FXML
 	public void handlePlay()  {
 		if (project.getVideo() != null) {
-
-			playVideo();
+			if (!videoPlayed) {
+				playVideo();
+				playBtn.setText("Pause");
+			} else {
+				timer.stop();
+				playBtn.setText("Play");
+			}
+			videoPlayed = !videoPlayed;
 		}
 
 	}
 	
-	@FXML
-	public void handlePause()  {
-		if (project.getVideo() != null) {
-			timer.stop();
-		}
-
-	}
+//	@FXML
+//	public void handlePause()  {
+//		if (project.getVideo() != null) {
+//			timer.stop();
+//		}
+//
+//	}
 
 	// try a few variables
 	int currentTrack = 0;
@@ -142,7 +191,7 @@ public class MainWindowController {
 //			        	pathGc.strokeLine(prevX, prevY, me.getX() + ovalDiameter / 2, me.getY() + ovalDiameter / 2);
 //			        }
 			        project.getTracks().get(currentTrack).add(new TimePoint(me.getX(), me.getY(), project.getVideo().getCurrentFrameNum() - 1));
-			        showFrameAt(Integer.parseInt(curFrameNumTextField.getText()) + frameAdd);
+			        showFrameAt((int) (sliderVideoTime.getValue() + frameAdd));
 			        System.out.println("Mouse pressed: " + me.getX() + " , " + me.getY() + " at frame:" + (project.getVideo().getCurrentFrameNum() - 1));
 					sliderVideoTime.setValue(project.getVideo().getCurrentFrameNum());
 			    }
@@ -168,37 +217,21 @@ public class MainWindowController {
 
 	}
 	
-	public void loadVideo(String filePath) {
-		try {
-			project = new ProjectData(filePath);
-			project.getTracks().add(new AnimalTrack("Chick 1"));
-			Video video = project.getVideo();
-			sliderVideoTime.setMax(video.getTotalNumFrames()-1);
-
-			// set current videocanvas & overlay to the size of the video
-			Image curFrame = UtilsForOpenCV.matToJavaFXImage(project.getVideo().readFrame());
-			vidCanvas.setHeight(vidCanvas.getWidth()*vidCanvas.getHeight()/curFrame.getWidth());
-			pathCanvas.setWidth(vidCanvas.getWidth());
-			pathCanvas.setHeight(vidCanvas.getHeight());
-			showFrameAt(0);
-			
-		
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-		
-	}
 	
 	public void showFrameAt(int frameNum) {
 		if (frameNum <= project.getVideo().getEndFrameNum()) {
 			project.getVideo().setCurrentFrameNum(frameNum);
 			Image curFrame = UtilsForOpenCV.matToJavaFXImage(project.getVideo().readFrame());
+//			videoView.setImage(curFrame);
 			vidGc.drawImage(curFrame, 0, 0, vidCanvas.getWidth(), vidCanvas.getHeight());
 			drawPath(0);
-
-			curFrameNumTextField.setText(String.format("%05d",frameNum));
+			
+			double frameRate = project.getVideo().getFrameRate();
+			//curFrameNumTextField.setText(String.format("%05d",frameNum));
+			curFrameNumTextField.setText(String.format("%5.2f second(s)", frameNum/frameRate));
 
 		} else {
+			videoPlayed = false;
 			timer.stop();
 		}
 	}
@@ -241,15 +274,15 @@ public class MainWindowController {
 			private long lastUpdate = 0;
 			@Override
 			public void handle(long now) {
-				if (now - lastUpdate >= 33_000_000) {
+				if (now - lastUpdate >= 3.333e+7) {
 					Platform.runLater(() -> {
 						showFrameAt(project.getVideo().getCurrentFrameNum());
 						sliderVideoTime.setValue(project.getVideo().getCurrentFrameNum());
 					});
+					lastUpdate = now;
 				}
 			}
 		};
-		
 		timer.start();
 		
 

@@ -5,6 +5,7 @@ import org.opencv.core.Core;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 
+import datamodel.ProjectData;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
@@ -15,15 +16,20 @@ import javafx.fxml.FXMLLoader;
 
 
 public class Main extends Application {
+
+	protected static ProjectData project;
+	
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("MainWindow.fxml"));
+			primaryStage.setTitle("Chick Tracker");
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("StartWindow.fxml"));
 			BorderPane root = (BorderPane)loader.load();
-			MainWindowController controller = loader.getController();
+			StartWindowController controller = loader.getController();
 			
 			Scene scene = new Scene(root,root.getPrefWidth(),root.getPrefHeight());
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			
 			primaryStage.setScene(scene);
 			controller.initializeWithStage(primaryStage);
 			primaryStage.show();

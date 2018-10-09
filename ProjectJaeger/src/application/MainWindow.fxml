@@ -1,32 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
 <?import java.lang.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.canvas.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="671.0" prefWidth="761.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainWindowController">
+<BorderPane prefHeight="839.0" prefWidth="761.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainWindowController">
    <top>
       <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="48.0" prefWidth="683.0" BorderPane.alignment="CENTER">
          <left>
-            <Button mnemonicParsing="false" onAction="#handleBrowse" text="Browse" BorderPane.alignment="TOP_LEFT" />
+            <Button mnemonicParsing="false" text="Browse" BorderPane.alignment="TOP_LEFT" />
          </left>
          <right>
             <TextField fx:id="curFrameNumTextField" editable="false" prefWidth="100.0" promptText="(frame #)" BorderPane.alignment="TOP_RIGHT" />
          </right>
          <center>
-            <Label text="Frame:" BorderPane.alignment="TOP_RIGHT">
+            <Label prefHeight="26.0" prefWidth="36.0" text="Frame:" BorderPane.alignment="TOP_RIGHT">
                <BorderPane.margin>
                   <Insets right="10.0" />
                </BorderPane.margin></Label>
@@ -34,33 +40,34 @@
       </BorderPane>
    </top>
    <center>
-      <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="639.0" prefWidth="705.0" BorderPane.alignment="CENTER">
+      <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="767.0" prefWidth="705.0" BorderPane.alignment="CENTER">
          <children>
-            <GridPane prefHeight="544.0" prefWidth="705.0">
+            <GridPane prefHeight="724.0" prefWidth="705.0">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="581.0" minWidth="10.0" prefWidth="457.0" />
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="360.0" minWidth="10.0" prefWidth="166.0" />
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="360.0" minWidth="10.0" prefWidth="111.0" />
               </columnConstraints>
               <rowConstraints>
-                <RowConstraints maxHeight="425.0" minHeight="-Infinity" prefHeight="404.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="109.0" minHeight="3.0" prefHeight="38.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="82.0" minHeight="10.0" prefHeight="59.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="518.0" minHeight="-Infinity" prefHeight="518.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="109.0" minHeight="0.0" prefHeight="87.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="82.0" minHeight="10.0" prefHeight="53.0" vgrow="SOMETIMES" />
                   <RowConstraints maxHeight="66.0" minHeight="10.0" prefHeight="42.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <StackPane maxHeight="-Infinity" minHeight="-Infinity" prefHeight="408.0" prefWidth="704.0">
+                  <StackPane alignment="TOP_LEFT" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="518.0" prefWidth="704.0">
                      <children>
-                        <Canvas fx:id="vidCanvas" height="370.0" width="704.0" StackPane.alignment="TOP_LEFT">
+                        <Canvas fx:id="vidCanvas" height="530.0" width="704.0" StackPane.alignment="TOP_LEFT">
                            <StackPane.margin>
                               <Insets bottom="10.0" top="10.0" />
                            </StackPane.margin>
                         </Canvas>
-                        <Canvas fx:id="pathCanvas" height="370.0" width="704.0" StackPane.alignment="TOP_LEFT">
+                        <Canvas fx:id="pathCanvas" height="530.0" width="704.0" StackPane.alignment="TOP_LEFT">
                            <StackPane.margin>
                               <Insets bottom="10.0" top="10.0" />
                            </StackPane.margin>
                         </Canvas>
+                        <ImageView fx:id="videoView" fitHeight="530.0" fitWidth="703.0" pickOnBounds="true" preserveRatio="true" />
                      </children>
                      <GridPane.margin>
                         <Insets bottom="20.0" top="20.0" />
@@ -68,12 +75,7 @@
                   </StackPane>
                   <FlowPane prefHeight="46.0" prefWidth="456.0" GridPane.rowIndex="1">
                      <children>
-                        <Button fx:id="playBtn" mnemonicParsing="false" onAction="#handlePlay" prefHeight="25.0" prefWidth="43.0" text="Play">
-                           <FlowPane.margin>
-                              <Insets right="10.0" />
-                           </FlowPane.margin>
-                        </Button>
-                        <Button fx:id="pauseBtn" mnemonicParsing="false" onAction="#handlePause" prefHeight="25.0" prefWidth="63.0" text="Pause">
+                        <Button fx:id="playBtn" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handlePlay" prefHeight="25.0" prefWidth="67.0" text="Play">
                            <FlowPane.margin>
                               <Insets right="10.0" />
                            </FlowPane.margin>
@@ -81,14 +83,35 @@
                         <Slider fx:id="sliderVideoTime" prefHeight="37.0" prefWidth="306.0" />
                      </children>
                   </FlowPane>
-                  <FlowPane prefHeight="73.0" prefWidth="705.0" GridPane.rowIndex="2">
+                  <FlowPane prefHeight="91.0" prefWidth="447.0" GridPane.rowIndex="2">
                      <children>
-                        <Button fx:id="startManualBtn" mnemonicParsing="false" onAction="#handleManualTrack" prefHeight="47.0" prefWidth="181.0" text="Start Manual Tracking" />
+                        <Button fx:id="startManualBtn" mnemonicParsing="false" onAction="#handleManualTrack" prefHeight="47.0" prefWidth="181.0" text="Start Manual Tracking">
+                           <FlowPane.margin>
+                              <Insets top="10.0" />
+                           </FlowPane.margin></Button>
+                        <Button alignment="CENTER" mnemonicParsing="false" prefHeight="46.0" prefWidth="170.0" text="Start Auto Tracking" textOverrun="CLIP">
+                           <FlowPane.margin>
+                              <Insets left="25.0" top="10.0" />
+                           </FlowPane.margin>
+                        </Button>
                      </children>
                   </FlowPane>
                   <FlowPane prefHeight="73.0" prefWidth="549.0" GridPane.rowIndex="3">
                      <children>
-                        <Button fx:id="undoBtn" mnemonicParsing="false" onAction="#handleUndo" prefHeight="25.0" prefWidth="106.0" text="Undo Off" />
+                        <Button fx:id="undoBtn" mnemonicParsing="false" onAction="#handleUndo" prefHeight="45.0" prefWidth="182.0" text="Undo Off">
+                           <FlowPane.margin>
+                              <Insets top="15.0" />
+                           </FlowPane.margin></Button>
+                        <MenuButton fx:id="chickMenu" alignment="CENTER" mnemonicParsing="false" prefHeight="45.0" prefWidth="170.0" text="Chick List">
+                          <items>
+                            <MenuItem mnemonicParsing="false" text="Chick 1" />
+                            <MenuItem mnemonicParsing="false" text="Chick 2" />
+                            <MenuItem mnemonicParsing="false" text="Chick 3" />
+                          </items>
+                           <FlowPane.margin>
+                              <Insets left="25.0" top="15.0" />
+                           </FlowPane.margin>
+                        </MenuButton>
                      </children>
                   </FlowPane>
                   <VBox minHeight="-Infinity" prefHeight="41.0" prefWidth="263.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.rowSpan="3">
@@ -117,26 +140,6 @@
                               <TextField fx:id="totalDistanceToFrameTextField" editable="false" prefWidth="100.0" />
                            </children>
                         </FlowPane>
-                        <FlowPane minWidth="-Infinity" prefHeight="37.0" prefWidth="263.0">
-                           <children>
-                              <Label text="Horizontal px / cm:">
-                                 <FlowPane.margin>
-                                    <Insets right="58.0" />
-                                 </FlowPane.margin>
-                              </Label>
-                              <TextField fx:id="pxPerSqrInchTextField" prefWidth="100.0" text="6.5" />
-                           </children>
-                        </FlowPane>
-                        <FlowPane minWidth="-Infinity" prefHeight="37.0" prefWidth="263.0">
-                           <children>
-                              <Label text="Vertical px / cm:">
-                                 <FlowPane.margin>
-                                    <Insets right="73.0" />
-                                 </FlowPane.margin>
-                              </Label>
-                              <TextField fx:id="pxPerSqrInchTextField1" prefWidth="100.0" text="6.7" />
-                           </children>
-                        </FlowPane>
                      </children>
                   </VBox>
                </children>
@@ -144,9 +147,6 @@
          </children>
       </VBox>
    </center>
-   <bottom>
-      <ImageView fx:id="videoView" pickOnBounds="true" visible="false" BorderPane.alignment="CENTER" />
-   </bottom>
    <padding>
       <Insets top="20.0" />
    </padding>

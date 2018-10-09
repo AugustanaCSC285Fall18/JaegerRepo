@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<BorderPane fx:id="Main" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.StartWindowController">
+   <top>
+      <FlowPane prefHeight="50.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="browseBtn" mnemonicParsing="false" onAction="#handleBrowseBtn" text="Browse">
+               <FlowPane.margin>
+                  <Insets left="10.0" top="10.0" />
+               </FlowPane.margin>
+            </Button>
+            <TextField fx:id="browseTextField" editable="false" prefHeight="25.0" prefWidth="227.0" promptText="Select a file...">
+               <FlowPane.margin>
+                  <Insets top="10.0" />
+               </FlowPane.margin>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </TextField>
+         </children>
+      </FlowPane>
+   </top>
+   <bottom>
+      <FlowPane alignment="CENTER_RIGHT" prefHeight="44.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="startTrackingBtn" mnemonicParsing="false" onAction="#handleStartTrackingBtn" prefHeight="70.0" prefWidth="138.0" text="Start Tracking">
+               <FlowPane.margin>
+                  <Insets bottom="10.0" right="10.0" top="10.0" />
+               </FlowPane.margin>
+            </Button>
+         </children>
+      </FlowPane>
+   </bottom>
+   <center>
+      <FlowPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <GridPane prefHeight="109.0" prefWidth="228.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="173.0" minWidth="10.0" prefWidth="105.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="244.0" minWidth="10.0" prefWidth="123.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label text="Horizontal px/cm" />
+                  <Label text="Vertical px/cm" GridPane.rowIndex="1" />
+                  <TextField fx:id="horizontalPxCm" prefHeight="25.0" prefWidth="136.0" text="6.5" GridPane.columnIndex="1" />
+                  <TextField fx:id="verticalPxCm" prefHeight="25.0" prefWidth="172.0" text="6.7" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+               </children>
+            </GridPane>
+         </children>
+         <BorderPane.margin>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </BorderPane.margin>
+      </FlowPane>
+   </center>
+</BorderPane>
