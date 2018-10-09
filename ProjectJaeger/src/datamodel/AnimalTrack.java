@@ -24,6 +24,10 @@ public class AnimalTrack {
 		return positions.get(index);
 	}
 	
+	public int getNumPoints() {
+		return positions.size();
+	}
+	
 	/**
 	 * @return a deep copy of time points
 	 */
@@ -58,5 +62,6 @@ public class AnimalTrack {
 		int endFrame = getFinalTimePoint().getFrameNum();
 		return "AnimalTrack[id="+ animalID + ",numPts=" + positions.size()+" start=" + startFrame + " end=" + endFrame +"]"; 
 	}
+	
 }
 
