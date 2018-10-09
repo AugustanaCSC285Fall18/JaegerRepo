@@ -20,6 +20,15 @@ public class AnimalTrack {
 	public TimePoint getTimePointAtIndex(int index) {
 		return positions.get(index);
 	}
+	
+	/**
+	 * @return a deep copy of time points
+	 */
+	public List<TimePoint> getTimePoints() {
+		List<TimePoint> clone = new ArrayList<TimePoint>();
+		clone.addAll(positions);
+		return clone;
+	}
 
 	/**
 	 * Returns the TimePoint at the specified time, or null
