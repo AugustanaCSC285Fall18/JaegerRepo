@@ -67,5 +67,14 @@ public class TimePoint implements Comparable<TimePoint> {
 	public int compareTo(TimePoint other) {		
 		return this.getTimeDiffAfter(other);
 	}
+	
+	public boolean equals(TimePoint main, TimePoint other) {
+		if(main.x==other.x && main.y==other.y && main.frameNum==other.frameNum) {
+			return true;
+		}else {
+			return false;
+		}
+			
+	}
 }
 
