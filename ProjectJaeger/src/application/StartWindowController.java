@@ -71,7 +71,6 @@ public class StartWindowController {
 		try {
 			Main.project = new ProjectData(filePath);
 			Main.project.getTracks().add(new AnimalTrack("Chick 1"));
-			Video video = Main.project.getVideo();
 			
 		
 		} catch(Exception e) {

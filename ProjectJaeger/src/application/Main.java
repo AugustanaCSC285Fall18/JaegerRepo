@@ -2,16 +2,12 @@ package application;
 	
 import org.opencv.core.Core;
 
-import org.opencv.core.Core;
-import org.opencv.core.Mat;
 
 import datamodel.ProjectData;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.fxml.FXMLLoader;
 
 
