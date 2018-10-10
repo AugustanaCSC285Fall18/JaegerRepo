@@ -54,8 +54,6 @@ public class MainWindowController {
 	
 	@FXML
 	public void initialize() {
-		
-//		chickMenu = new MenuButton("Chick List", null, new MenuItem("Chick 4"));
 		chickMenu.getItems().add(new MenuItem("Chick 4"));	
 		initializeMenu();
 		
@@ -95,26 +93,11 @@ public class MainWindowController {
 	public void initializeMenu()  {
 		List<MenuItem> menuItems = chickMenu.getItems();
 		for (MenuItem item: menuItems){
-			item.setOnAction(new EventHandler<ActionEvent>() {
-				public void handle(ActionEvent event) {
+			item.setOnAction(handle -> {
 					System.err.println(item.getText() + "chosen.");
-				}
 			});
-//		    item.setOnAction(handle->{
-//		    	System.err.println(item.getText() + "chosen.");
-//		    });
 		}
 	}
-
-//	@FXML
-//	public void handleBrowse()  {
-//		FileChooser fileChooser = new FileChooser();
-//		fileChooser.setTitle("Open Video File");
-//		File chosenFile = fileChooser.showOpenDialog(stage);
-//		if (chosenFile != null) {
-//			loadVideo(chosenFile.getPath());
-//		}		
-//	}
 	
 	@FXML
 	public void handlePlay()  {
@@ -130,14 +113,6 @@ public class MainWindowController {
 		}
 
 	}
-	
-//	@FXML
-//	public void handlePause()  {
-//		if (project.getVideo() != null) {
-//			timer.stop();
-//		}
-//
-//	}
 
 	// try a few variables
 	int currentTrack = 0;
@@ -148,20 +123,15 @@ public class MainWindowController {
 		manualTrackToggled = !manualTrackToggled;
 		if(manualTrackToggled) {
 			startManualBtn.setText("Stop Manual Tracking");
-			pathCanvas.setOnMousePressed(new EventHandler<MouseEvent>() {
-			    public void handle(MouseEvent me) {
+			pathCanvas.setOnMousePressed((me) -> {
 			        project.getTracks().get(currentTrack).add(new TimePoint(me.getX(), me.getY(), project.getVideo().getCurrentFrameNum() - 1));
 			        showFrameAt((int) (sliderVideoTime.getValue() + frameAdd));
 			        System.out.println("Mouse pressed: " + me.getX() + " , " + me.getY() + " at frame:" + (project.getVideo().getCurrentFrameNum() - 1));
 					sliderVideoTime.setValue(project.getVideo().getCurrentFrameNum());
-			    }
 			});
 		} else {
 			startManualBtn.setText("Start Manual Tracking");
-			pathCanvas.setOnMousePressed(new EventHandler<MouseEvent>() {
-			    public void handle(MouseEvent me) {
-			    }
-			});
+			pathCanvas.setOnMousePressed(handle -> {});
 		}
 	}
 	
@@ -186,7 +156,6 @@ public class MainWindowController {
 		if (frameNum <= project.getVideo().getEndFrameNum()) {
 			project.getVideo().setCurrentFrameNum(frameNum);
 			Image curFrame = UtilsForOpenCV.matToJavaFXImage(project.getVideo().readFrame());
-//			videoView.setImage(curFrame);
 			vidGc.drawImage(curFrame, 0, 0, vidCanvas.getWidth(), vidCanvas.getHeight());
 			drawPath(0);
 			
@@ -218,7 +187,6 @@ public class MainWindowController {
 				} else {
 					percTimeElapsed = 1;
 				}
-				double distance = prevTp.getDistanceTo(tp) * percTimeElapsed;
 				double x = prevTp.getX() + (tp.getX() - prevTp.getX()) * percTimeElapsed + ovalDiameter / 2;
 				double y = prevTp.getY() + (tp.getY() - prevTp.getY()) * percTimeElapsed + ovalDiameter / 2;
 	        	pathGc.setLineWidth(3);
@@ -233,7 +201,9 @@ public class MainWindowController {
 		}
 	}
 	
+	 
 	private void playVideo() {
+		// code got from StackOverflow.
 		timer = new AnimationTimer() {
 			
 			private long lastUpdate = 0;
@@ -249,13 +219,6 @@ public class MainWindowController {
 			}
 		};
 		timer.start();
-		
-
-//		Timeline timeline = new Timeline(new KeyFrame(Duration.millis(33), ev ->  {
-//			showFrameAt(project.getVideo().getCurrentFrameNum());
-//		}));
-//		timeline.setCycleCount(project.getVideo().getTotalNumFrames()/30);
-//		timeline.play();
 	}
 		
 		
