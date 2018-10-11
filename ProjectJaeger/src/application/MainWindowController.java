@@ -17,6 +17,7 @@ import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -26,10 +27,10 @@ import utils.UtilsForOpenCV;
 
 public class MainWindowController {
 	
+	@FXML   private Button calibrationBtn;
 	@FXML	private Button playBtn;
 	@FXML	private Button startManualBtn;
 	@FXML	private Button undoBtn;
-	@FXML	private ImageView videoView;
 	@FXML 	private Canvas vidCanvas;
 	@FXML 	private Canvas pathCanvas;
 	@FXML 	private TextField curFrameNumTextField;
@@ -50,7 +51,11 @@ public class MainWindowController {
 	private boolean manualTrackToggled;
 	private boolean videoPlayed;
 	
-
+	private double firstCalibrationClickX = -1; 
+	private double firstCalibrationClickY = -1; 
+	private double horizontalCalDistance;
+	private double verticalCalDistance;
+	private boolean isHorizontal = true;
 	
 	@FXML
 	public void initialize() {
@@ -122,6 +127,7 @@ public class MainWindowController {
 	int currentTrack = 0;
 	int ovalDiameter = 6;
 	int frameAdd = 20;
+	
 	@FXML
 	public void handleManualTrack()  {
 		manualTrackToggled = !manualTrackToggled;
@@ -155,7 +161,40 @@ public class MainWindowController {
 
 	}
 	
+	@FXML
+	public void handleCalibration() {
+		if(isHorizontal) {
+			pathCanvas.setOnMousePressed(event -> {handleClickDuringHorizontalCalibration(event);});
+		}else {
+			pathCanvas.setOnMousePressed(event -> {handleClickDuringVerticalCalibration(event);});
+		}
+	}
 	
+	private void handleClickDuringHorizontalCalibration(MouseEvent event) {
+		if (firstCalibrationClickX < 0) { // first click during calibration
+			firstCalibrationClickX = event.getX();
+		} else { // second click during calibration
+			horizontalCalDistance = Math.abs(event.getX() - firstCalibrationClickX); 
+		}
+		isHorizontal = false;
+		
+		TextInputDialog dialog = new TextInputDialog("");
+		dialog.setTitle("Horizontal Calibration");
+		dialog.setContentText("Enter measured length (cm): ");
+	}
+	
+	private void handleClickDuringVerticalCalibration(MouseEvent event) {
+		if (firstCalibrationClickY < 0) { // first click during calibration
+			firstCalibrationClickY = event.getY();
+		} else { // second click during calibration
+			verticalCalDistance = Math.abs(event.getY() - firstCalibrationClickY); 
+		}
+		
+		TextInputDialog dialog = new TextInputDialog("");
+		dialog.setTitle("Vertical Calibration");
+		dialog.setContentText("Enter measured length (cm): ");
+	}	
+
 	public void showFrameAt(int frameNum) {
 		double endTime = Double.parseDouble(Main.endTime);
 		double frameRate = project.getVideo().getFrameRate();
