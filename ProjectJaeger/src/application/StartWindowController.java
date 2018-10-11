@@ -21,17 +21,21 @@ public class StartWindowController {
 	@FXML private TextField horizontalPxCm;
 	@FXML private TextField verticalPxCm;
 	@FXML private Button startTrackingBtn;
+	@FXML private TextField startTime;	
+	@FXML private TextField endTime;
 	
 
 	private Stage stage;
 	
 	@FXML
 	public void initialize() {
-		
+
+
 	}
 
 	public void initializeWithStage(Stage stage) {
 		this.stage = stage;	
+	
 	}
 	
 	@FXML
@@ -43,6 +47,18 @@ public class StartWindowController {
 			browseTextField.setText(chosenFile.getAbsolutePath());
 			loadVideo(chosenFile.getAbsolutePath());
 		}	
+	}
+	
+	@FXML
+	public void handleStartTime() {
+		Main.startTime = startTime.getText();
+		System.err.println(Main.startTime);
+	}
+	
+	@FXML
+	public void handleEndTime() {
+		Main.endTime = endTime.getText();
+		System.err.println(Main.endTime);
 	}
 	
 	@FXML

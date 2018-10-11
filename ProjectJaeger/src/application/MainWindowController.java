@@ -54,6 +54,9 @@ public class MainWindowController {
 	
 	@FXML
 	public void initialize() {
+		double startTime = Double.parseDouble(Main.startTime);
+		double frameRate = project.getVideo().getFrameRate();
+
 		chickMenu.getItems().add(new MenuItem("Chick 4"));	
 		initializeMenu();
 		
@@ -76,7 +79,8 @@ public class MainWindowController {
 		
 		pathCanvas.setWidth(vidCanvas.getWidth());
 		pathCanvas.setHeight(vidCanvas.getHeight());
-		showFrameAt(0);
+//		showFrameAt(0);
+		showFrameAt((int)(startTime*frameRate));
 		
 	}
 
@@ -153,13 +157,15 @@ public class MainWindowController {
 	
 	
 	public void showFrameAt(int frameNum) {
-		if (frameNum <= project.getVideo().getEndFrameNum()) {
+		double endTime = Double.parseDouble(Main.endTime);
+		double frameRate = project.getVideo().getFrameRate();
+//		if (frameNum <= project.getVideo().getEndFrameNum()) {
+		if (frameNum <= (int)(endTime*frameRate)) {
 			project.getVideo().setCurrentFrameNum(frameNum);
 			Image curFrame = UtilsForOpenCV.matToJavaFXImage(project.getVideo().readFrame());
 			vidGc.drawImage(curFrame, 0, 0, vidCanvas.getWidth(), vidCanvas.getHeight());
 			drawPath(0);
-			
-			double frameRate = project.getVideo().getFrameRate();
+
 			//curFrameNumTextField.setText(String.format("%05d",frameNum));
 			curFrameNumTextField.setText(String.format("%5.2f second(s)", frameNum/frameRate));
 

@@ -14,6 +14,8 @@ import javafx.fxml.FXMLLoader;
 public class Main extends Application {
 
 	protected static ProjectData project;
+	protected static String startTime;
+	protected static String endTime;	
 	
 	@Override
 	public void start(Stage primaryStage) {
