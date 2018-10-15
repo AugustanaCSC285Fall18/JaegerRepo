@@ -1,3 +1,5 @@
 bin/
 *.mp4
 *.avi
+!/testVideos/*.mp4
+!/sample1.mp4/*.mp4

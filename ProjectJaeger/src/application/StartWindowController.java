@@ -89,9 +89,9 @@ public class StartWindowController {
 
 	public void loadVideo(String filePath) {
 		try {
-			currentProject = Main.project;
-			currentProject.addVideo(filePath);
-			currentProject.getTracks().add(new AnimalTrack("Chick 1"));
+			ProjectData.loadCurrentProject(filePath);
+			currentProject = ProjectData.getCurrentProject();
+			ProjectData.getCurrentProject().getTracks().add(new AnimalTrack("Chick 1"));
 			
 		
 		} catch(Exception e) {

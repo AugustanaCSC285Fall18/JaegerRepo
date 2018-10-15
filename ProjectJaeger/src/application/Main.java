@@ -12,7 +12,7 @@ import javafx.fxml.FXMLLoader;
 
 
 public class Main extends Application {
-	protected static ProjectData project;
+
 	@Override
 	public void start(Stage primaryStage) {
 		try {
@@ -33,7 +33,6 @@ public class Main extends Application {
 	}
 	
 	public static void main(String[] args) {
-		project = new ProjectData();
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 		launch(args);
 	}

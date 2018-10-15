@@ -11,21 +11,22 @@ public class ProjectData {
 	private List<AnimalTrack> tracks;
 	private List<AnimalTrack> unassignedSegments;
 
-	public ProjectData() {
-		tracks = new ArrayList<>();
-		unassignedSegments = new ArrayList<>();
+	private static ProjectData currentProject;
+	
+	public static void loadCurrentProject(String videoFilePath) throws FileNotFoundException {
+		currentProject = new ProjectData(videoFilePath);		
 	}
 	
-	public ProjectData(String videoFilePath) throws FileNotFoundException {
+	public static ProjectData getCurrentProject() {
+		return currentProject;
+	}
+	
+	private ProjectData(String videoFilePath) throws FileNotFoundException {
 		video = new Video(videoFilePath);
 		tracks = new ArrayList<>();
 		unassignedSegments = new ArrayList<>();
 	}
 
-	public void addVideo(String filePath) throws FileNotFoundException {
-		video = new Video(filePath);
-	}
-	
 	public Video getVideo() {
 		return video;
 	}

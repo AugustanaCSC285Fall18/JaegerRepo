@@ -61,7 +61,7 @@ public class MainWindowController {
 	
 	@FXML
 	public void initialize() {
-		currentProject = Main.project;
+		currentProject = ProjectData.getCurrentProject();
 
 		chickMenu.getItems().add(new MenuItem("Chick 4"));	
 		initializeMenu();
@@ -254,15 +254,22 @@ public class MainWindowController {
 			private long lastUpdate = 0;
 			@Override
 			public void handle(long now) {
-				if (now - lastUpdate >= 3.333e+7) {
-					Platform.runLater(() -> {
-						showFrameAt(currentProject.getVideo().getCurrentFrameNum());
-						sliderVideoTime.setValue(currentProject.getVideo().getCurrentFrameNum());
-					});
+				long timeElapsedInMillis  = (now - lastUpdate) / 1_000_000;
+				if (timeElapsedInMillis >= 33) {
+					if (lastUpdate != 0) {
+						int frameDiff = (int) Math.round(timeElapsedInMillis / 33.0);
+						//System.out.printf("%.3f ms\n", frameDiff);
+						Platform.runLater(() -> {
+							//showFrameAt(currentProject.getVideo().getCurrentFrameNum());
+							int frameToShow = currentProject.getVideo().getCurrentFrameNum() + (frameDiff - 1);
+							sliderVideoTime.setValue(frameToShow);
+						});
+					}
 					lastUpdate = now;
 				}
 			}
 		};
+		
 		timer.start();
 	}
 		
