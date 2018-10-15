@@ -174,10 +174,15 @@ public class MainWindowController {
 	private void handleClickDuringHorizontalCalibration(MouseEvent event) {
 		if (firstCalibrationClickX < 0) { // first click during calibration
 			firstCalibrationClickX = event.getX();
+			firstCalibrationClickX++;
+			System.out.println("horizontal1: " +firstCalibrationClickX);
 		} else { // second click during calibration
 			horizontalCalDistance = Math.abs(event.getX() - firstCalibrationClickX); 
+			System.out.println("horizontal2: " +event.getX());
+			System.out.println("distacnceX: " +horizontalCalDistance);
+			isHorizontal = false;
 		}
-		isHorizontal = false;
+		
 		
 		TextInputDialog dialog = new TextInputDialog("");
 		dialog.setTitle("Horizontal Calibration");
@@ -187,8 +192,13 @@ public class MainWindowController {
 	private void handleClickDuringVerticalCalibration(MouseEvent event) {
 		if (firstCalibrationClickY < 0) { // first click during calibration
 			firstCalibrationClickY = event.getY();
+			firstCalibrationClickY++;
+			System.out.println("vertical1: " +firstCalibrationClickY);
 		} else { // second click during calibration
-			verticalCalDistance = Math.abs(event.getY() - firstCalibrationClickY); 
+			verticalCalDistance = Math.abs(event.getY() - firstCalibrationClickY);
+			System.out.println("vertical2: " +event.getY());
+			System.out.println("distanceY: " +verticalCalDistance);
+
 		}
 		
 		TextInputDialog dialog = new TextInputDialog("");
