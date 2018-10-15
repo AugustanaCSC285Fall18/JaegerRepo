@@ -53,9 +53,13 @@ public class MainWindowController {
 	
 	private double firstCalibrationClickX = -1; 
 	private double firstCalibrationClickY = -1; 
-	private double horizontalCalDistance;
-	private double verticalCalDistance;
 	private boolean isHorizontal = true;
+	private double pixelDistanceX;
+	private double pixelDistanceY;
+	private double measuredDistanceX;
+	private double measuredDistanceY;
+	private double pixelPerUnitX;
+	private double pixelPerUnitY;
 	
 	protected ProjectData currentProject;
 	
@@ -164,10 +168,12 @@ public class MainWindowController {
 	
 	@FXML
 	public void handleCalibration() {
-		if(isHorizontal) {
+		if(isHorizontal==true) {
 			pathCanvas.setOnMousePressed(event -> {handleClickDuringHorizontalCalibration(event);});
+			calibrationBtn.setText("Calibrating X");
 		}else {
 			pathCanvas.setOnMousePressed(event -> {handleClickDuringVerticalCalibration(event);});
+			calibrationBtn.setText("Calibrating Y");
 		}
 	}
 	
@@ -177,16 +183,27 @@ public class MainWindowController {
 			firstCalibrationClickX++;
 			System.out.println("horizontal1: " +firstCalibrationClickX);
 		} else { // second click during calibration
-			horizontalCalDistance = Math.abs(event.getX() - firstCalibrationClickX); 
+			pixelDistanceX = Math.abs(event.getX() - firstCalibrationClickX); 
 			System.out.println("horizontal2: " +event.getX());
-			System.out.println("distacnceX: " +horizontalCalDistance);
-			isHorizontal = false;
+			System.out.println("distanceX: " +pixelDistanceX);
+			isHorizontal=false;
+			
+			calibrationBtn.setText("Click to calibrate Y");
+			
+			TextInputDialog dialog = new TextInputDialog("");
+			dialog.setTitle("Horizontal Calibration");
+			dialog.setContentText("Enter measured length (cm): ");
+			measuredDistanceX =dialog.getX();
+			
+			pixelPerUnitX=pixelDistanceX/measuredDistanceX;
+			System.out.println("pixelDistanceX");
+			System.out.println("measuredDistanceX");
+			System.out.println("pixelPerUnitX");
+			
 		}
 		
 		
-		TextInputDialog dialog = new TextInputDialog("");
-		dialog.setTitle("Horizontal Calibration");
-		dialog.setContentText("Enter measured length (cm): ");
+		
 	}
 	
 	private void handleClickDuringVerticalCalibration(MouseEvent event) {
@@ -195,15 +212,27 @@ public class MainWindowController {
 			firstCalibrationClickY++;
 			System.out.println("vertical1: " +firstCalibrationClickY);
 		} else { // second click during calibration
-			verticalCalDistance = Math.abs(event.getY() - firstCalibrationClickY);
+			pixelDistanceY = Math.abs(event.getY() - firstCalibrationClickY);
 			System.out.println("vertical2: " +event.getY());
-			System.out.println("distanceY: " +verticalCalDistance);
-
+			System.out.println("distanceY: " +pixelDistanceY);
+			
+			calibrationBtn.setText("Calibrated");
+			calibrationBtn.setDisable(true);
+			
+			TextInputDialog dialog = new TextInputDialog("");
+			dialog.setTitle("Vertical Calibration");
+			dialog.setContentText("Enter measured length (cm): ");
+			measuredDistanceY =dialog.getY();
+			
+			pixelPerUnitY=pixelDistanceY/measuredDistanceY;
+			System.out.println("pixelDistanceY");
+			System.out.println("measuredDistanceY");
+			System.out.println("pixelPerUnitY");
+			
+			pathCanvas.setOnMousePressed(null);
 		}
 		
-		TextInputDialog dialog = new TextInputDialog("");
-		dialog.setTitle("Vertical Calibration");
-		dialog.setContentText("Enter measured length (cm): ");
+		
 	}	
 
 	public void showFrameAt(int frameNum) {
