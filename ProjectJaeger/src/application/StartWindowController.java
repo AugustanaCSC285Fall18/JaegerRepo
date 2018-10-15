@@ -24,13 +24,17 @@ public class StartWindowController {
 	@FXML private TextField startTime;	
 	@FXML private TextField endTime;
 	
+	protected ProjectData currentProject;
+	
 
 	private Stage stage;
 	
 	@FXML
 	public void initialize() {
-
-
+		ProjectData currentProject = Main.project;
+				
+		
+		
 	}
 
 	public void initializeWithStage(Stage stage) {
@@ -51,14 +55,12 @@ public class StartWindowController {
 	
 	@FXML
 	public void handleStartTime() {
-		Main.startTime = startTime.getText();
-		System.err.println(Main.startTime);
+		currentProject.getVideo().setStartFrameNum(currentProject.getVideo().convertSecondsToFrameNums(Double.parseDouble(startTime.getText())));
 	}
 	
 	@FXML
 	public void handleEndTime() {
-		Main.endTime = endTime.getText();
-		System.err.println(Main.endTime);
+		currentProject.getVideo().setEndFrameNum(currentProject.getVideo().convertSecondsToFrameNums(Double.parseDouble(endTime.getText())));
 	}
 	
 	@FXML
@@ -80,8 +82,8 @@ public class StartWindowController {
 
 	public void loadVideo(String filePath) {
 		try {
-			Main.project = new ProjectData(filePath);
-			Main.project.getTracks().add(new AnimalTrack("Chick 1"));
+			currentProject = new ProjectData(filePath);
+			currentProject.getTracks().add(new AnimalTrack("Chick 1"));
 			
 		
 		} catch(Exception e) {
@@ -89,5 +91,7 @@ public class StartWindowController {
 		}
 		
 	}
+	
+
 	
 }

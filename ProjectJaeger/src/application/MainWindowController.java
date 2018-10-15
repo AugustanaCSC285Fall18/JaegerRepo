@@ -41,7 +41,7 @@ public class MainWindowController {
 	@FXML	private MenuButton chickMenu;
 	
 
-	private ProjectData project = Main.project;
+
 	private Stage stage;
 	private AnimationTimer timer;
 	private GraphicsContext vidGc;
@@ -57,10 +57,11 @@ public class MainWindowController {
 	private double verticalCalDistance;
 	private boolean isHorizontal = true;
 	
+	protected ProjectData currentProject;
+	
 	@FXML
 	public void initialize() {
-		double startTime = Double.parseDouble(Main.startTime);
-		double frameRate = project.getVideo().getFrameRate();
+		ProjectData currentProject = Main.project;
 
 		chickMenu.getItems().add(new MenuItem("Chick 4"));	
 		initializeMenu();
@@ -70,11 +71,11 @@ public class MainWindowController {
 		vidGc = vidCanvas.getGraphicsContext2D();
 
 		
-		Video video = project.getVideo();
+		Video video = currentProject.getVideo();
 		sliderVideoTime.setMax(video.getTotalNumFrames()-1);
 
-		// set current videocanvas & overlay to the size of the video
-		Image curFrame = UtilsForOpenCV.matToJavaFXImage(project.getVideo().readFrame());
+		// set current video canvas & overlay to the size of the video
+		Image curFrame = UtilsForOpenCV.matToJavaFXImage(currentProject.getVideo().readFrame());
 		
 		vidCanvas.setHeight(vidCanvas.getWidth()*curFrame.getHeight()/curFrame.getWidth());
 		
@@ -84,8 +85,9 @@ public class MainWindowController {
 		
 		pathCanvas.setWidth(vidCanvas.getWidth());
 		pathCanvas.setHeight(vidCanvas.getHeight());
+	
 //		showFrameAt(0);
-		showFrameAt((int)(startTime*frameRate));
+		showFrameAt((int)(currentProject.getVideo().getStartFrameNum()));
 		
 	}
 
@@ -110,7 +112,7 @@ public class MainWindowController {
 	
 	@FXML
 	public void handlePlay()  {
-		if (project.getVideo() != null) {
+		if (currentProject.getVideo() != null) {
 			if (!videoPlayed) {
 				playVideo();
 				playBtn.setText("Pause");
@@ -134,10 +136,10 @@ public class MainWindowController {
 		if(manualTrackToggled) {
 			startManualBtn.setText("Stop Manual Tracking");
 			pathCanvas.setOnMousePressed((me) -> {
-			        project.getTracks().get(currentTrack).add(new TimePoint(me.getX(), me.getY(), project.getVideo().getCurrentFrameNum() - 1));
+			        currentProject.getTracks().get(currentTrack).add(new TimePoint(me.getX(), me.getY(), currentProject.getVideo().getCurrentFrameNum() - 1));
 			        showFrameAt((int) (sliderVideoTime.getValue() + frameAdd));
-			        System.out.println("Mouse pressed: " + me.getX() + " , " + me.getY() + " at frame:" + (project.getVideo().getCurrentFrameNum() - 1));
-					sliderVideoTime.setValue(project.getVideo().getCurrentFrameNum());
+			        System.out.println("Mouse pressed: " + me.getX() + " , " + me.getY() + " at frame:" + (currentProject.getVideo().getCurrentFrameNum() - 1));
+					sliderVideoTime.setValue(currentProject.getVideo().getCurrentFrameNum());
 			});
 		} else {
 			startManualBtn.setText("Start Manual Tracking");
@@ -148,7 +150,7 @@ public class MainWindowController {
 	@FXML
 	public void handleUndo()  {
 		undoModeToggled =  !undoModeToggled;
-		showFrameAt(project.getVideo().getCurrentFrameNum());
+		showFrameAt(currentProject.getVideo().getCurrentFrameNum());
 		if (undoModeToggled) {
 			undoBtn.setText("Undo On");
 		} else {
@@ -196,12 +198,11 @@ public class MainWindowController {
 	}	
 
 	public void showFrameAt(int frameNum) {
-		double endTime = Double.parseDouble(Main.endTime);
-		double frameRate = project.getVideo().getFrameRate();
+		double frameRate = currentProject.getVideo().getFrameRate();
 //		if (frameNum <= project.getVideo().getEndFrameNum()) {
-		if (frameNum <= (int)(endTime*frameRate)) {
-			project.getVideo().setCurrentFrameNum(frameNum);
-			Image curFrame = UtilsForOpenCV.matToJavaFXImage(project.getVideo().readFrame());
+		if (frameNum <= currentProject.getVideo().getEndFrameNum()) {
+			currentProject.getVideo().setCurrentFrameNum(frameNum);
+			Image curFrame = UtilsForOpenCV.matToJavaFXImage(currentProject.getVideo().readFrame());
 			vidGc.drawImage(curFrame, 0, 0, vidCanvas.getWidth(), vidCanvas.getHeight());
 			drawPath(0);
 
@@ -216,17 +217,17 @@ public class MainWindowController {
 	
 	private void drawPath(int trackNum) {
 
-		if (project.getTracks().get(currentTrack).getTimePoints().size() != 0) {
+		if (currentProject.getTracks().get(currentTrack).getTimePoints().size() != 0) {
 			pathGc.clearRect(0, 0, pathCanvas.getWidth(), pathCanvas.getHeight());
-			TimePoint prevTp = project.getTracks().get(trackNum).getTimePoints().get(0);
+			TimePoint prevTp = currentProject.getTracks().get(trackNum).getTimePoints().get(0);
 			
-			for (TimePoint tp : project.getTracks().get(trackNum).getTimePoints()) {
+			for (TimePoint tp : currentProject.getTracks().get(trackNum).getTimePoints()) {
 				
 				// percentage of time elapsed between 2 time points
 				double percTimeElapsed;
-				double curframeNum = project.getVideo().getCurrentFrameNum();
+				double curframeNum = currentProject.getVideo().getCurrentFrameNum();
 				if (prevTp.getFrameNum() <= curframeNum && curframeNum <= tp.getFrameNum() && undoModeToggled) {
-					percTimeElapsed = 1.0 * (project.getVideo().getCurrentFrameNum() - prevTp.getFrameNum()) / tp.getTimeDiffAfter(prevTp);
+					percTimeElapsed = 1.0 * (currentProject.getVideo().getCurrentFrameNum() - prevTp.getFrameNum()) / tp.getTimeDiffAfter(prevTp);
 				} else if (curframeNum < prevTp.getFrameNum() && undoModeToggled) { 
 					percTimeElapsed = 0;
 				} else {
@@ -256,8 +257,8 @@ public class MainWindowController {
 			public void handle(long now) {
 				if (now - lastUpdate >= 3.333e+7) {
 					Platform.runLater(() -> {
-						showFrameAt(project.getVideo().getCurrentFrameNum());
-						sliderVideoTime.setValue(project.getVideo().getCurrentFrameNum());
+						showFrameAt(currentProject.getVideo().getCurrentFrameNum());
+						sliderVideoTime.setValue(currentProject.getVideo().getCurrentFrameNum());
 					});
 					lastUpdate = now;
 				}

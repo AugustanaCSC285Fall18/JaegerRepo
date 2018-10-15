@@ -9,6 +9,7 @@ public class ProjectData {
 	private Video video;
 	private List<AnimalTrack> tracks;
 	private List<AnimalTrack> unassignedSegments;
+
 	
 	public ProjectData(String videoFilePath) throws FileNotFoundException {
 		video = new Video(videoFilePath);
@@ -35,4 +36,7 @@ public class ProjectData {
 	public void saveProject(File projectFile) {
 		
 	}
+	
+
+	
 }
