@@ -134,6 +134,7 @@
                            </children>
                         </FlowPane>
                         <ComboBox prefWidth="150.0" />
+                        <Button fx:id="calibrationBtn" mnemonicParsing="false" onAction="#handleCalibration" prefHeight="25.0" prefWidth="165.0" text="Calibrate" />
                      </children>
                   </VBox>
                </children>
