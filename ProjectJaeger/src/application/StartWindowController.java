@@ -1,6 +1,7 @@
 package application;
 
 import java.io.File;
+import java.text.DecimalFormat;
 
 import datamodel.AnimalTrack;
 import datamodel.ProjectData;
@@ -18,7 +19,10 @@ public class StartWindowController {
 	
 	@FXML private Button browseBtn;
 	@FXML private TextField browseTextField;
-	@FXML private TextField horizontalPxCm;
+	@FXML private TextField vidLengthTxt;
+	@FXML private TextField dateTxt;
+	@FXML private TextField vidSizeTxt;
+	@FXML private TextField editorTxt;
 	@FXML private TextField verticalPxCm;
 	@FXML private Button startTrackingBtn;
 	@FXML private TextField startTime;	
@@ -31,7 +35,6 @@ public class StartWindowController {
 	
 	@FXML
 	public void initialize() {
-		ProjectData currentProject = Main.project;
 				
 		
 		
@@ -50,6 +53,10 @@ public class StartWindowController {
 		if (chosenFile != null) {
 			browseTextField.setText(chosenFile.getAbsolutePath());
 			loadVideo(chosenFile.getAbsolutePath());
+			DecimalFormat df = new DecimalFormat("#.##");
+			double videoLength = currentProject.getVideo().getTotalNumFrames() / currentProject.getVideo().getFrameRate();
+			// TODO: change this to hours : minutes : seconds
+			vidLengthTxt.setText(df.format(videoLength) + " seconds");
 		}	
 	}
 	
@@ -82,7 +89,8 @@ public class StartWindowController {
 
 	public void loadVideo(String filePath) {
 		try {
-			currentProject = new ProjectData(filePath);
+			currentProject = Main.project;
+			currentProject.addVideo(filePath);
 			currentProject.getTracks().add(new AnimalTrack("Chick 1"));
 			
 		

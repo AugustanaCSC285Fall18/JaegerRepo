@@ -61,7 +61,7 @@ public class MainWindowController {
 	
 	@FXML
 	public void initialize() {
-		ProjectData currentProject = Main.project;
+		currentProject = Main.project;
 
 		chickMenu.getItems().add(new MenuItem("Chick 4"));	
 		initializeMenu();
@@ -71,8 +71,7 @@ public class MainWindowController {
 		vidGc = vidCanvas.getGraphicsContext2D();
 
 		
-		Video video = currentProject.getVideo();
-		sliderVideoTime.setMax(video.getTotalNumFrames()-1);
+		sliderVideoTime.setMax(currentProject.getVideo().getEndFrameNum());
 
 		// set current video canvas & overlay to the size of the video
 		Image curFrame = UtilsForOpenCV.matToJavaFXImage(currentProject.getVideo().readFrame());
@@ -207,7 +206,7 @@ public class MainWindowController {
 			drawPath(0);
 
 			//curFrameNumTextField.setText(String.format("%05d",frameNum));
-			curFrameNumTextField.setText(String.format("%5.2f second(s)", frameNum/frameRate));
+			curFrameNumTextField.setText(String.format("%5.2f second(s)", currentProject.getVideo().convertFrameNumsToSeconds(frameNum)));
 
 		} else {
 			videoPlayed = false;

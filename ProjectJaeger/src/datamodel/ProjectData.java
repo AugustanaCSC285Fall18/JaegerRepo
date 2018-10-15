@@ -2,6 +2,7 @@ package datamodel;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,11 +11,19 @@ public class ProjectData {
 	private List<AnimalTrack> tracks;
 	private List<AnimalTrack> unassignedSegments;
 
+	public ProjectData() {
+		tracks = new ArrayList<>();
+		unassignedSegments = new ArrayList<>();
+	}
 	
 	public ProjectData(String videoFilePath) throws FileNotFoundException {
 		video = new Video(videoFilePath);
 		tracks = new ArrayList<>();
 		unassignedSegments = new ArrayList<>();
+	}
+
+	public void addVideo(String filePath) throws FileNotFoundException {
+		video = new Video(filePath);
 	}
 	
 	public Video getVideo() {
@@ -29,7 +38,9 @@ public class ProjectData {
 		return unassignedSegments;
 	}
 
-	public void exportCSVFile(File outFile) {
+	public void exportCSVFile(File outFile) throws FileNotFoundException {
+		PrintWriter pw = new PrintWriter(new File("test.csv"));
+		StringBuilder content = new StringBuilder();
 		
 	}
 	
