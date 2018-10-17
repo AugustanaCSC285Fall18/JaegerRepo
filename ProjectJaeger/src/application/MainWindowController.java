@@ -13,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Slider;
@@ -33,7 +34,7 @@ public class MainWindowController {
 	@FXML	private Button undoBtn;
 	@FXML 	private Canvas vidCanvas;
 	@FXML 	private Canvas pathCanvas;
-	@FXML 	private TextField curFrameNumTextField;
+	@FXML 	private Label timeElapsed;
 	@FXML 	private TextField totalDistanceTextField;
 	@FXML 	private TextField totalDistanceToFrameTextField;
 	@FXML 	private TextField pxPerSqrInchTextField;
@@ -220,7 +221,7 @@ public class MainWindowController {
 			calibrationBtn.setDisable(true);
 			
 			TextInputDialog dialog = new TextInputDialog("");
-			dialog.setTitle("Vertical Calibration");
+//			alert.setTitle("Vertical Calibration");
 			dialog.setContentText("Enter measured length (cm): ");
 			measuredDistanceY =dialog.getY();
 			
@@ -245,7 +246,7 @@ public class MainWindowController {
 			drawPath(0);
 
 			//curFrameNumTextField.setText(String.format("%05d",frameNum));
-			curFrameNumTextField.setText(String.format("%5.2f second(s)", currentProject.getVideo().convertFrameNumsToSeconds(frameNum)));
+			timeElapsed.setText(getCurrentTime(frameNum));
 
 		} else {
 			videoPlayed = false;
@@ -283,6 +284,19 @@ public class MainWindowController {
 				prevTp = tp;
 			}
 		}
+	}
+	
+	private String getCurrentTime(int frameNum) {
+		int frameRate = (int) currentProject.getVideo().getFrameRate();
+		int framePerMin = (int) frameRate * 60;
+		int framePerHour = (int) framePerMin * 60;
+		
+		String hours = String.format("%02d",frameNum / framePerHour);
+		String minutes = String.format("%02d",frameNum / framePerMin - Integer.parseInt(hours) * 60);
+		String seconds = String.format("%02d", frameNum / frameRate - Integer.parseInt(hours) * 3600 - Integer.parseInt(minutes) * 60);
+
+		String time = "Time Elapsed: " + hours + ":" + minutes + ":" + seconds;
+		return time;
 	}
 	
 	 

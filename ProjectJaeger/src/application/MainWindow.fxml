@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
+<?import javafx.scene.effect.*?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Button?>
@@ -18,17 +26,17 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="839.0" prefWidth="761.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainWindowController">
+<BorderPane prefHeight="839.0" prefWidth="761.0" style="-fx-background-color: #e5e5e5;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainWindowController">
    <top>
       <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="48.0" prefWidth="683.0" BorderPane.alignment="CENTER">
-         <right>
-            <TextField fx:id="curFrameNumTextField" editable="false" prefWidth="100.0" promptText="(frame #)" BorderPane.alignment="TOP_RIGHT" />
-         </right>
          <center>
-            <Label prefHeight="26.0" prefWidth="82.0" text="Time Elapsed :" BorderPane.alignment="TOP_RIGHT">
+            <Label fx:id="timeElapsed" prefHeight="26.0" prefWidth="161.0" text="Time Elapsed :" wrapText="true" BorderPane.alignment="TOP_RIGHT">
                <BorderPane.margin>
                   <Insets right="10.0" />
-               </BorderPane.margin></Label>
+               </BorderPane.margin>
+               <font>
+                  <Font name="D-DIN" size="15.0" />
+               </font></Label>
          </center>
       </BorderPane>
    </top>
@@ -53,12 +61,12 @@
                         <ImageView fx:id="videoView" fitHeight="530.0" fitWidth="703.0" pickOnBounds="true" preserveRatio="true" />
                         <Canvas fx:id="vidCanvas" height="530.0" width="704.0" StackPane.alignment="TOP_LEFT">
                            <StackPane.margin>
-                              <Insets bottom="10.0" top="10.0" />
+                              <Insets bottom="10.0" />
                            </StackPane.margin>
                         </Canvas>
                         <Canvas fx:id="pathCanvas" height="530.0" width="704.0" StackPane.alignment="TOP_LEFT">
                            <StackPane.margin>
-                              <Insets bottom="10.0" top="10.0" />
+                              <Insets bottom="10.0" />
                            </StackPane.margin>
                         </Canvas>
                      </children>
@@ -72,6 +80,12 @@
                            <FlowPane.margin>
                               <Insets right="10.0" />
                            </FlowPane.margin>
+                           <font>
+                              <Font name="D-DIN" size="15.0" />
+                           </font>
+                           <effect>
+                              <ColorAdjust brightness="0.09" contrast="1.0" />
+                           </effect>
                         </Button>
                         <Slider fx:id="sliderVideoTime" prefHeight="37.0" prefWidth="306.0" />
                      </children>
@@ -81,11 +95,23 @@
                         <Button fx:id="startManualBtn" mnemonicParsing="false" onAction="#handleManualTrack" prefHeight="47.0" prefWidth="181.0" text="Start Manual Tracking">
                            <FlowPane.margin>
                               <Insets top="10.0" />
-                           </FlowPane.margin></Button>
+                           </FlowPane.margin>
+                           <effect>
+                              <ColorAdjust brightness="-0.23" contrast="0.37" hue="-0.93" />
+                           </effect>
+                           <font>
+                              <Font name="D-DIN" size="15.0" />
+                           </font></Button>
                         <Button alignment="CENTER" mnemonicParsing="false" prefHeight="46.0" prefWidth="170.0" text="Start Auto Tracking" textOverrun="CLIP">
                            <FlowPane.margin>
                               <Insets left="25.0" top="10.0" />
                            </FlowPane.margin>
+                           <effect>
+                              <ColorAdjust brightness="-0.23" contrast="0.37" hue="-0.93" />
+                           </effect>
+                           <font>
+                              <Font name="D-DIN" size="15.0" />
+                           </font>
                         </Button>
                      </children>
                   </FlowPane>
@@ -94,7 +120,13 @@
                         <Button fx:id="undoBtn" mnemonicParsing="false" onAction="#handleUndo" prefHeight="45.0" prefWidth="182.0" text="Undo Off">
                            <FlowPane.margin>
                               <Insets top="15.0" />
-                           </FlowPane.margin></Button>
+                           </FlowPane.margin>
+                           <effect>
+                              <ColorAdjust brightness="-0.23" contrast="0.37" hue="-0.93" />
+                           </effect>
+                           <font>
+                              <Font name="D-DIN" size="15.0" />
+                           </font></Button>
                         <MenuButton fx:id="chickMenu" alignment="CENTER" mnemonicParsing="false" prefHeight="45.0" prefWidth="170.0" text="Chick List">
                           <items>
                             <MenuItem mnemonicParsing="false" text="Chick 1" />
@@ -104,39 +136,56 @@
                            <FlowPane.margin>
                               <Insets left="25.0" top="15.0" />
                            </FlowPane.margin>
+                           <effect>
+                              <ColorAdjust brightness="-0.23" contrast="0.37" hue="-0.93" />
+                           </effect>
+                           <font>
+                              <Font name="D-DIN" size="15.0" />
+                           </font>
                         </MenuButton>
                      </children>
                   </FlowPane>
-                  <VBox minHeight="-Infinity" prefHeight="41.0" prefWidth="263.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.rowSpan="3">
+                  <Label text="Total Distance Traveled:" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets bottom="60.0" />
+                     </GridPane.margin>
+                     <font>
+                        <Font name="D-DIN" size="15.0" />
+                     </font>
+                  </Label>
+                  <Label text="Total distance from this frame:" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets top="30.0" />
+                     </GridPane.margin>
+                     <font>
+                        <Font name="D-DIN" size="15.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="totalDistanceTextField" editable="false" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets bottom="60.0" />
+                     </GridPane.margin>
+                  </TextField>
+                  <TextField fx:id="totalDistanceToFrameTextField" editable="false" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets top="30.0" />
+                     </GridPane.margin>
+                  </TextField>
+                  <FlowPane minWidth="-Infinity" prefHeight="37.0" prefWidth="263.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <children>
-                        <FlowPane minWidth="-Infinity" prefHeight="37.0" prefWidth="263.0">
-                           <children>
-                              <Label text="Total Distance:">
-                                 <FlowPane.margin>
-                                    <Insets right="80.0" />
-                                 </FlowPane.margin>
-                              </Label>
-                              <TextField fx:id="totalDistanceTextField" editable="false" prefWidth="100.0">
-                                 <FlowPane.margin>
-                                    <Insets />
-                                 </FlowPane.margin>
-                              </TextField>
-                           </children>
-                        </FlowPane>
-                        <FlowPane minWidth="-Infinity" prefHeight="37.0" prefWidth="263.0">
-                           <children>
-                              <Label text="Total Distance to this Frame:">
-                                 <FlowPane.margin>
-                                    <Insets right="7.0" />
-                                 </FlowPane.margin>
-                              </Label>
-                              <TextField fx:id="totalDistanceToFrameTextField" editable="false" prefWidth="100.0" />
-                           </children>
-                        </FlowPane>
-                        <ComboBox prefWidth="150.0" />
-                        <Button fx:id="calibrationBtn" mnemonicParsing="false" onAction="#handleCalibration" prefHeight="25.0" prefWidth="165.0" text="Calibrate" />
+                        <Button fx:id="calibrationBtn" mnemonicParsing="false" onAction="#handleCalibration" prefHeight="46.0" prefWidth="170.0" text="Calibrate">
+                           <FlowPane.margin>
+                              <Insets top="10.0" />
+                           </FlowPane.margin>
+                           <effect>
+                              <ColorAdjust brightness="-0.23" contrast="0.37" hue="-0.93" />
+                           </effect>
+                           <font>
+                              <Font name="D-DIN" size="15.0" />
+                           </font>
+                        </Button>
                      </children>
-                  </VBox>
+                  </FlowPane>
                </children>
             </GridPane>
          </children>
