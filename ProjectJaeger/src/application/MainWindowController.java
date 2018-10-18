@@ -1,5 +1,6 @@
 package application;
 
+import java.util.ArrayList;
 import java.util.List;
 import datamodel.ProjectData;
 import datamodel.TimePoint;
@@ -17,44 +18,35 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.RadioMenuItem;
+import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import utils.UtilsForOpenCV;
 
 public class MainWindowController {
 
-	@FXML
-	private Button calibrationBtn;
-	@FXML
-	private Button playBtn;
-	@FXML
-	private Button startManualBtn;
-	@FXML
-	private Button undoBtn;
-	@FXML
-	private Canvas vidCanvas;
-	@FXML
-	private Canvas pathCanvas;
-	@FXML
-	private Label timeElapsed;
-	@FXML
-	private TextField totalDistanceTextField;
-	@FXML
-	private TextField totalDistanceToFrameTextField;
-	@FXML
-	private TextField pxPerSqrInchTextField;
-	@FXML
-	private Slider sliderVideoTime;
-	@FXML
-	private MenuButton chickMenu;
-	@FXML
-	private Button backBtn;
+	@FXML private Button calibrationBtn;
+	@FXML private Button playBtn;
+	@FXML private Button startManualBtn;
+	@FXML private Button undoBtn;
+	@FXML private Canvas vidCanvas;
+	@FXML private Canvas pathCanvas;
+	@FXML private Label timeElapsed;
+	@FXML private TextField totalDistanceTextField;
+	@FXML private TextField totalDistanceToFrameTextField;
+	@FXML private TextField pxPerSqrInchTextField;
+	@FXML private Slider sliderVideoTime;
+	@FXML private MenuButton chickMenu;
+	@FXML private Button backBtn;
 
 	private Stage stage;
 	private AnimationTimer timer;
@@ -76,7 +68,9 @@ public class MainWindowController {
 	private double pixelPerUnitY;
 
 	private final String[] colour = { "OrangeRed", "Gold", "LawnGreen", "DarkTurquoise", "Violet", "MediumSlateBlue" };
+	private ToggleGroup menuToggleGroup;
 	protected ProjectData currentProject;
+	private int currentTrack = 0;
 
 	@FXML
 	public void initialize() {
@@ -103,6 +97,7 @@ public class MainWindowController {
 		pathCanvas.setHeight(vidCanvas.getHeight());
 
 //		showFrameAt(0);
+		menuToggleGroup = new ToggleGroup();
 		showFrameAt((int) (currentProject.getVideo().getStartFrameNum()));
 
 	}
@@ -110,11 +105,18 @@ public class MainWindowController {
 	public void initializeWithStage(Stage stage) {
 		this.stage = stage;
 
+		menuToggleGroup = new ToggleGroup();
+		
 		System.err.println("main " + currentProject.getChickNum());
 		for (int num = 0; num < currentProject.getChickNum(); num++) {
-			chickMenu.getItems().add(new MenuItem("Chick " + (num + 1)));
-
+			RadioMenuItem item = new RadioMenuItem("Chick " + (num + 1));
+			item.setToggleGroup(menuToggleGroup);
+			item.setOnAction(a -> {
+//				currentTrack = num;
+			});
+			chickMenu.getItems().add(item);
 			chickMenu.getItems().get(num).setStyle("-fx-background-color: " + colour[num] + ";");
+
 		}
 
 		// bind it so whenever the Scene changes width, the videoView matches it
@@ -124,12 +126,12 @@ public class MainWindowController {
 	}
 
 	public void initializeMenu() {
-		List<MenuItem> menuItems = chickMenu.getItems();
-		for (MenuItem item : menuItems) {
-			item.setOnAction(handle -> {
-				System.err.println(item.getText() + "chosen.");
-			});
-		}
+
+//		for (CheckMenuItem item : menuItems) {
+//			item.setOnAction(handle -> {
+//				System.err.println(item.getText() + "chosen.");
+//			});
+//		}
 	}
 
 	@FXML
@@ -148,7 +150,6 @@ public class MainWindowController {
 	}
 
 	// try a few variables
-	int currentTrack = 0;
 	int ovalDiameter = 6;
 	int frameAdd = 20;
 
@@ -286,7 +287,8 @@ public class MainWindowController {
 			currentProject.getVideo().setCurrentFrameNum(frameNum);
 			Image curFrame = UtilsForOpenCV.matToJavaFXImage(currentProject.getVideo().readFrame());
 			vidGc.drawImage(curFrame, 0, 0, vidCanvas.getWidth(), vidCanvas.getHeight());
-			drawPath(0);
+			drawPath(currentTrack);
+
 
 			// curFrameNumTextField.setText(String.format("%05d",frameNum));
 			timeElapsed.setText(getCurrentTime(frameNum));
@@ -301,6 +303,8 @@ public class MainWindowController {
 
 		if (currentProject.getTracks().get(currentTrack).getTimePoints().size() != 0) {
 			pathGc.clearRect(0, 0, pathCanvas.getWidth(), pathCanvas.getHeight());
+			pathGc.setFill(Color.WHITE);
+			pathGc.setStroke(Color.web(colour[trackNum], 1));
 			TimePoint prevTp = currentProject.getTracks().get(trackNum).getTimePoints().get(0);
 
 			for (TimePoint tp : currentProject.getTracks().get(trackNum).getTimePoints()) {
@@ -353,7 +357,7 @@ public class MainWindowController {
 			@Override
 			public void handle(long now) {
 				long timeElapsedInMillis = (now - lastUpdate) / 1_000_000;
-				if (timeElapsedInMillis >= 33) {
+				if (timeElapsedInMillis >= 34) {
 					if (lastUpdate != 0) {
 						int frameDiff = (int) Math.round(timeElapsedInMillis / 33.0);
 						// System.out.printf("%.3f ms\n", frameDiff);
