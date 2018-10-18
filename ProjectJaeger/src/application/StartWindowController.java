@@ -25,9 +25,13 @@ public class StartWindowController {
 	@FXML private TextField editorTxt;
 	@FXML private TextField verticalPxCm;
 	@FXML private Button startTrackingBtn;
+	
 	@FXML private TextField startTime;	
 	@FXML private TextField endTime;
+	@FXML private TextField chickNum;
 	
+
+	private DecimalFormat df = new DecimalFormat("#.##");
 	protected ProjectData currentProject;
 	
 
@@ -35,13 +39,20 @@ public class StartWindowController {
 	
 	@FXML
 	public void initialize() {
-				
-		
+		currentProject = ProjectData.getCurrentProject();
+		if (currentProject != null) {
+			browseTextField.setText(currentProject.getVideo().getFilePath());
+			startTime.setText(df.format(currentProject.getVideo().convertFrameNumsToSeconds(currentProject.getVideo().getStartFrameNum())));
+			endTime.setText(df.format(currentProject.getVideo().convertFrameNumsToSeconds(currentProject.getVideo().getEndFrameNum())));
+			chickNum.setText("" + currentProject.getChickNum());
+			vidLengthTxt.setText(df.format(currentProject.getVideo().getTotalNumFrames() / currentProject.getVideo().getFrameRate()) + " seconds");
+		}
 		
 	}
 
 	public void initializeWithStage(Stage stage) {
 		this.stage = stage;	
+	
 	
 	}
 	
@@ -53,23 +64,18 @@ public class StartWindowController {
 		if (chosenFile != null) {
 			browseTextField.setText(chosenFile.getAbsolutePath());
 			loadVideo(chosenFile.getAbsolutePath());
-			DecimalFormat df = new DecimalFormat("#.##");
 			double videoLength = currentProject.getVideo().getTotalNumFrames() / currentProject.getVideo().getFrameRate();
 			// TODO: change this to hours : minutes : seconds
 			vidLengthTxt.setText(df.format(videoLength) + " seconds");
+			
+			startTime.setText("" + 0);
+			double defaultEndTime = currentProject.getVideo().convertFrameNumsToSeconds((currentProject.getVideo().getTotalNumFrames() - 1));
+			endTime.setText("" + df.format(defaultEndTime) );
+
+			
 		}	
 	}
-	
-	@FXML
-	public void handleStartTime() {
-		currentProject.getVideo().setStartFrameNum(currentProject.getVideo().convertSecondsToFrameNums(Double.parseDouble(startTime.getText())));
-	}
-	
-	@FXML
-	public void handleEndTime() {
-		currentProject.getVideo().setEndFrameNum(currentProject.getVideo().convertSecondsToFrameNums(Double.parseDouble(endTime.getText())));
-	}
-	
+
 	@FXML
 	public void handleStartTrackingBtn() {
 	    try{
@@ -78,10 +84,19 @@ public class StartWindowController {
 	    	MainWindowController controller = fxmlLoader.getController();
 	    	Scene scene = new Scene(root,root.getPrefWidth(),root.getPrefHeight());
 	    	scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+
+	    	currentProject.getVideo().setStartFrameNum(currentProject.getVideo().convertSecondsToFrameNums(Double.parseDouble(startTime.getText())));
+	    	currentProject.getVideo().setCurrentFrameNum(currentProject.getVideo().convertSecondsToFrameNums(Double.parseDouble(startTime.getText()) + 1));
+	    	currentProject.getVideo().setEndFrameNum(currentProject.getVideo().convertSecondsToFrameNums(Double.parseDouble(endTime.getText())));
+	    	
+	    	currentProject.setChickNum(Integer.parseInt(chickNum.getText()));
+	    	System.err.println(Integer.parseInt(chickNum.getText()));
+	    	
 	    	stage.setTitle("Chick Tracker");
 	    	stage.setScene(scene);
 	    	controller.initializeWithStage(stage);
 	    	stage.show();
+	    	
 	    } catch (Exception e) {
 	    	e.printStackTrace();
 	    }

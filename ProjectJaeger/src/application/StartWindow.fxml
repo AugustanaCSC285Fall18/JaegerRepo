@@ -105,31 +105,21 @@
                   <RowConstraints minHeight="-Infinity" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Label text="Horizontal px/cm">
+                  <Label prefHeight="17.0" prefWidth="102.0" text="Start Time">
                      <font>
                         <Font name="D-DIN" size="15.0" />
                      </font></Label>
-                  <Label text="Vertical px/cm" GridPane.rowIndex="1">
+                  <TextField fx:id="startTime" promptText="(in seconds)" GridPane.columnIndex="1" />
+                  <Label text="End Time" GridPane.rowIndex="1">
                      <font>
                         <Font name="D-DIN" size="15.0" />
                      </font></Label>
-                  <TextField fx:id="horizontalPxCm" prefHeight="25.0" prefWidth="100.0" text="6.5" GridPane.columnIndex="1" />
-                  <TextField fx:id="verticalPxCm" prefHeight="25.0" prefWidth="172.0" text="6.7" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <Label prefHeight="17.0" prefWidth="102.0" text="Start Time" GridPane.rowIndex="2">
+                  <TextField fx:id="endTime" promptText="(in seconds)" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Label text="Numbers of Chicks" GridPane.rowIndex="2">
                      <font>
                         <Font name="D-DIN" size="15.0" />
                      </font></Label>
-                  <TextField fx:id="startTime" onInputMethodTextChanged="#handleStartTime" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <Label text="End Time" GridPane.rowIndex="3">
-                     <font>
-                        <Font name="D-DIN" size="15.0" />
-                     </font></Label>
-                  <TextField onInputMethodTextChanged="#handleEndTime" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                  <Label text="Numbers of Chicks" GridPane.rowIndex="4">
-                     <font>
-                        <Font name="D-DIN" size="15.0" />
-                     </font></Label>
-                  <TextField fx:id="chickNum" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <TextField fx:id="chickNum" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                </children>
                <GridPane.margin>
                   <Insets />
@@ -154,16 +144,7 @@
                      <font>
                         <Font name="D-DIN" size="15.0" />
                      </font></Label>
-                  <TextField fx:id="vidSizeTxt" onInputMethodTextChanged="#handleStartTime" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <Label text="Editor" GridPane.rowIndex="3">
-                     <font>
-                        <Font name="D-DIN" size="15.0" />
-                     </font></Label>
-                  <TextField fx:id="editorTxt" onInputMethodTextChanged="#handleEndTime" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                  <Label text="File Status" GridPane.rowIndex="4">
-                     <font>
-                        <Font name="D-DIN" size="15.0" />
-                     </font></Label>
+                  <TextField fx:id="vidSizeTxt" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                </children>
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="173.0" minWidth="10.0" prefWidth="132.0" />

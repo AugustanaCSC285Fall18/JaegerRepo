@@ -10,6 +10,7 @@ public class ProjectData {
 	private Video video;
 	private List<AnimalTrack> tracks;
 	private List<AnimalTrack> unassignedSegments;
+	private int chickNum;
 
 	private static ProjectData currentProject;
 	
@@ -37,6 +38,14 @@ public class ProjectData {
 
 	public List<AnimalTrack> getUnassignedSegments() {
 		return unassignedSegments;
+	}
+	
+	public int getChickNum() {
+		return chickNum;
+	}
+	
+	public void setChickNum(int chickNum) {
+		this.chickNum = chickNum;
 	}
 
 	public void exportCSVFile(File outFile) throws FileNotFoundException {

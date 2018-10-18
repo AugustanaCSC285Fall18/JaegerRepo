@@ -26,9 +26,9 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="839.0" prefWidth="761.0" style="-fx-background-color: #e5e5e5;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainWindowController">
+<BorderPane prefHeight="839.0" prefWidth="761.0" style="-fx-background-color: #e5e5e5;" styleClass="application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainWindowController">
    <top>
-      <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="48.0" prefWidth="683.0" BorderPane.alignment="CENTER">
+      <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="48.0" prefWidth="719.0" BorderPane.alignment="CENTER">
          <center>
             <Label fx:id="timeElapsed" prefHeight="26.0" prefWidth="161.0" text="Time Elapsed :" wrapText="true" BorderPane.alignment="TOP_RIGHT">
                <BorderPane.margin>
@@ -38,6 +38,13 @@
                   <Font name="D-DIN" size="15.0" />
                </font></Label>
          </center>
+         <left>
+            <Button fx:id="backBtn" mnemonicParsing="false" onAction="#handleBackBtn" prefHeight="33.0" prefWidth="78.0" text="Back" BorderPane.alignment="TOP_LEFT">
+               <BorderPane.margin>
+                  <Insets />
+               </BorderPane.margin>
+            </Button>
+         </left>
       </BorderPane>
    </top>
    <center>
@@ -129,9 +136,7 @@
                            </font></Button>
                         <MenuButton fx:id="chickMenu" alignment="CENTER" mnemonicParsing="false" prefHeight="45.0" prefWidth="170.0" text="Chick List">
                           <items>
-                            <MenuItem mnemonicParsing="false" text="Chick 1" />
-                            <MenuItem mnemonicParsing="false" text="Chick 2" />
-                            <MenuItem mnemonicParsing="false" text="Chick 3" />
+
                           </items>
                            <FlowPane.margin>
                               <Insets left="25.0" top="15.0" />
