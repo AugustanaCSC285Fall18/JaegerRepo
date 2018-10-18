@@ -246,7 +246,6 @@ public class MainWindowController {
 			calibrationBtn.setDisable(true);
 
 			TextInputDialog dialog = new TextInputDialog("");
-//			alert.setTitle("Vertical Calibration");
 			dialog.setContentText("Enter measured length (cm): ");
 			measuredDistanceY = dialog.getY();
 

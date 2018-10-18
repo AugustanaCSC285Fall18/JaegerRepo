@@ -51,6 +51,7 @@ public class ProjectData {
 	public void exportCSVFile(File outFile) throws FileNotFoundException {
 		PrintWriter pw = new PrintWriter(new File("test.csv"));
 		StringBuilder content = new StringBuilder();
+		content.append("Chick ID");
 		
 	}
 	
