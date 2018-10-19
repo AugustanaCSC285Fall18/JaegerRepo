@@ -28,7 +28,7 @@ public class SettingWindowController {
 	@FXML
 	public void handleStartTrackingButton() {
 		try {
-			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("SettingWindow.fxml"));
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("MainWindow.fxml"));
 	    	BorderPane root = (BorderPane) fxmlLoader.load();
 	    	MainWindowController controller = fxmlLoader.getController();
 	    	Scene scene = new Scene(root,root.getPrefWidth(),root.getPrefHeight());

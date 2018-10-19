@@ -365,7 +365,6 @@ public class MainWindowController {
 							// showFrameAt(currentProject.getVideo().getCurrentFrameNum());
 							int frameToShow = currentProject.getVideo().getCurrentFrameNum() + (frameDiff - 1);
 							sliderVideoTime.setValue(frameToShow);
-							sliderVideoTime.setVa
 						});
 					}
 					lastUpdate = now;
