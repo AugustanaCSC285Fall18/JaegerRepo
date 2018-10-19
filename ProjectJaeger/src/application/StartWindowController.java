@@ -8,6 +8,7 @@ import datamodel.ProjectData;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
@@ -79,15 +80,15 @@ public class StartWindowController {
 	@FXML
 	public void handleStartTrackingBtn() {
 	    try{
-	    	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("MainWindow.fxml"));
-	    	BorderPane root = (BorderPane) fxmlLoader.load();
-	    	MainWindowController controller = fxmlLoader.getController();
+	    	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("SettingWindow.fxml"));
+	    	Accordion root = (Accordion) fxmlLoader.load();
+	    	SettingWindowController controller = fxmlLoader.getController();
 	    	Scene scene = new Scene(root,root.getPrefWidth(),root.getPrefHeight());
 	    	scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 
-	    	currentProject.getVideo().setStartFrameNum(currentProject.getVideo().convertSecondsToFrameNums(Double.parseDouble(startTime.getText())));
-	    	currentProject.getVideo().setCurrentFrameNum(currentProject.getVideo().convertSecondsToFrameNums(Double.parseDouble(startTime.getText()) + 1));
-	    	currentProject.getVideo().setEndFrameNum(currentProject.getVideo().convertSecondsToFrameNums(Double.parseDouble(endTime.getText())));
+//	    	currentProject.getVideo().setStartFrameNum(currentProject.getVideo().convertSecondsToFrameNums(Double.parseDouble(startTime.getText())));
+//	    	currentProject.getVideo().setCurrentFrameNum(currentProject.getVideo().convertSecondsToFrameNums(Double.parseDouble(startTime.getText()) + 1));
+//	    	currentProject.getVideo().setEndFrameNum(currentProject.getVideo().convertSecondsToFrameNums(Double.parseDouble(endTime.getText())));
 	    	
 	    	currentProject.setChickNum(Integer.parseInt(chickNum.getText()));
 	    	System.err.println(Integer.parseInt(chickNum.getText()));
