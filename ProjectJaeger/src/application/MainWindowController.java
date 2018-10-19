@@ -90,9 +90,6 @@ public class MainWindowController {
 
 		vidCanvas.setHeight(vidCanvas.getWidth() * curFrame.getHeight() / curFrame.getWidth());
 
-//		pathCanvas.setCache(true);
-//		pathCanvas.setCacheHint(CacheHint.SPEED);
-
 		pathCanvas.setWidth(vidCanvas.getWidth());
 		pathCanvas.setHeight(vidCanvas.getHeight());
 
@@ -281,8 +278,6 @@ public class MainWindowController {
 	
 	
 	public void showFrameAt(int frameNum) {
-		double frameRate = currentProject.getVideo().getFrameRate();
-//		if (frameNum <= project.getVideo().getEndFrameNum()) {
 		if (frameNum <= currentProject.getVideo().getEndFrameNum()) {
 			currentProject.getVideo().setCurrentFrameNum(frameNum);
 			Image curFrame = UtilsForOpenCV.matToJavaFXImage(currentProject.getVideo().readFrame());
@@ -304,7 +299,7 @@ public class MainWindowController {
 		if (currentProject.getTracks().get(currentTrack).getTimePoints().size() != 0) {
 			pathGc.clearRect(0, 0, pathCanvas.getWidth(), pathCanvas.getHeight());
 			pathGc.setFill(Color.WHITE);
-			pathGc.setStroke(Color.web(colour[trackNum], 1));
+			pathGc.setStroke(Color.web(" "+ colour[trackNum], 1));
 			TimePoint prevTp = currentProject.getTracks().get(trackNum).getTimePoints().get(0);
 
 			for (TimePoint tp : currentProject.getTracks().get(trackNum).getTimePoints()) {

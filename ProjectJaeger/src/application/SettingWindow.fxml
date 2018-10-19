@@ -31,12 +31,12 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <Canvas height="375.0" width="542.0">
+                        <Canvas fx:id="vidCanvas" height="375.0" width="542.0">
                            <GridPane.margin>
                               <Insets left="15.0" top="5.0" />
                            </GridPane.margin>
                         </Canvas>
-                        <Slider prefHeight="19.0" prefWidth="499.0" GridPane.rowIndex="1" />
+                        <Slider fx:id="sliderVideoTime" prefHeight="19.0" prefWidth="499.0" GridPane.rowIndex="1" />
                         <Label contentDisplay="CENTER" prefHeight="25.0" prefWidth="76.0" text="00:00:00" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <font>
                               <Font size="17.0" />
@@ -95,7 +95,7 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <Canvas height="353.0" width="547.0">
+                        <Canvas fx:id="calCanvas" height="363.0" width="547.0">
                            <GridPane.margin>
                               <Insets left="15.0" top="5.0" />
                            </GridPane.margin>

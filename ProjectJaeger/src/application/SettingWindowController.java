@@ -1,22 +1,50 @@
 package application;
 
+import java.text.DecimalFormat;
+
 import datamodel.ProjectData;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Accordion;
+import javafx.scene.control.Slider;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import utils.UtilsForOpenCV;
 
 
 
 public class SettingWindowController {
 	
 	private Stage stage;
+	private GraphicsContext vidGc;
+	private GraphicsContext calGc;
+
+	private DecimalFormat df = new DecimalFormat("#.##");
+	protected ProjectData currentProject;
+	
+	@FXML private Slider sliderVideoTime;
+	@FXML private Canvas vidCanvas;
+	@FXML private Canvas calCanvas;
+	
 	
 	@FXML
 	public void initialize() {
+		currentProject = ProjectData.getCurrentProject();
 		
+		Image curFrame = UtilsForOpenCV.matToJavaFXImage(currentProject.getVideo().readFrame());
+		
+		vidGc = vidCanvas.getGraphicsContext2D();
+		calGc = calCanvas.getGraphicsContext2D();
+		calGc.drawImage(curFrame, 0, 0, vidCanvas.getWidth(), vidCanvas.getHeight());
+		vidCanvas.setHeight(vidCanvas.getWidth() * curFrame.getHeight() / curFrame.getWidth());
+		
+		showFrameAt((int) (currentProject.getVideo().getStartFrameNum()));
+		sliderVideoTime.setMax(currentProject.getVideo().getEndFrameNum());
+		sliderVideoTime.valueProperty().addListener((obs, oldV, newV) -> showFrameAt(newV.intValue()));
 	}
 
 	public void initializeWithStage(Stage stage) {
@@ -50,4 +78,17 @@ public class SettingWindowController {
 			e.printStackTrace();
 		}
 	}
+	
+	public void showFrameAt(int frameNum) {
+		if (frameNum <= currentProject.getVideo().getEndFrameNum()) {
+			currentProject.getVideo().setCurrentFrameNum(frameNum);
+			Image curFrame = UtilsForOpenCV.matToJavaFXImage(currentProject.getVideo().readFrame());
+			vidGc.drawImage(curFrame, 0, 0, vidCanvas.getWidth(), vidCanvas.getHeight());
+
+
+			// curFrameNumTextField.setText(String.format("%05d",frameNum));
+
+		} 
+	}
+
 }
