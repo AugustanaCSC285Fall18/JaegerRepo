@@ -2,6 +2,8 @@ package application;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import datamodel.AnimalTrack;
 import datamodel.ProjectData;
 import datamodel.TimePoint;
 import datamodel.Video;
@@ -108,13 +110,19 @@ public class MainWindowController {
 		for (int num = 0; num < currentProject.getChickNum(); num++) {
 			RadioMenuItem item = new RadioMenuItem("Chick " + (num + 1));
 			item.setToggleGroup(menuToggleGroup);
+			item.setId("" + (num));
 			item.setOnAction(a -> {
-//				currentTrack = num;
+				currentTrack = Integer.parseInt(item.getId());
+				System.err.println(Integer.parseInt(item.getId()) + 1 + " selected");
+				System.err.println("currentTrack: " + currentTrack);
+				showFrameAt(currentProject.getVideo().getCurrentFrameNum());
 			});
+			currentProject.getTracks().add(new AnimalTrack(""+ num));
 			chickMenu.getItems().add(item);
 			chickMenu.getItems().get(num).setStyle("-fx-background-color: " + colour[num] + ";");
 
 		}
+
 
 		// bind it so whenever the Scene changes width, the videoView matches it
 		// (not perfect though... visual problems if the height gets too large.)
@@ -283,6 +291,7 @@ public class MainWindowController {
 			Image curFrame = UtilsForOpenCV.matToJavaFXImage(currentProject.getVideo().readFrame());
 			vidGc.drawImage(curFrame, 0, 0, vidCanvas.getWidth(), vidCanvas.getHeight());
 			drawPath(currentTrack);
+			System.err.println("currentTrack :" + currentTrack);
 
 
 			// curFrameNumTextField.setText(String.format("%05d",frameNum));
@@ -296,10 +305,11 @@ public class MainWindowController {
 
 	private void drawPath(int trackNum) {
 
+		pathGc.clearRect(0, 0, pathCanvas.getWidth(), pathCanvas.getHeight());
 		if (currentProject.getTracks().get(currentTrack).getTimePoints().size() != 0) {
-			pathGc.clearRect(0, 0, pathCanvas.getWidth(), pathCanvas.getHeight());
 			pathGc.setFill(Color.WHITE);
-			pathGc.setStroke(Color.web(" "+ colour[trackNum], 1));
+			System.err.println(colour[trackNum]+ "");
+			pathGc.setStroke(Color.web(colour[trackNum] + "", 1));
 			TimePoint prevTp = currentProject.getTracks().get(trackNum).getTimePoints().get(0);
 
 			for (TimePoint tp : currentProject.getTracks().get(trackNum).getTimePoints()) {

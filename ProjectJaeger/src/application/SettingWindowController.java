@@ -36,7 +36,6 @@ public class SettingWindowController {
 		currentProject = ProjectData.getCurrentProject();
 		
 		Image curFrame = UtilsForOpenCV.matToJavaFXImage(currentProject.getVideo().readFrame());
-		
 		vidGc = vidCanvas.getGraphicsContext2D();
 		calGc = calCanvas.getGraphicsContext2D();
 		calGc.drawImage(curFrame, 0, 0, vidCanvas.getWidth(), vidCanvas.getHeight());

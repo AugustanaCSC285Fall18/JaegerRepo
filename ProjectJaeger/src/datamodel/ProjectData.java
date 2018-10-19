@@ -11,6 +11,7 @@ public class ProjectData {
 	private List<AnimalTrack> tracks;
 	private List<AnimalTrack> unassignedSegments;
 	private int chickNum;
+	private int activeTrack;
 
 	private static ProjectData currentProject;
 	
@@ -46,6 +47,10 @@ public class ProjectData {
 	
 	public void setChickNum(int chickNum) {
 		this.chickNum = chickNum;
+	}
+	
+	public void setActiveTrack(int trackNum) {
+		this.activeTrack = trackNum;
 	}
 
 	public void exportCSVFile(File outFile) throws FileNotFoundException {
