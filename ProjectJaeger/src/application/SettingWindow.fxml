@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<Accordion maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="583.0" prefWidth="761.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="application.SettingWindowController">
+<Accordion maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="583.0" prefWidth="761.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SettingWindowController">
   <panes>
     <TitledPane prefHeight="388.0" prefWidth="682.0" text="Step 1: Time Cropping">
       <content>
@@ -100,7 +100,6 @@
                               <Insets left="15.0" top="5.0" />
                            </GridPane.margin>
                         </Canvas>
-                        <Slider prefHeight="19.0" prefWidth="499.0" GridPane.rowIndex="1" />
                         <Label contentDisplay="CENTER" prefHeight="25.0" prefWidth="76.0" text="00:00:00" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <font>
                               <Font size="17.0" />
@@ -116,17 +115,17 @@
                         </Button>
                         <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="135.0" text="Calibrating Y" GridPane.columnIndex="1" GridPane.valignment="TOP">
                            <GridPane.margin>
-                              <Insets left="5.0" top="60.0" />
+                              <Insets left="5.0" top="90.0" />
                            </GridPane.margin>
                         </Button>
                         <Button layoutX="514.0" layoutY="70.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="135.0" text="Set Arena Bound" GridPane.columnIndex="1" GridPane.valignment="TOP">
                            <GridPane.margin>
-                              <Insets left="5.0" top="120.0" />
+                              <Insets left="5.0" top="180.0" />
                            </GridPane.margin>
                         </Button>
                         <TextField prefHeight="30.0" prefWidth="140.0" GridPane.columnIndex="1" GridPane.valignment="TOP">
                            <GridPane.margin>
-                              <Insets left="5.0" right="5.0" top="170.0" />
+                              <Insets left="5.0" right="5.0" top="50.0" />
                            </GridPane.margin>
                         </TextField>
                         <Label prefHeight="23.0" prefWidth="140.0" text="Status" GridPane.columnIndex="1" GridPane.valignment="BOTTOM" GridPane.vgrow="ALWAYS">
@@ -137,6 +136,11 @@
                               <Insets bottom="50.0" />
                            </GridPane.margin>
                         </Label>
+                        <TextField layoutX="587.0" layoutY="60.0" prefHeight="30.0" prefWidth="104.0" GridPane.columnIndex="1" GridPane.valignment="TOP">
+                           <GridPane.margin>
+                              <Insets left="5.0" right="5.0" top="140.0" />
+                           </GridPane.margin>
+                        </TextField>
                      </children>
                   </GridPane>
                </children></AnchorPane>
