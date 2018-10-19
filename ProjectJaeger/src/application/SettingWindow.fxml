@@ -159,7 +159,7 @@
                      </font>
                   </Label>
                   <TextField layoutX="234.0" layoutY="42.0" />
-                  <ComboBox layoutX="234.0" layoutY="106.0" prefWidth="150.0" />
+                  <ComboBox layoutX="234.0" layoutY="106.0" prefWidth="150.0" promptText="Choose Chick" />
                   <Label layoutX="49.0" layoutY="108.0" text="Enter Chick ID">
                      <font>
                         <Font size="16.0" />
@@ -170,6 +170,7 @@
                         <Font name="D-DIN" size="15.0" />
                      </font>
                   </Button>
+                  <TextField layoutX="405.0" layoutY="106.0" />
                </children></AnchorPane>
       </content>
          <font>
