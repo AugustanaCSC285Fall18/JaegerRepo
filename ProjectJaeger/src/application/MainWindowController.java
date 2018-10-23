@@ -3,6 +3,10 @@ package application;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.opencv.core.Mat;
+
+import autotracking.AutoTrackListener;
+import autotracking.AutoTracker;
 import datamodel.AnimalTrack;
 import datamodel.ProjectData;
 import datamodel.TimePoint;
@@ -34,11 +38,12 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import utils.UtilsForOpenCV;
 
-public class MainWindowController {
+public class MainWindowController implements AutoTrackListener {
 
 	@FXML private Button calibrationBtn;
 	@FXML private Button playBtn;
 	@FXML private Button startManualBtn;
+	@FXML private Button startAutoBtn;
 	@FXML private Button undoBtn;
 	@FXML private Canvas vidCanvas;
 	@FXML private Canvas pathCanvas;
@@ -54,6 +59,7 @@ public class MainWindowController {
 	private AnimationTimer timer;
 	private GraphicsContext vidGc;
 	private GraphicsContext pathGc;
+	private AutoTracker autotracker;
 
 	private boolean undoModeToggled;
 	private boolean manualTrackToggled;
@@ -78,6 +84,8 @@ public class MainWindowController {
 	public void initialize() {
 		currentProject = ProjectData.getCurrentProject();
 
+		currentProject.getVideo().setXPixelsPerCm(6.5); //  these are just rough estimates!
+		currentProject.getVideo().setYPixelsPerCm(6.7);
 		initializeMenu();
 
 		sliderVideoTime.valueProperty().addListener((obs, oldV, newV) -> showFrameAt(newV.intValue()));
@@ -107,6 +115,15 @@ public class MainWindowController {
 		menuToggleGroup = new ToggleGroup();
 		
 		System.err.println("main " + currentProject.getChickNum());
+		
+		// bind it so whenever the Scene changes width, the videoView matches it
+		// (not perfect though... visual problems if the height gets too large.)
+		// videoView.fitWidthProperty().bind(videoView.getScene().widthProperty());
+
+	}
+
+	public void initializeMenu() {
+		
 		for (int num = 0; num < currentProject.getChickNum(); num++) {
 			RadioMenuItem item = new RadioMenuItem("Chick " + (num + 1));
 			item.setToggleGroup(menuToggleGroup);
@@ -122,21 +139,6 @@ public class MainWindowController {
 			chickMenu.getItems().get(num).setStyle("-fx-background-color: " + colour[num] + ";");
 
 		}
-
-
-		// bind it so whenever the Scene changes width, the videoView matches it
-		// (not perfect though... visual problems if the height gets too large.)
-		// videoView.fitWidthProperty().bind(videoView.getScene().widthProperty());
-
-	}
-
-	public void initializeMenu() {
-
-//		for (CheckMenuItem item : menuItems) {
-//			item.setOnAction(handle -> {
-//				System.err.println(item.getText() + "chosen.");
-//			});
-//		}
 	}
 
 	@FXML
@@ -378,6 +380,63 @@ public class MainWindowController {
 		};
 
 		timer.start();
+	}
+	
+	@FXML
+	public void handleStartAutotracking() throws InterruptedException {
+		if (autotracker == null || !autotracker.isRunning()) {
+			Video video = currentProject.getVideo();
+//			video.setStartFrameNum(Integer.parseInt(textfieldStartFrame.getText()));
+//			video.setEndFrameNum(Integer.parseInt(textfieldEndFrame.getText()));
+			video.setStartFrameNum(100);
+			video.setEndFrameNum(3000);
+			autotracker = new AutoTracker();
+			// Use Observer Pattern to give autotracker a reference to this object, 
+			// and call back to methods in this class to update progress.
+			autotracker.addAutoTrackListener(this);
+			
+			// this method will start a new thread to run AutoTracker in the background
+			// so that we don't freeze up the main JavaFX UI thread.
+			autotracker.startAnalysis(video);
+			startAutoBtn.setText("CANCEL Auto Tracking");
+		} else {
+			autotracker.cancelAnalysis();
+			startAutoBtn.setText("Start Auto Tracking");
+		}
+		 
+	}
+	@Override
+	public void handleTrackedFrame(Mat frame, int frameNumber, double fractionComplete) {
+		Image imgFrame = UtilsForOpenCV.matToJavaFXImage(frame);
+		// this method is being run by the AutoTracker's thread, so we must
+		// ask the JavaFX UI thread to update some visual properties
+		Platform.runLater(() -> { 
+			videoPlayed = false;
+			currentProject.getVideo().setCurrentFrameNum(frameNumber);
+			vidGc.drawImage(imgFrame, 0, 0, vidCanvas.getWidth(), vidCanvas.getHeight());
+//			drawPath(currentTrack);
+//			System.err.println("currentTrack :" + currentTrack);
+
+
+//			progressAutoTrack.setProgress(fractionComplete);
+			sliderVideoTime.setValue(frameNumber);
+			timeElapsed.setText(getCurrentTime(frameNumber));
+		});		
+	}
+
+	@Override
+	public void trackingComplete(List<AnimalTrack> trackedSegments) {
+		currentProject.getUnassignedSegments().clear();
+		currentProject.getUnassignedSegments().addAll(trackedSegments);
+
+		for (AnimalTrack track: trackedSegments) {
+			System.out.println(track);
+//			System.out.println("  " + track.getPositions());
+		}
+		Platform.runLater(() -> { 
+//			progressAutoTrack.setProgress(1.0);
+			startAutoBtn.setText("Start auto-tracking");
+		});	
 	}
 
 }
