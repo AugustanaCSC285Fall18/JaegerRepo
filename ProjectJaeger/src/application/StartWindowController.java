@@ -26,11 +26,6 @@ public class StartWindowController {
 	@FXML private TextField editorTxt;
 	@FXML private TextField verticalPxCm;
 	@FXML private Button startTrackingBtn;
-	
-	@FXML private TextField startTime;	
-	@FXML private TextField endTime;
-	@FXML private TextField chickNum;
-	
 
 	private DecimalFormat df = new DecimalFormat("#.##");
 	protected ProjectData currentProject;
@@ -43,9 +38,6 @@ public class StartWindowController {
 		currentProject = ProjectData.getCurrentProject();
 		if (currentProject != null) {
 			browseTextField.setText(currentProject.getVideo().getFilePath());
-			startTime.setText(df.format(currentProject.getVideo().convertFrameNumsToSeconds(currentProject.getVideo().getStartFrameNum())));
-			endTime.setText(df.format(currentProject.getVideo().convertFrameNumsToSeconds(currentProject.getVideo().getEndFrameNum())));
-			chickNum.setText("" + currentProject.getChickNum());
 			vidLengthTxt.setText(df.format(currentProject.getVideo().getTotalNumFrames() / currentProject.getVideo().getFrameRate()) + " seconds");
 		}
 		
@@ -53,8 +45,6 @@ public class StartWindowController {
 
 	public void initializeWithStage(Stage stage) {
 		this.stage = stage;	
-	
-	
 	}
 	
 	@FXML
@@ -68,12 +58,6 @@ public class StartWindowController {
 			double videoLength = currentProject.getVideo().getTotalNumFrames() / currentProject.getVideo().getFrameRate();
 			// TODO: change this to hours : minutes : seconds
 			vidLengthTxt.setText(df.format(videoLength) + " seconds");
-			
-			startTime.setText("" + 0);
-			double defaultEndTime = currentProject.getVideo().convertFrameNumsToSeconds((currentProject.getVideo().getTotalNumFrames() - 1));
-			endTime.setText("" + df.format(defaultEndTime) );
-
-			
 		}	
 	}
 
@@ -90,8 +74,7 @@ public class StartWindowController {
 //	    	currentProject.getVideo().setCurrentFrameNum(currentProject.getVideo().convertSecondsToFrameNums(Double.parseDouble(startTime.getText()) + 1));
 //	    	currentProject.getVideo().setEndFrameNum(currentProject.getVideo().convertSecondsToFrameNums(Double.parseDouble(endTime.getText())));
 	    	
-	    	currentProject.setChickNum(Integer.parseInt(chickNum.getText()));
-	    	System.err.println(Integer.parseInt(chickNum.getText()));
+	    	currentProject.setChickNum(5);
 	    	
 	    	stage.setTitle("Chick Tracker");
 	    	stage.setScene(scene);
