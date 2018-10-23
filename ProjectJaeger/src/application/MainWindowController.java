@@ -416,8 +416,6 @@ public class MainWindowController implements AutoTrackListener {
 			vidGc.drawImage(imgFrame, 0, 0, vidCanvas.getWidth(), vidCanvas.getHeight());
 //			drawPath(currentTrack);
 //			System.err.println("currentTrack :" + currentTrack);
-
-
 //			progressAutoTrack.setProgress(fractionComplete);
 			sliderVideoTime.setValue(frameNumber);
 			timeElapsed.setText(getCurrentTime(frameNumber));
