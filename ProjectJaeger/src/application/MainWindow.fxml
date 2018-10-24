@@ -164,6 +164,17 @@
                               <Font name="D-DIN" size="15.0" />
                            </font>
                         </MenuButton>
+                        <Button maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleAddChickBtn" prefHeight="45.0" prefWidth="67.0" text="Add+">
+                           <font>
+                              <Font name="D-DIN" size="15.0" />
+                           </font>
+                           <effect>
+                              <ColorAdjust brightness="-0.23" contrast="0.37" hue="-0.93" />
+                           </effect>
+                           <FlowPane.margin>
+                              <Insets top="15.0" />
+                           </FlowPane.margin>
+                        </Button>
                      </children>
                   </FlowPane>
 

@@ -2,6 +2,7 @@ package application;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.opencv.core.Mat;
 
@@ -71,7 +72,7 @@ public class MainWindowController implements AutoTrackListener {
 	private final String[] color = { "OrangeRed", "Gold", "LawnGreen", "DarkTurquoise", "Violet", "MediumSlateBlue" };
 	private ToggleGroup menuToggleGroup;
 	protected ProjectData currentProject;
-	private int currentTrack = 0;
+	private int chickIndex = 0;
 
 	@FXML
 	public void initialize() {
@@ -101,6 +102,8 @@ public class MainWindowController implements AutoTrackListener {
 		showFrameAt((int) (currentProject.getVideo().getStartFrameNum()));
 
 	}
+	
+	
 
 	public void initializeWithStage(Stage stage) {
 		this.stage = stage;
@@ -117,21 +120,48 @@ public class MainWindowController implements AutoTrackListener {
 
 	public void initializeMenu() {
 		
-		for (int num = 0; num < currentProject.getChickNum(); num++) {
-			RadioMenuItem item = new RadioMenuItem("Chick " + (num + 1));
-			item.setToggleGroup(menuToggleGroup);
-			item.setId("" + (num));
-			item.setOnAction(a -> {
-				currentTrack = Integer.parseInt(item.getId());
-				System.err.println(Integer.parseInt(item.getId()) + 1 + " selected");
-				System.err.println("currentTrack: " + currentTrack);
-				showFrameAt(currentProject.getVideo().getCurrentFrameNum());
-			});
-			currentProject.getTracks().add(new AnimalTrack(""+ num));
-			chickMenu.getItems().add(item);
-			chickMenu.getItems().get(num).setStyle("-fx-background-color: " + color[num] + ";");
+//		for (int num = 0; num < currentProject.getChickNum(); num++) {
+//			RadioMenuItem item = new RadioMenuItem("Chick " + (num + 1));
+//			item.setToggleGroup(menuToggleGroup);
+//			
+//			item.setOnAction(a -> {
+//				currentTrack = Integer.parseInt(item.getId());
+//				System.err.println(Integer.parseInt(item.getId()) + 1 + " selected");
+//				System.err.println("currentTrack: " + currentTrack);
+//				showFrameAt(currentProject.getVideo().getCurrentFrameNum());
+//			});
+//			currentProject.getTracks().add(new AnimalTrack(""+ num));
+//			chickMenu.getItems().add(item);
+//			
+//
+//		}
+	}
+	
+	@FXML
+	private void handleAddChickBtn() {
+		String suggestedInput = "Chick #" + (chickMenu.getItems().size() + 1);
+		TextInputDialog dialog = new TextInputDialog(suggestedInput);
+		dialog.setTitle("Add Chick:");
+		dialog.setHeaderText(null);
+		dialog.setContentText("Enter Chick Name:");
 
+		Optional<String> result = dialog.showAndWait();
+		if (result.isPresent()) {
+			String chickName = result.get();
+			currentProject.getTracks().add(new AnimalTrack(chickName));
+			RadioMenuItem newChickItem = new RadioMenuItem(chickName);
+			chickMenu.getItems().add(newChickItem);
+			newChickItem.setOnAction(a -> {
+				chickIndex = Integer.parseInt(newChickItem.getId());
+				System.err.println(Integer.parseInt(newChickItem.getId()) + 1 + " selected");
+				System.err.println("ChickIndx AddChickBtn: " + chickIndex);
+				showFrameAt(currentProject.getVideo().getCurrentFrameNum());
+				newChickItem.setToggleGroup(menuToggleGroup);
+			});
+			newChickItem.setId("" + (chickMenu.getItems().size() - 1));
+			newChickItem.setStyle("-fx-background-color: " + color[(chickMenu.getItems().size() - 1) % color.length]+ ";");
 		}
+		
 	}
 
 	@FXML
@@ -159,7 +189,7 @@ public class MainWindowController implements AutoTrackListener {
 		if (manualTrackToggled) {
 			startManualBtn.setText("Stop Manual Tracking");
 			pathCanvas.setOnMousePressed((me) -> {
-				currentProject.getTracks().get(currentTrack)
+				currentProject.getTracks().get(chickIndex)
 						.add(new TimePoint(me.getX(), me.getY(), currentProject.getVideo().getCurrentFrameNum() - 1));
 				showFrameAt((int) (sliderVideoTime.getValue() + frameAdd));
 				System.out.println("Mouse pressed: " + me.getX() + " , " + me.getY() + " at frame:"
@@ -208,6 +238,8 @@ public class MainWindowController implements AutoTrackListener {
 		    }
 	}
 	
+
+	
 	@FXML
 	public void handleSave() {
 		
@@ -224,13 +256,12 @@ public class MainWindowController implements AutoTrackListener {
 			currentProject.getVideo().setCurrentFrameNum(frameNum);
 			Image curFrame = UtilsForOpenCV.matToJavaFXImage(currentProject.getVideo().readFrame());
 			vidGc.drawImage(curFrame, 0, 0, vidCanvas.getWidth(), vidCanvas.getHeight());
-			drawPath(currentTrack);
-			System.err.println("currentTrack :" + currentTrack);
+			drawPath(chickIndex);
+			System.err.println("chickInd at ShowFrame :" + chickIndex);
 
 
 			// curFrameNumTextField.setText(String.format("%05d",frameNum));
 			timeElapsed.setText(getCurrentTime(frameNum));
-
 		} else {
 			videoPlayed = false;
 			timer.stop();
@@ -240,10 +271,9 @@ public class MainWindowController implements AutoTrackListener {
 	private void drawPath(int trackNum) {
 
 		pathGc.clearRect(0, 0, pathCanvas.getWidth(), pathCanvas.getHeight());
-		if (currentProject.getTracks().get(currentTrack).getTimePoints().size() != 0) {
+		if (currentProject.getTracks().get(chickIndex).getTimePoints().size() != 0) {
 			pathGc.setFill(Color.WHITE);
-			System.err.println(color[trackNum]+ "");
-			pathGc.setStroke(Color.web(color[trackNum] + "", 1));
+			pathGc.setStroke(Color.web(color[trackNum % color.length] + "", 1));
 			TimePoint prevTp = currentProject.getTracks().get(trackNum).getTimePoints().get(0);
 
 			for (TimePoint tp : currentProject.getTracks().get(trackNum).getTimePoints()) {
