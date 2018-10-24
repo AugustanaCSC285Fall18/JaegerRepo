@@ -37,7 +37,7 @@ public class SettingWindowController {
 	@FXML private Button setEndTimeBtn;
 	@FXML private Label statusTxt;
 	@FXML private TextField timeStepTxt;
-	
+	private GraphicsContext gc;
 	
 	@FXML private Button calibrateXbtn;
 	@FXML private Button calibrateYbtn;
@@ -157,6 +157,9 @@ public class SettingWindowController {
 	
 	@FXML
 	private void CalibrateX (MouseEvent event) {
+		// test point
+		gc = calCanvas.getGraphicsContext2D();		
+		gc.fillOval(event.getX()-5, event.getY() -5, 10, 10);
 		
 		if (firstCalibrationClickX < 0) { // first click during calibration
 			firstXValue = event.getX();
