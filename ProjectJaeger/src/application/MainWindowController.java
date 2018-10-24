@@ -39,9 +39,6 @@ import javafx.stage.Stage;
 import utils.UtilsForOpenCV;
 
 public class MainWindowController implements AutoTrackListener {
-
-<<<<<<< HEAD
-public class MainWindowController {
 	
 	@FXML   private Button saveBtn;
 	@FXML   private Button exportBtn;
@@ -57,22 +54,9 @@ public class MainWindowController {
 	@FXML 	private TextField pxPerSqrInchTextField;
 	@FXML	private Slider sliderVideoTime;
 	@FXML	private MenuButton chickMenu;
-	
-=======
-	@FXML private Button playBtn;
-	@FXML private Button startManualBtn;
 	@FXML private Button startAutoBtn;
-	@FXML private Button undoBtn;
-	@FXML private Canvas vidCanvas;
-	@FXML private Canvas pathCanvas;
 	@FXML private Label timeElapsed;
-	@FXML private TextField totalDistanceTextField;
-	@FXML private TextField totalDistanceToFrameTextField;
-	@FXML private TextField pxPerSqrInchTextField;
-	@FXML private Slider sliderVideoTime;
-	@FXML private MenuButton chickMenu;
 	@FXML private Button backBtn;
->>>>>>> 85718b96d8c67cf6bf71237429d196773df9cbdd
 
 	private Stage stage;
 	private AnimationTimer timer;
