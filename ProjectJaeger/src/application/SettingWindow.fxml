@@ -108,12 +108,12 @@
                               <Insets left="10.0" />
                            </GridPane.margin>
                         </Label>
-                        <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="135.0" text="Calibrating X" GridPane.columnIndex="1" GridPane.valignment="TOP">
+                        <Button fx:id="calibrateXbtn" mnemonicParsing="false" onAction="#handleCalibrationX" prefHeight="50.0" prefWidth="135.0" text="Calibrating X" GridPane.columnIndex="1" GridPane.valignment="TOP">
                            <GridPane.margin>
                               <Insets left="5.0" />
                            </GridPane.margin>
                         </Button>
-                        <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="135.0" text="Calibrating Y" GridPane.columnIndex="1" GridPane.valignment="TOP">
+                        <Button fx:id="calibrateYbtn" mnemonicParsing="false" onAction="#handleCalibrationY" prefHeight="50.0" prefWidth="135.0" text="Calibrating Y" GridPane.columnIndex="1" GridPane.valignment="TOP">
                            <GridPane.margin>
                               <Insets left="5.0" top="90.0" />
                            </GridPane.margin>
@@ -123,7 +123,7 @@
                               <Insets left="5.0" top="180.0" />
                            </GridPane.margin>
                         </Button>
-                        <TextField prefHeight="30.0" prefWidth="140.0" GridPane.columnIndex="1" GridPane.valignment="TOP">
+                        <TextField fx:id="measuredX" prefHeight="30.0" prefWidth="140.0" promptText="Measured Width" GridPane.columnIndex="1" GridPane.valignment="TOP">
                            <GridPane.margin>
                               <Insets left="5.0" right="5.0" top="50.0" />
                            </GridPane.margin>
@@ -136,7 +136,7 @@
                               <Insets bottom="50.0" />
                            </GridPane.margin>
                         </Label>
-                        <TextField layoutX="587.0" layoutY="60.0" prefHeight="30.0" prefWidth="104.0" GridPane.columnIndex="1" GridPane.valignment="TOP">
+                        <TextField fx:id="measuredY" layoutX="587.0" layoutY="60.0" prefHeight="30.0" prefWidth="104.0" promptText="Measured Height" GridPane.columnIndex="1" GridPane.valignment="TOP">
                            <GridPane.margin>
                               <Insets left="5.0" right="5.0" top="140.0" />
                            </GridPane.margin>
