@@ -68,7 +68,7 @@ public class MainWindowController implements AutoTrackListener {
 	private boolean manualTrackToggled;
 	private boolean videoPlayed;
 
-	private final String[] colour = { "OrangeRed", "Gold", "LawnGreen", "DarkTurquoise", "Violet", "MediumSlateBlue" };
+	private final String[] color = { "OrangeRed", "Gold", "LawnGreen", "DarkTurquoise", "Violet", "MediumSlateBlue" };
 	private ToggleGroup menuToggleGroup;
 	protected ProjectData currentProject;
 	private int currentTrack = 0;
@@ -129,7 +129,7 @@ public class MainWindowController implements AutoTrackListener {
 			});
 			currentProject.getTracks().add(new AnimalTrack(""+ num));
 			chickMenu.getItems().add(item);
-			chickMenu.getItems().get(num).setStyle("-fx-background-color: " + colour[num] + ";");
+			chickMenu.getItems().get(num).setStyle("-fx-background-color: " + color[num] + ";");
 
 		}
 	}
@@ -255,8 +255,8 @@ public class MainWindowController implements AutoTrackListener {
 		pathGc.clearRect(0, 0, pathCanvas.getWidth(), pathCanvas.getHeight());
 		if (currentProject.getTracks().get(currentTrack).getTimePoints().size() != 0) {
 			pathGc.setFill(Color.WHITE);
-			System.err.println(colour[trackNum]+ "");
-			pathGc.setStroke(Color.web(colour[trackNum] + "", 1));
+			System.err.println(color[trackNum]+ "");
+			pathGc.setStroke(Color.web(color[trackNum] + "", 1));
 			TimePoint prevTp = currentProject.getTracks().get(trackNum).getTimePoints().get(0);
 
 			for (TimePoint tp : currentProject.getTracks().get(trackNum).getTimePoints()) {
