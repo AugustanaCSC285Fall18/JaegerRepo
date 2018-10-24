@@ -26,7 +26,7 @@
       <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="42.0" prefWidth="719.0" BorderPane.alignment="CENTER">
 
          <center>
-            <MenuBar prefHeight="42.0" prefWidth="729.0" BorderPane.alignment="TOP_CENTER">
+            <MenuBar prefHeight="42.0" prefWidth="623.0" BorderPane.alignment="TOP_CENTER">
               <menus>
                 <Menu mnemonicParsing="false" text="File">
                   <items>
@@ -195,7 +195,10 @@
                         </FlowPane>
                      </children>
                   </VBox>
-                  <FlowPane minWidth="-Infinity" prefHeight="37.0" prefWidth="263.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <FlowPane minWidth="-Infinity" prefHeight="37.0" prefWidth="263.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <children>
+                        <Button fx:id="backBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleBackBtn" prefHeight="38.0" prefWidth="151.0" text="Back" />
+                     </children></FlowPane>
 
                </children>
             </GridPane>
