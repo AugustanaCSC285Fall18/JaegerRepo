@@ -11,17 +11,31 @@ public class ProjectData {
 	private Video video;
 	private List<AnimalTrack> tracks;
 	private List<AnimalTrack> unassignedSegments;
+	private int chickNum;
+	private int activeTrack;
+
+	private static ProjectData currentProject;
 	
+	public static void loadCurrentProject(String videoFilePath) throws FileNotFoundException {
+		currentProject = new ProjectData(videoFilePath);		
+	}
+	
+	public static ProjectData getCurrentProject() {
+		return currentProject;
+	}
+	
+
 	private static final String FILE_HEADER = "animalID, positions";
 	private static final String COMMA = ",";
 	private static final String NEW_LINE_SEPARATOR = "\n";
 	
-	public ProjectData(String videoFilePath) throws FileNotFoundException {
+
+	private ProjectData(String videoFilePath) throws FileNotFoundException {
 		video = new Video(videoFilePath);
 		tracks = new ArrayList<>();
 		unassignedSegments = new ArrayList<>();
 	}
-	
+
 	public Video getVideo() {
 		return video;
 	}
@@ -33,8 +47,21 @@ public class ProjectData {
 	public List<AnimalTrack> getUnassignedSegments() {
 		return unassignedSegments;
 	}
+	
+	public int getChickNum() {
+		return chickNum;
+	}
+	
+	public void setChickNum(int chickNum) {
+		this.chickNum = chickNum;
+	}
+	
+	public void setActiveTrack(int trackNum) {
+		this.activeTrack = trackNum;
+	}
 
-	public void exportCSVFile(File outFile) {
+
+	public void exportCSVFile(File outFile) throws FileNotFoundException{
 		FileWriter fileWriter = null;
 		try {
 			fileWriter = new FileWriter(outFile);
@@ -67,4 +94,7 @@ public class ProjectData {
 	public void saveProject(File projectFile) {
 		
 	}
+	
+
+	
 }

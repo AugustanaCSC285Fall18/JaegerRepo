@@ -1,1 +1,10 @@
-/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+.menu-item:focused {
+
+     
+	}
+	
+.menu-item {
+	-fx-text-fill: white;
+	-fx-font-weight : bold;
+
+}

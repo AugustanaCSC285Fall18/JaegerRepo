@@ -14,7 +14,6 @@ public class Video {
 	private int emptyFrameNum;
 	private int startFrameNum;
 	private int endFrameNum;
-	
 	private double xPixelsPerCm;
 	private double yPixelsPerCm;
 	private Rectangle arenaBounds; 
@@ -89,7 +88,7 @@ public class Video {
 	public double getXPixelsPerCm() {
 		return xPixelsPerCm;
 	}
-
+	
 	public void setXPixelsPerCm(double xPixelsPerCm) {
 		this.xPixelsPerCm = xPixelsPerCm;
 	}

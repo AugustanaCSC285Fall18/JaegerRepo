@@ -7,6 +7,7 @@ public class AnimalTrack {
 	private String animalID;
 	private List<TimePoint> positions;
 	
+	
 	public AnimalTrack(String id) {
 		this.animalID = id;
 		positions = new ArrayList<TimePoint>();

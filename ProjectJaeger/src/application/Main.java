@@ -13,8 +13,6 @@ import javafx.fxml.FXMLLoader;
 
 public class Main extends Application {
 
-	protected static ProjectData project;
-	
 	@Override
 	public void start(Stage primaryStage) {
 		try {

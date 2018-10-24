@@ -11,7 +11,8 @@ class ProjectDataTest {
 
 	
 	ProjectData fakeDataToTest() throws FileNotFoundException {
-		ProjectData test = new ProjectData("");
+		ProjectData.loadCurrentProject("testVideos/CircleTest1_no_overlap.mp4");
+		ProjectData test = ProjectData.getCurrentProject();
 		
 		AnimalTrack trackNumOne = new AnimalTrack("chickenOne");
 		AnimalTrack trackNumTwo = new AnimalTrack("chickenTwo");
