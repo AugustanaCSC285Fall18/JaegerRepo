@@ -27,6 +27,8 @@ import utils.UtilsForOpenCV;
 
 public class MainWindowController {
 	
+	@FXML   private Button saveBtn;
+	@FXML   private Button exportBtn;
 	@FXML   private Button calibrationBtn;
 	@FXML	private Button playBtn;
 	@FXML	private Button startManualBtn;
@@ -164,6 +166,17 @@ public class MainWindowController {
 		}else {
 			pathCanvas.setOnMousePressed(event -> {handleClickDuringVerticalCalibration(event);});
 		}
+	}
+	
+	@FXML
+	public void handleSave() {
+		
+	}
+	
+	@FXML
+	public void handleExport() {
+		//I have code in the DataProject class to export a csv file, not sure if this 
+		//method is needed or if i should just do it in the DataProject class
 	}
 	
 	private void handleClickDuringHorizontalCalibration(MouseEvent event) {
