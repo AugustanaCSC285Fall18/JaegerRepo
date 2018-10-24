@@ -9,7 +9,10 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Accordion;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -29,6 +32,11 @@ public class SettingWindowController {
 	@FXML private Slider sliderVideoTime;
 	@FXML private Canvas vidCanvas;
 	@FXML private Canvas calCanvas;
+	@FXML private Button setStartTimeBtn;
+	@FXML private Button setEndTimeBtn;
+	@FXML private Label statusTxt;
+	@FXML private TextField timeStepTxt;
+	
 	
 	
 	@FXML
@@ -53,6 +61,27 @@ public class SettingWindowController {
 	}
 	
 	@FXML
+	public void handleStartTimeBtn() {
+		int curFrame = (int) sliderVideoTime.getValue();
+		currentProject.getVideo().setStartFrameNum((curFrame));
+		statusTxt.setText("Start time is set at " + df.format(currentProject.getVideo().convertFrameNumsToSeconds(curFrame)) + " secs");
+	}
+	
+	@FXML
+	public void handleEndTimeBtn() {
+		int curFrame = (int) sliderVideoTime.getValue();
+		currentProject.getVideo().setEndFrameNum((int) sliderVideoTime.getValue());
+		statusTxt.setText("End time is set at " + df.format(currentProject.getVideo().convertFrameNumsToSeconds(curFrame)) + " secs");
+	}
+	
+	// fix this to secs later
+	@FXML
+	public void handleSetTimeStep() {
+		currentProject.getVideo().setTimeStep(Integer.parseInt(timeStepTxt.getText()));
+		statusTxt.setText("Time step is set to " + currentProject.getVideo().getTimeStep()); 
+	}
+	
+	@FXML
 	public void handleStartTrackingButton() {
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("MainWindow.fxml"));
@@ -67,7 +96,7 @@ public class SettingWindowController {
 	    	
 	//    	currentProject.setChickNum(Integer.parseInt(chickNum.getText()));
 	//    	System.err.println(Integer.parseInt(chickNum.getText()));
-	//    	
+	
 	//    	stage.setTitle("Chick Tracker");
 	    	stage.setScene(scene);
 	    	controller.initializeWithStage(stage);
@@ -78,6 +107,7 @@ public class SettingWindowController {
 		}
 	}
 	
+
 	public void showFrameAt(int frameNum) {
 		if (frameNum <= currentProject.getVideo().getEndFrameNum()) {
 			currentProject.getVideo().setCurrentFrameNum(frameNum);

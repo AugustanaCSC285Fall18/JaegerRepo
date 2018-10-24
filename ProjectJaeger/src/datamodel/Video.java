@@ -17,6 +17,7 @@ public class Video {
 	private double xPixelsPerCm;
 	private double yPixelsPerCm;
 	private Rectangle arenaBounds; 
+	private int timeStep;
 	
 		
 	public Video(String filePath) throws FileNotFoundException {
@@ -69,6 +70,14 @@ public class Video {
 		this.emptyFrameNum = emptyFrameNum;
 	}
 		
+	public int getTimeStep () {
+		return timeStep;
+	}
+	
+	public void setTimeStep(int timeStep) {
+		this.timeStep = timeStep;
+	}
+	
 	public int getStartFrameNum() {
 		return startFrameNum;
 	}

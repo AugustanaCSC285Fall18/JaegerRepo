@@ -45,33 +45,36 @@
                               <Insets left="10.0" />
                            </GridPane.margin>
                         </Label>
-                        <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="135.0" text="Set Start Time" GridPane.columnIndex="1" GridPane.valignment="TOP">
+                        <Button fx:id="setStartTimeBtn" mnemonicParsing="false" onAction="#handleStartTimeBtn" prefHeight="50.0" prefWidth="135.0" text="Set Start Time" GridPane.columnIndex="1" GridPane.valignment="TOP">
                            <GridPane.margin>
                               <Insets left="5.0" />
                            </GridPane.margin>
                         </Button>
-                        <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="135.0" text="Set End Time" GridPane.columnIndex="1" GridPane.valignment="TOP">
+                        <Button fx:id="setEndTimeBtn" mnemonicParsing="false" onAction="#handleEndTimeBtn" prefHeight="50.0" prefWidth="135.0" text="Set End Time" GridPane.columnIndex="1" GridPane.valignment="TOP">
                            <GridPane.margin>
                               <Insets left="5.0" top="60.0" />
                            </GridPane.margin>
                         </Button>
-                        <Button layoutX="514.0" layoutY="70.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="135.0" text="Set Time Step" GridPane.columnIndex="1" GridPane.valignment="TOP">
+                        <Button layoutX="514.0" layoutY="70.0" mnemonicParsing="false" onAction="#handleSetTimeStep" prefHeight="50.0" prefWidth="135.0" text="Set Time Step" GridPane.columnIndex="1" GridPane.valignment="TOP">
                            <GridPane.margin>
                               <Insets left="5.0" top="120.0" />
                            </GridPane.margin>
                         </Button>
-                        <TextField prefHeight="29.0" prefWidth="48.0" promptText="Enter Time Step here" GridPane.columnIndex="1" GridPane.rowSpan="2" GridPane.valignment="TOP">
+                        <TextField fx:id="timeStepTxt" prefHeight="29.0" prefWidth="48.0" promptText="Enter Time Step here" GridPane.columnIndex="1" GridPane.rowSpan="2" GridPane.valignment="TOP">
                            <GridPane.margin>
                               <Insets left="5.0" right="5.0" top="170.0" />
                            </GridPane.margin>
                         </TextField>
-                        <Label prefHeight="23.0" prefWidth="140.0" text="Status" GridPane.columnIndex="1" GridPane.valignment="BOTTOM" GridPane.vgrow="ALWAYS">
+                        <Label fx:id="statusTxt" prefHeight="23.0" prefWidth="146.0" text="Status" GridPane.columnIndex="1" GridPane.valignment="BOTTOM" GridPane.vgrow="ALWAYS">
                            <GridPane.margin>
                               <Insets bottom="50.0" />
                            </GridPane.margin>
                            <padding>
                               <Insets left="10.0" />
                            </padding>
+                           <font>
+                              <Font size="11.0" />
+                           </font>
                         </Label>
                      </children>
                   </GridPane>
