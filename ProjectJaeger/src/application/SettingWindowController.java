@@ -14,6 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import utils.UtilsForOpenCV;
@@ -37,6 +38,22 @@ public class SettingWindowController {
 	@FXML private Label statusTxt;
 	@FXML private TextField timeStepTxt;
 	
+	
+	@FXML private Button calibrateXbtn;
+	@FXML private Button calibrateYbtn;
+	@FXML private TextField measuredX;
+	@FXML private TextField measuredY;
+	
+	private double firstCalibrationClickX = -1;
+	private double firstCalibrationClickY = -1;
+	private double firstXValue;
+	private double firstYValue;
+	private double pixelDistanceX;
+	private double pixelDistanceY;
+	private double measuredDistanceX;
+	private double measuredDistanceY;
+	private double pixelPerUnitX;
+	private double pixelPerUnitY;
 	
 	
 	@FXML
@@ -118,6 +135,74 @@ public class SettingWindowController {
 			// curFrameNumTextField.setText(String.format("%05d",frameNum));
 
 		} 
+	}
+	
+	
+	@FXML
+	public void handleCalibrationX() {
+		calibrateXbtn.setText("First Click");
+			calCanvas.setOnMousePressed(event -> {
+				CalibrateX(event);
+			});
+	}
+	
+	@FXML
+	public void handleCalibrationY() {
+		calibrateYbtn.setText("First Click");
+			calCanvas.setOnMousePressed(event -> {
+				CalibrateY(event);
+			});
+			
+	}
+	
+	@FXML
+	private void CalibrateX (MouseEvent event) {
+		
+		if (firstCalibrationClickX < 0) { // first click during calibration
+			firstXValue = event.getX();
+			firstCalibrationClickX++;
+			
+			System.out.println("horizontal1: " + firstXValue);
+			calibrateXbtn.setText("Second Click");
+		} else { // second click during calibration
+			pixelDistanceX = Math.abs(event.getX() - firstXValue);
+			System.out.println("horizontal2: " + event.getX());
+			System.out.println("distanceX: " + pixelDistanceX);
+
+			measuredDistanceX=Integer.parseInt(measuredX.getText()); //need measured distance
+			pixelPerUnitX = pixelDistanceX / measuredDistanceX;
+			
+			System.out.println(pixelDistanceX);
+			System.out.println(measuredDistanceX);
+			System.out.println(pixelPerUnitX);
+			calibrateXbtn.setText("Complete");
+		}
+		
+
+	}
+	
+	@FXML
+	private void CalibrateY(MouseEvent event) {
+		
+		if (firstCalibrationClickY < 0) { // first click during calibration
+			firstYValue = event.getY();
+			firstCalibrationClickY++;
+			
+			System.out.println("Vertical1: " + firstYValue);
+			calibrateYbtn.setText("Second Click");
+		} else { // second click during calibration
+			pixelDistanceY = Math.abs(event.getY() - firstYValue);
+			System.out.println("Vertical2: " + event.getY());
+			System.out.println("distanceY: " + pixelDistanceY);
+
+			measuredDistanceY=Integer.parseInt(measuredY.getText());
+			pixelPerUnitY = pixelDistanceY / measuredDistanceY;
+			
+			System.out.println(pixelDistanceY);
+			System.out.println(measuredDistanceY);
+			System.out.println(pixelPerUnitY);
+			calibrateYbtn.setText("Complete");
+		}
 	}
 
 }

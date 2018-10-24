@@ -39,20 +39,23 @@ import javafx.stage.Stage;
 import utils.UtilsForOpenCV;
 
 public class MainWindowController implements AutoTrackListener {
-
-	@FXML private Button calibrationBtn;
-	@FXML private Button playBtn;
-	@FXML private Button startManualBtn;
+	
+	@FXML   private Button saveBtn;
+	@FXML   private Button exportBtn;
+	@FXML   private Button calibrationBtn;
+	@FXML	private Button playBtn;
+	@FXML	private Button startManualBtn;
+	@FXML	private Button undoBtn;
+	@FXML 	private Canvas vidCanvas;
+	@FXML 	private Canvas pathCanvas;
+	@FXML 	private TextField curFrameNumTextField;
+	@FXML 	private TextField totalDistanceTextField;
+	@FXML 	private TextField totalDistanceToFrameTextField;
+	@FXML 	private TextField pxPerSqrInchTextField;
+	@FXML	private Slider sliderVideoTime;
+	@FXML	private MenuButton chickMenu;
 	@FXML private Button startAutoBtn;
-	@FXML private Button undoBtn;
-	@FXML private Canvas vidCanvas;
-	@FXML private Canvas pathCanvas;
 	@FXML private Label timeElapsed;
-	@FXML private TextField totalDistanceTextField;
-	@FXML private TextField totalDistanceToFrameTextField;
-	@FXML private TextField pxPerSqrInchTextField;
-	@FXML private Slider sliderVideoTime;
-	@FXML private MenuButton chickMenu;
 	@FXML private Button backBtn;
 
 	private Stage stage;
@@ -65,17 +68,7 @@ public class MainWindowController implements AutoTrackListener {
 	private boolean manualTrackToggled;
 	private boolean videoPlayed;
 
-	private double firstCalibrationClickX = -1;
-	private double firstCalibrationClickY = -1;
-	private boolean isHorizontal = true;
-	private double pixelDistanceX;
-	private double pixelDistanceY;
-	private double measuredDistanceX;
-	private double measuredDistanceY;
-	private double pixelPerUnitX;
-	private double pixelPerUnitY;
-
-	private final String[] colour = { "OrangeRed", "Gold", "LawnGreen", "DarkTurquoise", "Violet", "MediumSlateBlue" };
+	private final String[] color = { "OrangeRed", "Gold", "LawnGreen", "DarkTurquoise", "Violet", "MediumSlateBlue" };
 	private ToggleGroup menuToggleGroup;
 	protected ProjectData currentProject;
 	private int currentTrack = 0;
@@ -136,7 +129,7 @@ public class MainWindowController implements AutoTrackListener {
 			});
 			currentProject.getTracks().add(new AnimalTrack(""+ num));
 			chickMenu.getItems().add(item);
-			chickMenu.getItems().get(num).setStyle("-fx-background-color: " + colour[num] + ";");
+			chickMenu.getItems().get(num).setStyle("-fx-background-color: " + color[num] + ";");
 
 		}
 	}
@@ -197,77 +190,6 @@ public class MainWindowController implements AutoTrackListener {
 	}
 
 	@FXML
-	public void handleCalibration() {
-		if (isHorizontal == true) {
-			pathCanvas.setOnMousePressed(event -> {
-				handleClickDuringHorizontalCalibration(event);
-			});
-			calibrationBtn.setText("Calibrating X");
-		} else {
-			pathCanvas.setOnMousePressed(event -> {
-				handleClickDuringVerticalCalibration(event);
-			});
-			calibrationBtn.setText("Calibrating Y");
-		}
-	}
-
-	@FXML
-	private void handleClickDuringHorizontalCalibration(MouseEvent event) {
-		if (firstCalibrationClickX < 0) { // first click during calibration
-			firstCalibrationClickX = event.getX();
-			firstCalibrationClickX++;
-			System.out.println("horizontal1: " + firstCalibrationClickX);
-		} else { // second click during calibration
-			pixelDistanceX = Math.abs(event.getX() - firstCalibrationClickX);
-			System.out.println("horizontal2: " + event.getX());
-			System.out.println("distanceX: " + pixelDistanceX);
-			isHorizontal = false;
-
-			calibrationBtn.setText("Click to calibrate Y");
-
-			TextInputDialog dialog = new TextInputDialog("");
-			dialog.setTitle("Horizontal Calibration");
-			dialog.setContentText("Enter measured length (cm): ");
-			measuredDistanceX = dialog.getX();
-
-			pixelPerUnitX = pixelDistanceX / measuredDistanceX;
-			System.out.println("pixelDistanceX");
-			System.out.println("measuredDistanceX");
-			System.out.println("pixelPerUnitX");
-
-		}
-
-	}
-	
-	@FXML
-	private void handleClickDuringVerticalCalibration(MouseEvent event) {
-		if (firstCalibrationClickY < 0) { // first click during calibration
-			firstCalibrationClickY = event.getY();
-			firstCalibrationClickY++;
-			System.out.println("vertical1: " + firstCalibrationClickY);
-		} else { // second click during calibration
-			pixelDistanceY = Math.abs(event.getY() - firstCalibrationClickY);
-			System.out.println("vertical2: " + event.getY());
-			System.out.println("distanceY: " + pixelDistanceY);
-
-			calibrationBtn.setText("Calibrated");
-			calibrationBtn.setDisable(true);
-
-			TextInputDialog dialog = new TextInputDialog("");
-			dialog.setContentText("Enter measured length (cm): ");
-			measuredDistanceY = dialog.getY();
-
-			pixelPerUnitY = pixelDistanceY / measuredDistanceY;
-			System.out.println("pixelDistanceY");
-			System.out.println("measuredDistanceY");
-			System.out.println("pixelPerUnitY");
-
-			pathCanvas.setOnMousePressed(null);
-		}
-
-	}
-
-	@FXML
 	public void handleBackBtn() {
 		 try{
 		    	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("StartWindow.fxml"));
@@ -286,7 +208,17 @@ public class MainWindowController implements AutoTrackListener {
 		    }
 	}
 	
+	@FXML
+	public void handleSave() {
+		
+	}
 	
+	@FXML
+	public void handleExport() {
+		//I have code in the DataProject class to export a csv file, not sure if this 
+		//method is needed or if i should just do it in the DataProject class
+	}
+
 	public void showFrameAt(int frameNum) {
 		if (frameNum <= currentProject.getVideo().getEndFrameNum()) {
 			currentProject.getVideo().setCurrentFrameNum(frameNum);
@@ -310,8 +242,8 @@ public class MainWindowController implements AutoTrackListener {
 		pathGc.clearRect(0, 0, pathCanvas.getWidth(), pathCanvas.getHeight());
 		if (currentProject.getTracks().get(currentTrack).getTimePoints().size() != 0) {
 			pathGc.setFill(Color.WHITE);
-			System.err.println(colour[trackNum]+ "");
-			pathGc.setStroke(Color.web(colour[trackNum] + "", 1));
+			System.err.println(color[trackNum]+ "");
+			pathGc.setStroke(Color.web(color[trackNum] + "", 1));
 			TimePoint prevTp = currentProject.getTracks().get(trackNum).getTimePoints().get(0);
 
 			for (TimePoint tp : currentProject.getTracks().get(trackNum).getTimePoints()) {

@@ -2,7 +2,8 @@ package datamodel;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.PrintWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +24,12 @@ public class ProjectData {
 		return currentProject;
 	}
 	
+
+	private static final String FILE_HEADER = "animalID, positions";
+	private static final String COMMA = ",";
+	private static final String NEW_LINE_SEPARATOR = "\n";
+	
+
 	private ProjectData(String videoFilePath) throws FileNotFoundException {
 		video = new Video(videoFilePath);
 		tracks = new ArrayList<>();
@@ -53,11 +60,35 @@ public class ProjectData {
 		this.activeTrack = trackNum;
 	}
 
-	public void exportCSVFile(File outFile) throws FileNotFoundException {
-		PrintWriter pw = new PrintWriter(new File("test.csv"));
-		StringBuilder content = new StringBuilder();
-		content.append("Chick ID");
-		
+
+	public void exportCSVFile(File outFile) throws FileNotFoundException{
+		FileWriter fileWriter = null;
+		try {
+			fileWriter = new FileWriter(outFile);
+			fileWriter.append(FILE_HEADER.toString());
+			fileWriter.append(NEW_LINE_SEPARATOR);
+			
+//			for(AnimalTrack animalTrack : positions) {
+//				fileWriter.append(String.valueOf(animalTrack.getAnimalID()));
+//				fileWriter.append(COMMA);
+//				fileWriter.append(String.valueOf(animalTrack.getTimePoint());
+//			}
+			
+			System.out.println("CSV file was created successfully.");
+			
+		} catch(Exception e) {
+			System.out.println("Error in CsvFileWriter");
+			e.printStackTrace();
+		} finally {
+			
+			try {
+				fileWriter.flush();
+				fileWriter.close();
+			} catch(IOException e) {
+				System.out.println("Error while flushing/closing fileWriter.");
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	public void saveProject(File projectFile) {
