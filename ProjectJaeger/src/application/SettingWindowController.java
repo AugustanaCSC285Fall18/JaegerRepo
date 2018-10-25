@@ -68,7 +68,6 @@ public class SettingWindowController {
 		vidCanvas.setHeight(vidCanvas.getWidth() * curFrame.getHeight() / curFrame.getWidth());
 		
 		showFrameAt((int) (currentProject.getVideo().getStartFrameNum()));
-		sliderVideoTime.setMax(currentProject.getVideo().getEndFrameNum());
 		sliderVideoTime.valueProperty().addListener((obs, oldV, newV) -> showFrameAt(newV.intValue()));
 	}
 
@@ -80,16 +79,14 @@ public class SettingWindowController {
 	
 	@FXML
 	public void handleStartTimeBtn() {
-		int curFrame = (int) sliderVideoTime.getValue();
-		currentProject.getVideo().setStartFrameNum((curFrame));
-		statusTxt.setText("Start time is set at " + df.format(currentProject.getVideo().convertFrameNumsToSeconds(curFrame)) + " secs");
+		currentProject.getVideo().setStartFrameNum(currentProject.getVideo().getCurrentFrameNum());
+		statusTxt.setText("Start time is set at " + currentProject.getVideo().getCurrentTime());
 	}
 	
 	@FXML
 	public void handleEndTimeBtn() {
-		int curFrame = (int) sliderVideoTime.getValue();
-		currentProject.getVideo().setEndFrameNum((int) sliderVideoTime.getValue());
-		statusTxt.setText("End time is set at " + df.format(currentProject.getVideo().convertFrameNumsToSeconds(curFrame)) + " secs");
+		currentProject.getVideo().setEndFrameNum(currentProject.getVideo().getCurrentFrameNum());
+		statusTxt.setText("End time is set at " + currentProject.getVideo().getCurrentTime());
 	}
 	
 	// fix this to secs later

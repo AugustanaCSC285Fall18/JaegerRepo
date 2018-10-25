@@ -41,14 +41,14 @@ public class Video {
 			throw new FileNotFoundException("Unable to open video file: " + filePath);
 		}
 	}
-	public void setCurrentFrameNum(int seekFrame) {
+	public synchronized void setCurrentFrameNum(int seekFrame) {
 		vidCap.set(Videoio.CV_CAP_PROP_POS_FRAMES, (double) seekFrame);
 	}
-	public int getCurrentFrameNum() {
+	public synchronized int getCurrentFrameNum() {
 		return (int) vidCap.get(Videoio.CV_CAP_PROP_POS_FRAMES);
 	}
 	
-	public Mat readFrame() {
+	public synchronized Mat readFrame() {
 		Mat frame = new Mat();
 		vidCap.read(frame);
 		return frame;
