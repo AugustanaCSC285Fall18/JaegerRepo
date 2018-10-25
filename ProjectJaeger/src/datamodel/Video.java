@@ -35,7 +35,12 @@ public class Video {
 		int frameHeight = (int)vidCap.get(Videoio.CAP_PROP_FRAME_HEIGHT);
 		this.arenaBounds = new Rectangle(0,0,frameWidth,frameHeight);
 	}
-	
+	synchronized void connectVideoCapture() throws FileNotFoundException {
+		this.vidCap = new VideoCapture(filePath);
+		if (!vidCap.isOpened()) {
+			throw new FileNotFoundException("Unable to open video file: " + filePath);
+		}
+	}
 	public void setCurrentFrameNum(int seekFrame) {
 		vidCap.set(Videoio.CV_CAP_PROP_POS_FRAMES, (double) seekFrame);
 	}

@@ -238,8 +238,9 @@ public class MainWindowController implements AutoTrackListener {
 	
 	@FXML
 	public void handleSave() {
-		
+		//currentProject.saveToFile();
 	}
+	
 	
 	@FXML
 	public void handleExport() {
