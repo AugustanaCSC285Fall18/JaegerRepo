@@ -134,5 +134,19 @@ public class Video {
 	public int convertSecondsToFrameNums(double numSecs) {
 		return (int) Math.round(numSecs * getFrameRate());
 	}
+	
+	public String getCurrentTime() {
+		int frameRate = (int) getFrameRate();
+		int framePerMin = (int) frameRate * 60;
+		int framePerHour = (int) framePerMin * 60;
+
+		String hours = String.format("%02d", getCurrentFrameNum() / framePerHour);
+		String minutes = String.format("%02d", getCurrentFrameNum() / framePerMin - Integer.parseInt(hours) * 60);
+		String seconds = String.format("%02d",
+				getCurrentFrameNum() / frameRate - Integer.parseInt(hours) * 3600 - Integer.parseInt(minutes) * 60);
+
+		String time = hours + ":" + minutes + ":" + seconds;
+		return time;
+	}
 
 }

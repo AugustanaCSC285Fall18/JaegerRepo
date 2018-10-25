@@ -65,7 +65,6 @@ public class ProjectData {
 		this.activeTrack = trackNum;
 	}
 
-
 	public void exportCSVFile(File outFile) throws FileNotFoundException{
 		FileWriter fileWriter = null;
 		try {

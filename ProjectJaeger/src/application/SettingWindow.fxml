@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Accordion?>
@@ -14,7 +20,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<Accordion maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="583.0" prefWidth="761.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SettingWindowController">
+<Accordion maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="583.0" prefWidth="761.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SettingWindowController">
   <panes>
     <TitledPane prefHeight="388.0" prefWidth="682.0" text="Step 1: Time Cropping">
       <content>
@@ -36,7 +42,7 @@
                            </GridPane.margin>
                         </Canvas>
                         <Slider fx:id="sliderVideoTime" prefHeight="19.0" prefWidth="499.0" GridPane.rowIndex="1" />
-                        <Label contentDisplay="CENTER" prefHeight="25.0" prefWidth="76.0" text="00:00:00" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <Label fx:id="timeLabel" contentDisplay="CENTER" prefHeight="25.0" prefWidth="76.0" text="00:00:00" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <font>
                               <Font size="17.0" />
                            </font>

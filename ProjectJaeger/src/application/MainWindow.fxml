@@ -29,70 +29,28 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="839.0" prefWidth="761.0" style="-fx-background-color: #e5e5e5;" styleClass="application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainWindowController">
-   <top>
-      <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="42.0" prefWidth="719.0" BorderPane.alignment="CENTER">
-
-         <center>
-            <MenuBar prefHeight="42.0" prefWidth="623.0" BorderPane.alignment="TOP_CENTER">
-              <menus>
-                <Menu mnemonicParsing="false" text="File">
-                  <items>
-                    <MenuItem mnemonicParsing="false" onAction="#handleSave" text="Save" />
-                        <MenuItem mnemonicParsing="false" onAction="#handleExport" text="Export to.." />
-                  </items>
-                </Menu>
-                <Menu mnemonicParsing="false" text="Edit">
-                  <items>
-                    <MenuItem mnemonicParsing="false" text="Delete" />
-                  </items>
-                </Menu>
-                <Menu mnemonicParsing="false" text="Help">
-                  <items>
-                    <MenuItem mnemonicParsing="false" text="About" />
-                  </items>
-                </Menu>
-              </menus>
-               <padding>
-                  <Insets top="5.0" />
-               </padding>
-            </MenuBar>
-         </center>
-         <children>
-   
-               <Button fx:id="backBtn" mnemonicParsing="false" onAction="#handleBackBtn" prefHeight="33.0" prefWidth="78.0" text="Back" BorderPane.alignment="TOP_LEFT">
-                  <BorderPane.margin>
-                     <Insets />
-                  </BorderPane.margin>
-               </Button>
-         </children>
-      </BorderPane>
-   </top>
+<BorderPane prefHeight="807.0" prefWidth="1031.0" style="-fx-background-color: #e5e5e5;" styleClass="application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainWindowController">
    <center>
-      <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="767.0" prefWidth="705.0" BorderPane.alignment="CENTER">
+      <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="567.0" prefWidth="705.0" BorderPane.alignment="TOP_CENTER">
          <children>
-            <GridPane prefHeight="724.0" prefWidth="705.0">
+            <GridPane prefHeight="532.0" prefWidth="705.0">
               <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="581.0" minWidth="10.0" prefWidth="457.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="360.0" minWidth="10.0" prefWidth="166.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="360.0" minWidth="10.0" prefWidth="111.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="705.0" minWidth="10.0" prefWidth="705.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="360.0" minWidth="0.0" prefWidth="0.0" />
               </columnConstraints>
               <rowConstraints>
-                <RowConstraints maxHeight="518.0" minHeight="-Infinity" prefHeight="518.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="109.0" minHeight="0.0" prefHeight="87.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="82.0" minHeight="10.0" prefHeight="53.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="66.0" minHeight="10.0" prefHeight="42.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="518.0" minHeight="-Infinity" prefHeight="475.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="149.0" minHeight="0.0" prefHeight="57.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <StackPane alignment="TOP_LEFT" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="518.0" prefWidth="704.0">
+                  <StackPane alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="448.0" prefWidth="705.0">
                      <children>
-                        <ImageView fx:id="videoView" fitHeight="530.0" fitWidth="703.0" pickOnBounds="true" preserveRatio="true" />
-                        <Canvas fx:id="vidCanvas" height="530.0" width="704.0" StackPane.alignment="TOP_LEFT">
+                        <Canvas fx:id="vidCanvas" height="409.0" width="704.0" StackPane.alignment="TOP_LEFT">
                            <StackPane.margin>
                               <Insets bottom="10.0" />
                            </StackPane.margin>
                         </Canvas>
-                        <Canvas fx:id="pathCanvas" height="530.0" width="704.0" StackPane.alignment="TOP_LEFT">
+                        <Canvas fx:id="pathCanvas" height="424.0" width="704.0" StackPane.alignment="TOP_LEFT">
                            <StackPane.margin>
                               <Insets bottom="10.0" />
                            </StackPane.margin>
@@ -102,7 +60,7 @@
                         <Insets bottom="20.0" top="20.0" />
                      </GridPane.margin>
                   </StackPane>
-                  <FlowPane prefHeight="46.0" prefWidth="456.0" GridPane.rowIndex="1">
+                  <FlowPane alignment="CENTER" prefHeight="117.0" prefWidth="705.0" prefWrapLength="0.0" GridPane.rowIndex="1">
                      <children>
                         <Button fx:id="playBtn" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handlePlay" prefHeight="25.0" prefWidth="67.0" text="Play">
                            <FlowPane.margin>
@@ -115,118 +73,186 @@
                               <ColorAdjust brightness="0.09" contrast="1.0" />
                            </effect>
                         </Button>
-                        <Slider fx:id="sliderVideoTime" prefHeight="37.0" prefWidth="306.0" />
-                        <Label fx:id="timeElapsed" prefHeight="26.0" prefWidth="172.0" text="Time Elapsed :" wrapText="true">
+                        <Slider fx:id="sliderVideoTime" prefHeight="37.0" prefWidth="483.0" />
+                        <Label fx:id="timeElapsed" prefHeight="26.0" prefWidth="71.0" text="00:00:00" wrapText="true">
                            <font>
                               <Font name="D-DIN" size="15.0" />
                            </font>
+                           <padding>
+                              <Insets left="15.0" />
+                           </padding>
                         </Label>
                      </children>
                   </FlowPane>
-                  <FlowPane prefHeight="91.0" prefWidth="447.0" GridPane.rowIndex="2">
-                     <children>
-                        <Button fx:id="startManualBtn" mnemonicParsing="false" onAction="#handleManualTrack" prefHeight="47.0" prefWidth="181.0" text="Start Manual Tracking">
-                           <FlowPane.margin>
-                              <Insets top="10.0" />
-                           </FlowPane.margin>
-                           <effect>
-                              <ColorAdjust brightness="-0.23" contrast="0.37" hue="-0.93" />
-                           </effect>
-                           <font>
-                              <Font size="15.0" />
-                           </font></Button>
-                        <Button fx:id="startAutoBtn" alignment="CENTER" mnemonicParsing="false" onAction="#handleAutoTrack" prefHeight="46.0" prefWidth="170.0" text="Start Auto Tracking" textOverrun="CLIP">
-                           <FlowPane.margin>
-                              <Insets left="25.0" top="10.0" />
-                           </FlowPane.margin>
-                           <effect>
-                              <ColorAdjust brightness="-0.23" contrast="0.37" hue="-0.93" />
-                           </effect>
-                           <font>
-                              <Font name="D-DIN" size="15.0" />
-                           </font>
-                        </Button>
-                     </children>
-                  </FlowPane>
-                  <FlowPane prefHeight="73.0" prefWidth="549.0" GridPane.rowIndex="3">
-                     <children>
-                        <Button fx:id="undoBtn" mnemonicParsing="false" onAction="#handleUndo" prefHeight="45.0" prefWidth="182.0" text="Undo Off">
-                           <FlowPane.margin>
-                              <Insets top="15.0" />
-                           </FlowPane.margin>
-                           <effect>
-                              <ColorAdjust brightness="-0.23" contrast="0.37" hue="-0.93" />
-                           </effect>
-                           <font>
-                              <Font name="D-DIN" size="15.0" />
-                           </font></Button>
-                        <MenuButton fx:id="chickMenu" alignment="CENTER" mnemonicParsing="false" prefHeight="45.0" prefWidth="170.0" text="Chick List">
-                          <items>
-
-                          </items>
-                           <FlowPane.margin>
-                              <Insets left="25.0" top="15.0" />
-                           </FlowPane.margin>
-                           <effect>
-                              <ColorAdjust brightness="-0.23" contrast="0.37" hue="-0.93" />
-                           </effect>
-                           <font>
-                              <Font name="D-DIN" size="15.0" />
-                           </font>
-                        </MenuButton>
-                        <Button maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleAddChickBtn" prefHeight="45.0" prefWidth="67.0" text="Add+">
-                           <font>
-                              <Font name="D-DIN" size="15.0" />
-                           </font>
-                           <effect>
-                              <ColorAdjust brightness="-0.23" contrast="0.37" hue="-0.93" />
-                           </effect>
-                           <FlowPane.margin>
-                              <Insets top="15.0" />
-                           </FlowPane.margin>
-                        </Button>
-                     </children>
-                  </FlowPane>
-
-                  <VBox minHeight="-Infinity" prefHeight="41.0" prefWidth="263.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.rowSpan="3">
-                     <children>
-                        <FlowPane minWidth="-Infinity" prefHeight="37.0" prefWidth="263.0">
-                           <children>
-                              <Label text="Total Distance:">
-                                 <FlowPane.margin>
-                                    <Insets right="80.0" />
-                                 </FlowPane.margin>
-                              </Label>
-                              <TextField fx:id="totalDistanceTextField" editable="false" prefWidth="100.0">
-                                 <FlowPane.margin>
-                                    <Insets />
-                                 </FlowPane.margin>
-                              </TextField>
-                           </children>
-                        </FlowPane>
-                        <FlowPane minWidth="-Infinity" prefHeight="37.0" prefWidth="263.0">
-                           <children>
-                              <Label text="Total Distance to this Frame:">
-                                 <FlowPane.margin>
-                                    <Insets right="7.0" />
-                                 </FlowPane.margin>
-                              </Label>
-                              <TextField fx:id="totalDistanceToFrameTextField" editable="false" prefWidth="100.0" />
-                           </children>
-                        </FlowPane>
-                     </children>
-                  </VBox>
-                  <FlowPane minWidth="-Infinity" prefHeight="37.0" prefWidth="263.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                     <children>
-                        <Button fx:id="backBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleBackBtn" prefHeight="38.0" prefWidth="151.0" text="Back" />
-                     </children></FlowPane>
 
                </children>
             </GridPane>
          </children>
+         <BorderPane.margin>
+            <Insets top="20.0" />
+         </BorderPane.margin>
       </VBox>
    </center>
-   <padding>
-      <Insets top="20.0" />
-   </padding>
+   <right>
+
+      <VBox minHeight="-Infinity" prefHeight="566.0" prefWidth="291.0" BorderPane.alignment="CENTER">
+         <children>
+            <ScrollPane prefHeight="472.0" prefWidth="263.0">
+               <padding>
+                  <Insets left="10.0" top="10.0" />
+               </padding>
+               <content>
+                  <GridPane prefHeight="190.0" prefWidth="238.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Label text="Total Distance:" GridPane.rowIndex="2" />
+                        <TextField fx:id="totalDistanceTextField" editable="false" prefWidth="100.0" text="0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Label text="Current Distance:" GridPane.rowIndex="3" />
+                        <TextField fx:id="totalDistanceToFrameTextField" editable="false" prefWidth="100.0" text="0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <Button fx:id="undoBtn" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleUndo" prefHeight="45.0" prefWidth="182.0" text="View Mode: Full Path" GridPane.rowIndex="1">
+                           <effect>
+                              <ColorAdjust brightness="-0.23" contrast="0.37" hue="-0.93" />
+                           </effect>
+                           <font>
+                              <Font name="D-DIN" size="15.0" />
+                           </font>
+                        </Button>
+                        <FlowPane minWidth="-Infinity" prefHeight="48.0" prefWidth="230.0">
+                           <children>
+                              <MenuButton fx:id="chickMenu" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="44.0" prefWidth="160.0" text="Chick List" textAlignment="CENTER" wrapText="true">
+                                 <font>
+                                    <Font name="D-DIN" size="15.0" />
+                                 </font>
+                              </MenuButton>
+                              <Button maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleAddChickBtn" prefHeight="45.0" prefWidth="67.0" text="Add+">
+                                 <font>
+                                    <Font name="D-DIN" size="15.0" />
+                                 </font>
+                                 <effect>
+                                    <ColorAdjust brightness="-0.23" contrast="0.37" hue="-0.93" />
+                                 </effect>
+                              </Button>
+                           </children>
+                        </FlowPane>
+                     </children>
+                  </GridPane>
+               </content>
+            </ScrollPane>
+         </children>
+         <padding>
+            <Insets right="20.0" top="20.0" />
+         </padding>
+      </VBox>
+   </right>
+   <top>
+      <MenuBar prefHeight="39.0" prefWidth="1031.0" BorderPane.alignment="CENTER">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#handleSave" text="Save" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleExport" text="Export to.." />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+         <padding>
+            <Insets top="5.0" />
+         </padding>
+      </MenuBar>
+   </top>
+   <bottom>
+      <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+        <tabs>
+          <Tab text="Manual Track">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <GridPane layoutX="8.0" layoutY="8.0" prefHeight="161.0" prefWidth="1031.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="953.0" minWidth="10.0" prefWidth="214.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="805.0" minWidth="10.0" prefWidth="649.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="803.0" minWidth="10.0" prefWidth="148.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints maxHeight="71.0" minHeight="10.0" prefHeight="54.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="103.0" minHeight="10.0" prefHeight="92.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="25.0" minHeight="7.0" prefHeight="12.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Button fx:id="backBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleBackBtn" prefHeight="38.0" prefWidth="151.0" text="Back" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                              <Button fx:id="startManualBtn" mnemonicParsing="false" onAction="#handleManualTrack" prefHeight="47.0" prefWidth="181.0" text="Start Manual Tracking">
+                                 <effect>
+                                    <ColorAdjust brightness="-0.23" contrast="0.37" hue="-0.93" />
+                                 </effect>
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Button>
+                           </children>
+                           <padding>
+                              <Insets left="20.0" right="20.0" />
+                           </padding>
+                        </GridPane>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Auto Track">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <GridPane layoutX="14.0" layoutY="14.0" prefHeight="149.0" prefWidth="999.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="775.0" minWidth="10.0" prefWidth="775.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="484.0" minWidth="10.0" prefWidth="204.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="26.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="53.0" minHeight="9.0" prefHeight="53.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="27.0" minHeight="0.0" prefHeight="8.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Button fx:id="startAutoBtn" mnemonicParsing="false" onAction="#handleAutoTrack" prefHeight="47.0" prefWidth="181.0" text="Start Auto Tracking">
+                                 <effect>
+                                    <ColorAdjust brightness="-0.23" contrast="0.37" hue="-0.93" />
+                                 </effect>
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Button>
+                              <Button fx:id="backBtn1" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleBackBtn" prefHeight="38.0" prefWidth="155.0" text="Back" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                           </children>
+                           <opaqueInsets>
+                              <Insets left="20.0" top="20.0" />
+                           </opaqueInsets>
+                           <padding>
+                              <Insets left="20.0" />
+                           </padding>
+                        </GridPane>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+   </bottom>
 </BorderPane>

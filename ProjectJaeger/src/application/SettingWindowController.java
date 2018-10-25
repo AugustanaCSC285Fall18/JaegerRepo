@@ -37,6 +37,7 @@ public class SettingWindowController {
 	@FXML private Button setEndTimeBtn;
 	@FXML private Label statusTxt;
 	@FXML private TextField timeStepTxt;
+	@FXML private Label timeLabel;
 	private GraphicsContext gc;
 	
 	@FXML private Button calibrateXbtn;
@@ -132,7 +133,7 @@ public class SettingWindowController {
 			vidGc.drawImage(curFrame, 0, 0, vidCanvas.getWidth(), vidCanvas.getHeight());
 
 
-			// curFrameNumTextField.setText(String.format("%05d",frameNum));
+			 timeLabel.setText(currentProject.getVideo().getCurrentTime());
 
 		} 
 	}

@@ -103,10 +103,6 @@ public class MainWindowController implements AutoTrackListener {
 		menuToggleGroup = new ToggleGroup();
 		
 		System.err.println("main " + currentProject.getChickNum());
-		
-		// bind it so whenever the Scene changes width, the videoView matches it
-		// (not perfect though... visual problems if the height gets too large.)
-		// videoView.fitWidthProperty().bind(videoView.getScene().widthProperty());
 
 	}
 
@@ -148,12 +144,14 @@ public class MainWindowController implements AutoTrackListener {
 				selectedChick = newChick;
 				System.err.println(Integer.parseInt(newChickItem.getId()) + 1 + " selected");
 				System.err.println("ChickIndx AddChickBtn: " + selectedChick.getAnimalID());
+				chickMenu.setText(selectedChick.getAnimalID());
 				showFrameAt(currentProject.getVideo().getCurrentFrameNum());
 			});
 			newChickItem.setToggleGroup(menuToggleGroup);
 			if(chickMenu.getItems().size() == 1) {
 				newChickItem.setSelected(true);
 				selectedChick = newChick;
+				chickMenu.setText(selectedChick.getAnimalID());
 			}
 			newChickItem.setId("" + (chickMenu.getItems().size() - 1));
 			newChickItem.setStyle("-fx-background-color: " + color[(chickMenu.getItems().size() - 1) % color.length] + ";");
@@ -204,9 +202,9 @@ public class MainWindowController implements AutoTrackListener {
 		undoModeToggled = !undoModeToggled;
 		showFrameAt(currentProject.getVideo().getCurrentFrameNum());
 		if (undoModeToggled) {
-			undoBtn.setText("Undo On");
+			undoBtn.setText("View Mode: Partial Path");
 		} else {
-			undoBtn.setText("Undo Off");
+			undoBtn.setText("View Mode: Full Path");
 		}
 	}
 
@@ -218,20 +216,20 @@ public class MainWindowController implements AutoTrackListener {
 	@FXML
 	public void handleBackBtn() {
 		 try{
-		    	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("StartWindow.fxml"));
-		    	BorderPane root = (BorderPane) fxmlLoader.load();
-		    	StartWindowController controller = fxmlLoader.getController();
-		    	Scene scene = new Scene(root,root.getPrefWidth(),root.getPrefHeight());
-		    	scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-		    	
-		    	stage.setTitle("Chick Tracker");
-		    	stage.setScene(scene);
-		    	controller.initializeWithStage(stage);
-		    	stage.show();
-		    	
-		    } catch (Exception e) {
-		    	e.printStackTrace();
-		    }
+	    	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("StartWindow.fxml"));
+	    	BorderPane root = (BorderPane) fxmlLoader.load();
+	    	StartWindowController controller = fxmlLoader.getController();
+	    	Scene scene = new Scene(root,root.getPrefWidth(),root.getPrefHeight());
+	    	scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+	    	
+	    	stage.setTitle("Chick Tracker");
+	    	stage.setScene(scene);
+	    	controller.initializeWithStage(stage);
+	    	stage.show();
+	    	
+	    } catch (Exception e) {
+	    	e.printStackTrace();
+	    }
 	}
 	
 
@@ -260,7 +258,7 @@ public class MainWindowController implements AutoTrackListener {
 
 
 			// curFrameNumTextField.setText(String.format("%05d",frameNum));
-			timeElapsed.setText(getCurrentTime(frameNum));
+			timeElapsed.setText(currentProject.getVideo().getCurrentTime());
 		} else {
 			videoPlayed = false;
 			timer.stop();
@@ -300,20 +298,6 @@ public class MainWindowController implements AutoTrackListener {
 				prevTp = tp;
 			}
 		}
-	}
-
-	private String getCurrentTime(int frameNum) {
-		int frameRate = (int) currentProject.getVideo().getFrameRate();
-		int framePerMin = (int) frameRate * 60;
-		int framePerHour = (int) framePerMin * 60;
-
-		String hours = String.format("%02d", frameNum / framePerHour);
-		String minutes = String.format("%02d", frameNum / framePerMin - Integer.parseInt(hours) * 60);
-		String seconds = String.format("%02d",
-				frameNum / frameRate - Integer.parseInt(hours) * 3600 - Integer.parseInt(minutes) * 60);
-
-		String time = "Time Elapsed: " + hours + ":" + minutes + ":" + seconds;
-		return time;
 	}
 
 	private void playVideo() {
@@ -378,7 +362,7 @@ public class MainWindowController implements AutoTrackListener {
 //			System.err.println("currentTrack :" + currentTrack);
 //			progressAutoTrack.setProgress(fractionComplete);
 			sliderVideoTime.setValue(frameNumber);
-			timeElapsed.setText(getCurrentTime(frameNumber));
+			timeElapsed.setText(currentProject.getVideo().getCurrentTime());
 		});		
 	}
 
