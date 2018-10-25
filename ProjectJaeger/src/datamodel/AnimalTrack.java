@@ -79,5 +79,25 @@ public class AnimalTrack {
 		return "AnimalTrack[id="+ animalID + ",numPts=" + positions.size()+" start=" + startFrame + " end=" + endFrame +"]"; 
 	}
 	
+	public void insertTimePoint(double x, double y, int frameNum) {
+		if (positions.size() != 0) {
+			int index = 0;
+			if (positions.get(positions.size() - 1).getFrameNum() > frameNum) {
+				for (int i = 1; i < positions.size(); i++) {
+					if (positions.get(i).getFrameNum() > frameNum) {
+						index = i;
+						break;
+					}
+				}
+				positions.add(index, new TimePoint(x, y, frameNum));
+			} else {
+				positions.add(new TimePoint(x, y, frameNum));
+			}
+		} else {
+			positions.add(new TimePoint(x, y, frameNum));
+		}
+		
+	}
+	
 }
 

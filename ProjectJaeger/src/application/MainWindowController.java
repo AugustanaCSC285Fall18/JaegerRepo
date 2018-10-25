@@ -58,7 +58,7 @@ public class MainWindowController implements AutoTrackListener {
 	private GraphicsContext pathGc;
 	private AutoTracker autotracker;
 
-	private boolean undoModeToggled;
+	private boolean undoModeToggled = true;
 	private boolean manualTrackToggled;
 	private boolean videoPlayed;
 
@@ -184,7 +184,7 @@ public class MainWindowController implements AutoTrackListener {
 		if (manualTrackToggled) {
 			startManualBtn.setText("Stop Manual Tracking");
 			pathCanvas.setOnMousePressed((me) -> {
-				selectedChick.add(new TimePoint(me.getX(), me.getY(), currentProject.getVideo().getCurrentFrameNum() - 1));
+				selectedChick.insertTimePoint(me.getX(), me.getY(), currentProject.getVideo().getCurrentFrameNum() - 1);
 				showFrameAt((int) (sliderVideoTime.getValue() + frameAdd));
 				System.out.println("Mouse pressed: " + me.getX() + " , " + me.getY() + " at frame:"
 						+ (currentProject.getVideo().getCurrentFrameNum() - 1));
@@ -328,6 +328,8 @@ public class MainWindowController implements AutoTrackListener {
 	
 	@FXML
 	public void handleAutoTrack() throws InterruptedException {
+		sliderVideoTime.setDisable(true);
+		videoPlayed = false;
 		if (autotracker == null || !autotracker.isRunning()) {
 			Video video = currentProject.getVideo();
 //			video.setStartFrameNum(Integer.parseInt(textfieldStartFrame.getText()));
@@ -355,14 +357,13 @@ public class MainWindowController implements AutoTrackListener {
 		// this method is being run by the AutoTracker's thread, so we must
 		// ask the JavaFX UI thread to update some visual properties
 		Platform.runLater(() -> { 
-			videoPlayed = false;
 			currentProject.getVideo().setCurrentFrameNum(frameNumber);
 			vidGc.drawImage(imgFrame, 0, 0, vidCanvas.getWidth(), vidCanvas.getHeight());
 //			drawPath(currentTrack);
 //			System.err.println("currentTrack :" + currentTrack);
 //			progressAutoTrack.setProgress(fractionComplete);
-			sliderVideoTime.setValue(frameNumber);
-			timeElapsed.setText(currentProject.getVideo().getCurrentTime());
+//			sliderVideoTime.setValue(frameNumber);
+//			timeElapsed.setText(currentProject.getVideo().getCurrentTime());
 		});		
 	}
 

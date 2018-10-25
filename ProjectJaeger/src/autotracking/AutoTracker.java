@@ -97,6 +97,7 @@ public class AutoTracker {
 			}					
 			for (AutoTrackListener listener : listeners) {
 				double percentDone = ((double)fNum - vid.getStartFrameNum()) / (vid.getEndFrameNum()-vid.getStartFrameNum()+1);
+				System.err.println(listener);
 				listener.handleTrackedFrame(visualizationFrame, fNum, percentDone);
 			}					
 		}
