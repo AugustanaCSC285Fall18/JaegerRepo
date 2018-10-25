@@ -29,7 +29,7 @@ class ProjectDataTest {
 	void testSavingAFile() throws FileNotFoundException {
 		ProjectData fake = fakeDataToTest();
 		File saveFile = new File("fake_test.test"); 
-		fake.saveProject(saveFile);
+		fake.saveToFile(saveFile);
 		assertTrue(saveFile.exists());
 	}
 
