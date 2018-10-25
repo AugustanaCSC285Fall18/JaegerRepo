@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Button?>
@@ -21,7 +29,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="839.0" prefWidth="761.0" style="-fx-background-color: #e5e5e5;" styleClass="application.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainWindowController">
+<BorderPane prefHeight="839.0" prefWidth="761.0" style="-fx-background-color: #e5e5e5;" styleClass="application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainWindowController">
    <top>
       <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="42.0" prefWidth="719.0" BorderPane.alignment="CENTER">
 
@@ -50,12 +58,14 @@
                </padding>
             </MenuBar>
          </center>
-
-            <Button fx:id="backBtn" mnemonicParsing="false" onAction="#handleBackBtn" prefHeight="33.0" prefWidth="78.0" text="Back" BorderPane.alignment="TOP_LEFT">
-               <BorderPane.margin>
-                  <Insets />
-               </BorderPane.margin>
-            </Button>
+         <children>
+   
+               <Button fx:id="backBtn" mnemonicParsing="false" onAction="#handleBackBtn" prefHeight="33.0" prefWidth="78.0" text="Back" BorderPane.alignment="TOP_LEFT">
+                  <BorderPane.margin>
+                     <Insets />
+                  </BorderPane.margin>
+               </Button>
+         </children>
       </BorderPane>
    </top>
    <center>
@@ -125,7 +135,7 @@
                            <font>
                               <Font size="15.0" />
                            </font></Button>
-                        <Button fx:id="startAutoBtn" alignment="CENTER" mnemonicParsing="false" onAction="#handleStartAutotracking" prefHeight="46.0" prefWidth="170.0" text="Start Auto Tracking" textOverrun="CLIP">
+                        <Button fx:id="startAutoBtn" alignment="CENTER" mnemonicParsing="false" onAction="#handleAutoTrack" prefHeight="46.0" prefWidth="170.0" text="Start Auto Tracking" textOverrun="CLIP">
                            <FlowPane.margin>
                               <Insets left="25.0" top="10.0" />
                            </FlowPane.margin>
