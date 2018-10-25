@@ -147,6 +147,7 @@
                   </GridPane>
                </content>
             </ScrollPane>
+            <Button fx:id="backBtn1" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleBackBtn" prefHeight="38.0" prefWidth="155.0" text="Back" />
          </children>
          <padding>
             <Insets right="20.0" top="20.0" />
@@ -197,7 +198,6 @@
                             <RowConstraints maxHeight="25.0" minHeight="7.0" prefHeight="12.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <Button fx:id="backBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleBackBtn" prefHeight="38.0" prefWidth="151.0" text="Back" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                               <Button fx:id="startManualBtn" mnemonicParsing="false" onAction="#handleManualTrack" prefHeight="47.0" prefWidth="181.0" text="Start Manual Tracking">
                                  <effect>
                                     <ColorAdjust brightness="-0.23" contrast="0.37" hue="-0.93" />
@@ -239,7 +239,6 @@
                                     <Font size="15.0" />
                                  </font>
                               </Button>
-                              <Button fx:id="backBtn1" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleBackBtn" prefHeight="38.0" prefWidth="155.0" text="Back" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                            </children>
                            <opaqueInsets>
                               <Insets left="20.0" top="20.0" />
