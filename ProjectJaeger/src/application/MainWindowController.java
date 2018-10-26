@@ -1,16 +1,13 @@
 package application;
 
-import java.util.List;
-import java.util.Optional;
+import java.io.*;
+import java.util.*;
 
 import org.opencv.core.Mat;
 
 import autotracking.AutoTrackListener;
 import autotracking.AutoTracker;
-import datamodel.AnimalTrack;
-import datamodel.ProjectData;
-import datamodel.TimePoint;
-import datamodel.Video;
+import datamodel.*;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -21,6 +18,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.Slider;
@@ -35,8 +33,8 @@ import utils.UtilsForOpenCV;
 
 public class MainWindowController implements AutoTrackListener {
 	
-	@FXML   private Button saveBtn;
-	@FXML   private Button exportBtn;
+	@FXML   private MenuItem saveBtn;
+	@FXML   private MenuItem exportBtn;
 	@FXML   private Button calibrationBtn;
 	@FXML	private Button playBtn;
 	@FXML	private Button startManualBtn;
@@ -236,13 +234,19 @@ public class MainWindowController implements AutoTrackListener {
 	@FXML
 	public void handleSave() {
 		//currentProject.saveToFile();
+		
 	}
 	
 	
 	@FXML
-	public void handleExport() {
+	public void handleExport() throws FileNotFoundException {
 		//I have code in the DataProject class to export a csv file, not sure if this 
 		//method is needed or if i should just do it in the DataProject class
+		
+		File outFile = new File("tracking.txt");
+		currentProject.exportCSVFile(outFile);
+		PrintWriter pw = new PrintWriter(outFile);
+
 	}
 
 	public void showFrameAt(int frameNum) {
