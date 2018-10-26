@@ -69,14 +69,29 @@ public class ProjectData {
 		FileWriter fileWriter = null;
 		try {
 			fileWriter = new FileWriter(outFile);
-			fileWriter.append(FILE_HEADER.toString());
-			fileWriter.append(NEW_LINE_SEPARATOR);
+			fileWriter.write(FILE_HEADER.toString());
+			fileWriter.write(NEW_LINE_SEPARATOR);
 			
-//			for(AnimalTrack animalTrack : positions) {
-//				fileWriter.append(String.valueOf(animalTrack.getAnimalID()));
-//				fileWriter.append(COMMA);
-//				fileWriter.append(String.valueOf(animalTrack.getTimePoint());
-//			}
+			for (int numChicks = 0; numChicks < tracks.size(); numChicks++) {
+				AnimalTrack chickTrack = tracks.get(numChicks);
+				for (int numPoints = 0; numPoints < chickTrack.getNumPoints(); numPoints++) {
+					fileWriter.write(String.valueOf(chickTrack.getAnimalID()));
+					fileWriter.write(COMMA);
+					fileWriter.write(String.valueOf(chickTrack.getTimePointAtIndex(numPoints).getFrameNum()));
+					fileWriter.write(COMMA);
+					fileWriter.write(String.valueOf(chickTrack.getTimePointAtIndex(numPoints).getX()));
+					fileWriter.write(COMMA);
+					fileWriter.write(String.valueOf(chickTrack.getTimePointAtIndex(numPoints).getX()));
+					
+//					System.out.print(chickTrack.getAnimalID());
+//					System.out.print(COMMA);
+//					System.out.print(chickTrack.getTimePointAtIndex(numPoints).getFrameNum());
+//					System.out.print(COMMA);
+//					System.out.print(chickTrack.getTimePointAtIndex(numPoints).getX());
+//					System.out.print(COMMA);
+//					System.out.print(chickTrack.getTimePointAtIndex(numPoints).getX());
+				}
+			}
 			
 			System.out.println("CSV file was created successfully.");
 			

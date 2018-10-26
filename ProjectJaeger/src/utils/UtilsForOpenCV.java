@@ -18,7 +18,7 @@ public class UtilsForOpenCV {
 		// Note: the code in this method is thanks to Luigi De Russis and/or Alberto Sacco
 		// https://github.com/opencv-java/getting-started/tree/master/FXHelloCV
 		int width = matImg.width(), height = matImg.height(), channels = matImg.channels();
-		byte[] sourcePixels = new byte[width * height * channels];
+		byte[] sourcePixels = new byte[width * height * channels];	
 		matImg.get(0, 0, sourcePixels);
 
 		BufferedImage image = null;
