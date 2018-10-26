@@ -18,17 +18,17 @@
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
                   <FlowPane prefHeight="200.0" prefWidth="200.0" />
-                  <Canvas fx:id="vidCanvas" height="424.0" layoutX="7.0" layoutY="4.0" width="704.0" />
-                  <Slider fx:id="sliderVideoTime" layoutX="25.0" layoutY="450.0" prefHeight="19.0" prefWidth="499.0" />
-                  <Label fx:id="timeLabel" contentDisplay="CENTER" layoutX="525.0" layoutY="447.0" prefHeight="25.0" prefWidth="76.0" text="00:00:00" textAlignment="CENTER">
+                  <Canvas fx:id="vidCanvas" height="424.0" layoutX="12.0" layoutY="4.0" width="704.0" />
+                  <Slider fx:id="sliderVideoTime" layoutX="15.0" layoutY="476.0" prefHeight="19.0" prefWidth="499.0" />
+                  <Label fx:id="timeLabel" contentDisplay="CENTER" layoutX="527.0" layoutY="473.0" prefHeight="25.0" prefWidth="76.0" text="00:00:00" textAlignment="CENTER">
                      <font>
                         <Font size="17.0" />
                      </font>
                   </Label>
-                  <Button fx:id="setStartTimeBtn" layoutX="25.0" layoutY="500.0" mnemonicParsing="false" onAction="#handleStartTimeBtn" prefHeight="50.0" prefWidth="135.0" text="Set Start Time" />
-                  <Button fx:id="setEndTimeBtn" layoutX="174.0" layoutY="500.0" mnemonicParsing="false" onAction="#handleEndTimeBtn" prefHeight="50.0" prefWidth="135.0" text="Set End Time" />
-                  <Button layoutX="317.0" layoutY="500.0" mnemonicParsing="false" onAction="#handleSetTimeStep" prefHeight="50.0" prefWidth="135.0" text="Set Time Step" />
-                  <TextField fx:id="timeStepTxt" layoutX="460.0" layoutY="511.0" prefHeight="29.0" prefWidth="129.0" promptText="Enter Time Step here" />
+                  <Label fx:id="statusTxt" layoutX="527.0" layoutY="525.0" prefHeight="30.0" prefWidth="177.0" text="Status" />
+                  <Button fx:id="setStartTimeBtn" layoutX="25.0" layoutY="515.0" mnemonicParsing="false" onAction="#handleStartTimeBtn" prefHeight="50.0" prefWidth="135.0" text="Set Start Time" />
+                  <Button fx:id="setEndTimeBtn" layoutX="174.0" layoutY="515.0" mnemonicParsing="false" onAction="#handleEndTimeBtn" prefHeight="50.0" prefWidth="135.0" text="Set End Time" />
+                  <Button layoutX="344.0" layoutY="515.0" mnemonicParsing="false" onAction="#handleSetTimeStep" prefHeight="50.0" prefWidth="135.0" text="Set Time Step" />
                </children></AnchorPane>
       </content>
          <font>
@@ -41,7 +41,7 @@
                <children>
                   <FlowPane prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <Canvas fx:id="calCanvas" height="424.0" width="704.0" />
+                        <Canvas fx:id="calCanvas" height="424.0" layoutX="12.0" layoutY="4.0" translateX="10.0" translateY="5.0" width="704.0" />
                      </children>
                   </FlowPane>
                   <FlowPane layoutX="7.0" layoutY="438.0" prefHeight="71.0" prefWidth="724.0">

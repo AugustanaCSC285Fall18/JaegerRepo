@@ -40,7 +40,6 @@ public class SettingWindowController {
 	@FXML private Button setStartTimeBtn;
 	@FXML private Button setEndTimeBtn;
 	@FXML private Label statusTxt;
-	@FXML private TextField timeStepTxt;
 	
 	@FXML private Label timeLabel;
 	private GraphicsContext gc;
@@ -98,10 +97,19 @@ public class SettingWindowController {
 	// fix this to secs later
 	@FXML
 	public void handleSetTimeStep() {
-		currentProject.getVideo().setTimeStep(Integer.parseInt(timeStepTxt.getText()));
+		
+		TextInputDialog dialog = new TextInputDialog();
+		dialog.setTitle("Set Time Step");
+		dialog.setHeaderText(null);
+		dialog.setContentText("Enter time step:");
+		Optional<String> result = dialog.showAndWait();
+		
+	if (result.isPresent()) {
+		
+		currentProject.getVideo().setTimeStep(Integer.parseInt(result.get()));
 		statusTxt.setText("Time step is set to " + currentProject.getVideo().getTimeStep()); 
+		}
 	}
-	
 	@FXML
 	public void handleStartTrackingButton() {
 		try {
@@ -164,27 +172,26 @@ public class SettingWindowController {
 		gc = calCanvas.getGraphicsContext2D();		
 		gc.fillOval(event.getX()-5, event.getY() -5, 10, 10);
 		
-		if (firstCalibrationClickX < 0) { // first click during calibration
-			firstXValue = event.getX();
-			firstCalibrationClickX++;
-			
-			System.out.println("horizontal1: " + firstXValue);
-			calibrateXbtn.setText("Second Click");
-		} else { // second click during calibration
-			pixelDistanceX = Math.abs(event.getX() - firstXValue);
-			System.out.println("horizontal2: " + event.getX());
-			System.out.println("distanceX: " + pixelDistanceX);
-
-			TextInputDialog dialog = new TextInputDialog();
+		TextInputDialog dialog = new TextInputDialog();
 			dialog.setTitle("Horizontal Calibration");
 			dialog.setHeaderText(null);
 			dialog.setContentText("Enter Measured X Value:");
 			Optional<String> result = dialog.showAndWait();
 			
-			if (result.isPresent()) {
-				measuredDistanceX=Integer.parseInt(result.get()); //need measured distance
-				pixelPerUnitX = pixelDistanceX / measuredDistanceX;
+		if (result.isPresent()) {
+			measuredDistanceX=Integer.parseInt(result.get()); //need measured distance
+			pixelPerUnitX = pixelDistanceX / measuredDistanceX;
+			if (firstCalibrationClickX < 0) { // first click during calibration
+					firstXValue = event.getX();
+					firstCalibrationClickX++;
 			
+					System.out.println("horizontal1: " + firstXValue);
+					calibrateXbtn.setText("Second Click");
+			} else { // second click during calibration
+				pixelDistanceX = Math.abs(event.getX() - firstXValue);
+				System.out.println("horizontal2: " + event.getX());
+				System.out.println("distanceX: " + pixelDistanceX);
+
 				System.out.println(pixelDistanceX);
 				System.out.println(measuredDistanceX);
 				System.out.println(pixelPerUnitX);
@@ -197,18 +204,8 @@ public class SettingWindowController {
 	
 	@FXML
 	private void CalibrateY(MouseEvent event) {
-		if (firstCalibrationClickY < 0) { // first click during calibration
-			firstYValue = event.getY();
-			firstCalibrationClickY++;
-			
-			System.out.println("Vertical1: " + firstYValue);
-			calibrateYbtn.setText("Second Click");
-		} else { // second click during calibration
-			pixelDistanceY = Math.abs(event.getY() - firstYValue);
-			System.out.println("Vertical2: " + event.getY());
-			System.out.println("distanceY: " + pixelDistanceY);
-			
-			TextInputDialog dialog = new TextInputDialog();
+		
+		TextInputDialog dialog = new TextInputDialog();
 			dialog.setTitle("Vertical Calibration");
 			dialog.setHeaderText(null);
 			dialog.setContentText("Enter Measured Y Value:");
@@ -216,6 +213,18 @@ public class SettingWindowController {
 			
 			if (result.isPresent()) {
 				measuredDistanceY=Integer.parseInt(result.get());
+				if (firstCalibrationClickY < 0) { // first click during calibration
+					firstYValue = event.getY();
+					firstCalibrationClickY++;
+			
+					System.out.println("Vertical1: " + firstYValue);
+					calibrateYbtn.setText("Second Click");
+				} else { // second click during calibration
+					pixelDistanceY = Math.abs(event.getY() - firstYValue);
+					System.out.println("Vertical2: " + event.getY());
+					System.out.println("distanceY: " + pixelDistanceY);
+			
+			
 				pixelPerUnitY = pixelDistanceY / measuredDistanceY;
 			
 				System.out.println(pixelDistanceY);
