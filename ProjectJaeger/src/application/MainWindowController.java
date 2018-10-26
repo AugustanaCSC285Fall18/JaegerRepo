@@ -78,10 +78,10 @@ public class MainWindowController implements AutoTrackListener {
 		sliderVideoTime.valueProperty().addListener((obs, oldV, newV) -> showFrameAt(newV.intValue()));
 		pathGc = pathCanvas.getGraphicsContext2D();
 		vidGc = vidCanvas.getGraphicsContext2D();
-		
-		sliderVideoTime.setValue(sliderVideoTime.getMin());
+//		
 		sliderVideoTime.setMin(currentProject.getVideo().getStartFrameNum());
 		sliderVideoTime.setMax(currentProject.getVideo().getEndFrameNum());
+		sliderVideoTime.setValue(sliderVideoTime.getMin());
 
 		// set current video canvas & overlay to the size of the video
 		Image curFrame = UtilsForOpenCV.matToJavaFXImage(currentProject.getVideo().readFrame());
@@ -249,7 +249,7 @@ public class MainWindowController implements AutoTrackListener {
 
 	public void showFrameAt(int frameNum) {
 		if (frameNum <= currentProject.getVideo().getEndFrameNum() && (autotracker == null || !autotracker.isRunning())) {
-//			currentProject.getVideo().setCurrentFrameNum(frameNum);
+			currentProject.getVideo().setCurrentFrameNum(frameNum);
 			Image curFrame = UtilsForOpenCV.matToJavaFXImage(currentProject.getVideo().readFrame());
 			vidGc.drawImage(curFrame, 0, 0, vidCanvas.getWidth(), vidCanvas.getHeight());
 			if (selectedChick != null) {

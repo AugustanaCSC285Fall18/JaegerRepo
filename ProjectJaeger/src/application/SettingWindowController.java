@@ -68,6 +68,7 @@ public class SettingWindowController {
 		vidCanvas.setHeight(vidCanvas.getWidth() * curFrame.getHeight() / curFrame.getWidth());
 		
 		showFrameAt((int) (currentProject.getVideo().getStartFrameNum()));
+		sliderVideoTime.setMax(currentProject.getVideo().getEndFrameNum());
 		sliderVideoTime.valueProperty().addListener((obs, oldV, newV) -> showFrameAt(newV.intValue()));
 	}
 
