@@ -44,7 +44,7 @@
                         <Button fx:id="calibrateXbtn" mnemonicParsing="false" onAction="#handleCalibrationX" prefHeight="50.0" prefWidth="140.0" text="Calibrating X" />
                         <Button fx:id="calibrateYbtn" mnemonicParsing="false" onAction="#handleCalibrationY" prefHeight="50.0" prefWidth="140.0" text="Calibrating Y" translateX="20.0" />
                         <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="140.0" text="Set Arena Bound" translateX="40.0" />
-                        <Button fx:id="startTrackingBtn1" mnemonicParsing="false" onAction="#handleStartTrackingButton" prefHeight="50.0" prefWidth="140.0" text="Start Tracking" translateX="100.0">
+                        <Button mnemonicParsing="false" onAction="#handleStartTrackingButton" prefHeight="50.0" prefWidth="140.0" text="Start Tracking" translateX="100.0">
                            <font>
                               <Font name="System Bold" size="15.0" />
                            </font>
