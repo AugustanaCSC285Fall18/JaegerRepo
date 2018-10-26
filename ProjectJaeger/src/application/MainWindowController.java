@@ -206,11 +206,6 @@ public class MainWindowController implements AutoTrackListener {
 	}
 
 	@FXML
-	public void handlePxPerSqrInch() {
-
-	}
-
-	@FXML
 	public void handleBackBtn() {
 		 try{
 	    	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("StartWindow.fxml"));

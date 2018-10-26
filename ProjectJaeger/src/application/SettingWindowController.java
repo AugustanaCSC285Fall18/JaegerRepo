@@ -41,13 +41,14 @@ public class SettingWindowController {
 	@FXML private Button setEndTimeBtn;
 	@FXML private Label statusTxt;
 	@FXML private TextField timeStepTxt;
-	@FXML private TextField pxPerCmX;
-	@FXML private TextField pxPerCmY;
+	
 	@FXML private Label timeLabel;
 	private GraphicsContext gc;
 	
 	@FXML private Button calibrateXbtn;
 	@FXML private Button calibrateYbtn;
+	@FXML private TextField pxPerCmX;
+	@FXML private TextField pxPerCmY;
 	
 	private double firstCalibrationClickX = -1;
 	private double firstCalibrationClickY = -1;
