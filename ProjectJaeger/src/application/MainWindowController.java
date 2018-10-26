@@ -86,7 +86,7 @@ public class MainWindowController implements AutoTrackListener {
 		// set current video canvas & overlay to the size of the video
 		Image curFrame = UtilsForOpenCV.matToJavaFXImage(currentProject.getVideo().readFrame());
 
-		vidCanvas.setHeight(vidCanvas.getWidth() * curFrame.getHeight() / curFrame.getWidth());
+//		vidCanvas.setHeight(vidCanvas.getWidth() * curFrame.getHeight() / curFrame.getWidth());
 
 		pathCanvas.setWidth(vidCanvas.getWidth());
 		pathCanvas.setHeight(vidCanvas.getHeight());
@@ -263,7 +263,7 @@ public class MainWindowController implements AutoTrackListener {
 
 
 			// curFrameNumTextField.setText(String.format("%05d",frameNum));
-			timeElapsed.setText(currentProject.getVideo().getCurrentTime());
+			timeElapsed.setText(currentProject.getVideo().getCurrentTime(currentProject.getVideo().getCurrentFrameNum()));
 		} else {
 			videoPlayed = false;
 		}

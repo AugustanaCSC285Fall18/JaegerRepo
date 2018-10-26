@@ -81,11 +81,9 @@
          </children>
       </FlowPane>
    </bottom>
-   <center>
-      <GridPane prefHeight="302.0" prefWidth="600.0" style="-fx-background-color: #e5e5e5;">
+   <right>
+      <GridPane prefHeight="339.0" prefWidth="432.0" style="-fx-background-color: #e5e5e5;" BorderPane.alignment="CENTER">
          <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="423.0" minWidth="10.0" prefWidth="271.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="422.0" minWidth="10.0" prefWidth="15.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="422.0" minWidth="10.0" prefWidth="296.0" />
          </columnConstraints>
          <rowConstraints>
@@ -93,38 +91,26 @@
             <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <GridPane prefHeight="286.0" prefWidth="241.0" style="-fx-background-color: white;" GridPane.rowIndex="1">
-              <rowConstraints>
-                <RowConstraints minHeight="-Infinity" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="-Infinity" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="-Infinity" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="-Infinity" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="-Infinity" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <GridPane.margin>
-                  <Insets />
-               </GridPane.margin>
-               <padding>
-                  <Insets left="11.0" right="10.0" />
-               </padding>
-            </GridPane>
-            <GridPane prefHeight="260.0" prefWidth="228.0" style="-fx-background-color: white;" GridPane.columnIndex="2" GridPane.rowIndex="1">
+            <GridPane prefHeight="274.0" prefWidth="323.0" style="-fx-background-color: white;" GridPane.rowIndex="1">
                <children>
                   <Label text="Total Video Length">
                      <font>
                         <Font name="D-DIN" size="15.0" />
-                     </font></Label>
-                  <Label text="Date Created" GridPane.rowIndex="1">
+                     </font>
+                  </Label>
+                  <Label text="Date Edited" GridPane.rowIndex="2">
                      <font>
                         <Font name="D-DIN" size="15.0" />
-                     </font></Label>
-                  <TextField fx:id="vidLengthTxt" prefHeight="25.0" prefWidth="136.0" GridPane.columnIndex="1" />
-                  <TextField fx:id="dateTxt" prefHeight="25.0" prefWidth="172.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <Label prefHeight="17.0" prefWidth="102.0" text="Size" GridPane.rowIndex="2">
+                     </font>
+                  </Label>
+                  <TextField fx:id="vidLengthTxt" editable="false" prefHeight="25.0" prefWidth="136.0" GridPane.columnIndex="1" />
+                  <TextField fx:id="dateTxt" prefHeight="25.0" prefWidth="172.0" promptText="Enter the date" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <Label prefHeight="17.0" prefWidth="102.0" text="Editor" GridPane.rowIndex="1">
                      <font>
                         <Font name="D-DIN" size="15.0" />
-                     </font></Label>
-                  <TextField fx:id="vidSizeTxt" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="vidSizeTxt" promptText="Enter your name" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                </children>
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="173.0" minWidth="10.0" prefWidth="132.0" />
@@ -144,7 +130,7 @@
                   <Insets left="10.0" right="10.0" />
                </padding>
             </GridPane>
-            <Label maxHeight="50.0" prefHeight="35.0" prefWidth="232.0" text="Video Info" GridPane.columnIndex="2">
+            <Label maxHeight="50.0" prefHeight="35.0" prefWidth="232.0" text="Video Info">
                <GridPane.margin>
                   <Insets left="10.0" />
                </GridPane.margin>
@@ -163,5 +149,5 @@
             <ColorAdjust brightness="-0.51" contrast="1.0" />
          </effect>
       </GridPane>
-   </center>
+   </right>
 </BorderPane>

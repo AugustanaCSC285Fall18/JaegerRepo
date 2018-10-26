@@ -69,7 +69,7 @@ public class SettingWindowController {
 		vidGc = vidCanvas.getGraphicsContext2D();
 		calGc = calCanvas.getGraphicsContext2D();
 		calGc.drawImage(curFrame, 0, 0, vidCanvas.getWidth(), vidCanvas.getHeight());
-		vidCanvas.setHeight(vidCanvas.getWidth() * curFrame.getHeight() / curFrame.getWidth());
+//		vidCanvas.setHeight(vidCanvas.getWidth() * curFrame.getHeight() / curFrame.getWidth());
 		
 		showFrameAt((int) (currentProject.getVideo().getStartFrameNum()));
 		sliderVideoTime.setMax(currentProject.getVideo().getEndFrameNum());
@@ -85,13 +85,13 @@ public class SettingWindowController {
 	@FXML
 	public void handleStartTimeBtn() {
 		currentProject.getVideo().setStartFrameNum(currentProject.getVideo().getCurrentFrameNum());
-		statusTxt.setText("Start time is set at " + currentProject.getVideo().getCurrentTime());
+		statusTxt.setText("Start time is set at " + currentProject.getVideo().getCurrentTime(currentProject.getVideo().getCurrentFrameNum()));
 	}
 	
 	@FXML
 	public void handleEndTimeBtn() {
 		currentProject.getVideo().setEndFrameNum(currentProject.getVideo().getCurrentFrameNum());
-		statusTxt.setText("End time is set at " + currentProject.getVideo().getCurrentTime());
+		statusTxt.setText("End time is set at " + currentProject.getVideo().getCurrentTime(currentProject.getVideo().getCurrentFrameNum()));
 	}
 	
 	// fix this to secs later
@@ -101,13 +101,13 @@ public class SettingWindowController {
 		TextInputDialog dialog = new TextInputDialog();
 		dialog.setTitle("Set Time Step");
 		dialog.setHeaderText(null);
-		dialog.setContentText("Enter time step:");
+		dialog.setContentText("Enter time step (in seconds): ");
 		Optional<String> result = dialog.showAndWait();
 		
 	if (result.isPresent()) {
 		
-		currentProject.getVideo().setTimeStep(Integer.parseInt(result.get()));
-		statusTxt.setText("Time step is set to " + currentProject.getVideo().getTimeStep()); 
+		currentProject.getVideo().setTimeStep(currentProject.getVideo().convertSecondsToFrameNums(Integer.parseInt(result.get())));
+		statusTxt.setText("Time step is set to " + currentProject.getVideo().getTimeStep() + " frame(s)/click"); 
 		}
 	}
 	@FXML
@@ -138,13 +138,11 @@ public class SettingWindowController {
 	
 
 	public void showFrameAt(int frameNum) {
-		if (frameNum <= currentProject.getVideo().getEndFrameNum()) {
+		if (frameNum < currentProject.getVideo().getTotalNumFrames()) {
 			currentProject.getVideo().setCurrentFrameNum(frameNum);
 			Image curFrame = UtilsForOpenCV.matToJavaFXImage(currentProject.getVideo().readFrame());
 			vidGc.drawImage(curFrame, 0, 0, vidCanvas.getWidth(), vidCanvas.getHeight());
-
-
-			 timeLabel.setText(currentProject.getVideo().getCurrentTime());
+			 timeLabel.setText(currentProject.getVideo().getCurrentTime(currentProject.getVideo().getCurrentFrameNum()));
 
 		} 
 	}

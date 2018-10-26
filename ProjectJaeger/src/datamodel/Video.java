@@ -53,7 +53,6 @@ public class Video {
 		vidCap.read(frame);
 		return frame;
 	}
-	
 	public String getFilePath() {
 		return this.filePath;
 	}
@@ -93,6 +92,14 @@ public class Video {
 
 	public int getEndFrameNum() {
 		return endFrameNum;
+	}
+	
+	public synchronized int getFrameWidth() {
+		return (int) vidCap.get(Videoio.CAP_PROP_FRAME_WIDTH);
+	}
+
+	public synchronized int getFrameHeight() {
+		return (int) vidCap.get(Videoio.CAP_PROP_FRAME_HEIGHT);
 	}
 
 	public void setEndFrameNum(int endFrameNum) {
@@ -135,15 +142,15 @@ public class Video {
 		return (int) Math.round(numSecs * getFrameRate());
 	}
 	
-	public String getCurrentTime() {
+	public String getCurrentTime(int currentFrameNum) {
 		int frameRate = (int) getFrameRate();
 		int framePerMin = (int) frameRate * 60;
 		int framePerHour = (int) framePerMin * 60;
 
-		String hours = String.format("%02d", getCurrentFrameNum() / framePerHour);
-		String minutes = String.format("%02d", getCurrentFrameNum() / framePerMin - Integer.parseInt(hours) * 60);
+		String hours = String.format("%02d", currentFrameNum / framePerHour);
+		String minutes = String.format("%02d", currentFrameNum / framePerMin - Integer.parseInt(hours) * 60);
 		String seconds = String.format("%02d",
-				getCurrentFrameNum() / frameRate - Integer.parseInt(hours) * 3600 - Integer.parseInt(minutes) * 60);
+				currentFrameNum / frameRate - Integer.parseInt(hours) * 3600 - Integer.parseInt(minutes) * 60);
 
 		String time = hours + ":" + minutes + ":" + seconds;
 		return time;

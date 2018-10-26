@@ -27,7 +27,7 @@
                   <Button fx:id="setStartTimeBtn" layoutX="25.0" layoutY="515.0" mnemonicParsing="false" onAction="#handleStartTimeBtn" prefHeight="50.0" prefWidth="135.0" text="Set Start Time" />
                   <Button fx:id="setEndTimeBtn" layoutX="174.0" layoutY="515.0" mnemonicParsing="false" onAction="#handleEndTimeBtn" prefHeight="50.0" prefWidth="135.0" text="Set End Time" />
                   <Button layoutX="317.0" layoutY="515.0" mnemonicParsing="false" onAction="#handleSetTimeStep" prefHeight="50.0" prefWidth="135.0" text="Set Time Step" />
-                  <Label fx:id="statusTxt" layoutX="500.0" layoutY="526.0" prefHeight="29.0" prefWidth="157.0" text="Status" />
+                  <Label fx:id="statusTxt" layoutX="477.0" layoutY="526.0" prefHeight="29.0" prefWidth="227.0" text="Status" />
                </children></AnchorPane>
       </content>
          <font>
@@ -51,7 +51,7 @@
                         </Button>
                      </children>
                   </FlowPane>
-                  <Label fx:id="statusTxt1" layoutX="522.0" layoutY="520.0" prefHeight="29.0" prefWidth="157.0" text="Status" />
+                  <Label fx:id="statusTxt1" layoutX="442.0" layoutY="520.0" prefHeight="29.0" prefWidth="229.0" text="Status" />
                   <TextField fx:id="pxPerCmY" editable="false" layoutX="231.0" layoutY="520.0" prefHeight="29.0" prefWidth="79.0" />
                   <Label layoutX="169.0" layoutY="526.0" text="Pixel/cm Y: " />
                   <Label layoutX="12.0" layoutY="526.0" text="Pixel/cm X: " />

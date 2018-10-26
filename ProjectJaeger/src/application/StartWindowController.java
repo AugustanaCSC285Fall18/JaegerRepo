@@ -38,7 +38,8 @@ public class StartWindowController {
 		currentProject = ProjectData.getCurrentProject();
 		if (currentProject != null) {
 			browseTextField.setText(currentProject.getVideo().getFilePath());
-			vidLengthTxt.setText(df.format(currentProject.getVideo().getTotalNumFrames() / currentProject.getVideo().getFrameRate()) + " seconds");
+			
+		
 		}
 		
 	}
@@ -52,12 +53,11 @@ public class StartWindowController {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Open Video File");
 		File chosenFile = fileChooser.showOpenDialog(stage);
+		
 		if (chosenFile != null) {
 			browseTextField.setText(chosenFile.getAbsolutePath());
 			loadVideo(chosenFile.getAbsolutePath());
-			double videoLength = currentProject.getVideo().getTotalNumFrames() / currentProject.getVideo().getFrameRate();
-			// TODO: change this to hours : minutes : seconds
-			vidLengthTxt.setText(df.format(videoLength) + " seconds");
+			vidLengthTxt.setText(currentProject.getVideo().getCurrentTime(currentProject.getVideo().getTotalNumFrames()));
 		}	
 	}
 
