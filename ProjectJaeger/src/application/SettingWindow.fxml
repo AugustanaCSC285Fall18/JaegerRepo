@@ -15,20 +15,19 @@
   <panes>
     <TitledPane prefHeight="388.0" prefWidth="682.0" text="Step 1: Time Cropping">
       <content>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: lightgrey;">
                <children>
-                  <FlowPane prefHeight="200.0" prefWidth="200.0" />
-                  <Canvas fx:id="vidCanvas" height="424.0" layoutX="7.0" layoutY="4.0" width="704.0" />
-                  <Slider fx:id="sliderVideoTime" layoutX="25.0" layoutY="450.0" prefHeight="19.0" prefWidth="499.0" />
-                  <Label fx:id="timeLabel" contentDisplay="CENTER" layoutX="525.0" layoutY="447.0" prefHeight="25.0" prefWidth="76.0" text="00:00:00" textAlignment="CENTER">
+                  <Canvas fx:id="vidCanvas" height="424.0" width="704.0" AnchorPane.bottomAnchor="140.20000000000005" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="11.200000000000045" AnchorPane.topAnchor="0.0" />
+                  <Slider fx:id="sliderVideoTime" layoutX="25.0" layoutY="491.0" prefHeight="19.0" prefWidth="499.0" />
+                  <Label fx:id="timeLabel" contentDisplay="CENTER" layoutX="525.0" layoutY="487.0" prefHeight="25.0" prefWidth="76.0" text="00:00:00" textAlignment="CENTER">
                      <font>
                         <Font size="17.0" />
                      </font>
                   </Label>
-                  <Button fx:id="setStartTimeBtn" layoutX="25.0" layoutY="500.0" mnemonicParsing="false" onAction="#handleStartTimeBtn" prefHeight="50.0" prefWidth="135.0" text="Set Start Time" />
-                  <Button fx:id="setEndTimeBtn" layoutX="174.0" layoutY="500.0" mnemonicParsing="false" onAction="#handleEndTimeBtn" prefHeight="50.0" prefWidth="135.0" text="Set End Time" />
-                  <Button layoutX="317.0" layoutY="500.0" mnemonicParsing="false" onAction="#handleSetTimeStep" prefHeight="50.0" prefWidth="135.0" text="Set Time Step" />
-                  <TextField fx:id="timeStepTxt" layoutX="460.0" layoutY="511.0" prefHeight="29.0" prefWidth="129.0" promptText="Enter Time Step here" />
+                  <Button fx:id="setStartTimeBtn" layoutX="25.0" layoutY="515.0" mnemonicParsing="false" onAction="#handleStartTimeBtn" prefHeight="50.0" prefWidth="135.0" text="Set Start Time" />
+                  <Button fx:id="setEndTimeBtn" layoutX="174.0" layoutY="515.0" mnemonicParsing="false" onAction="#handleEndTimeBtn" prefHeight="50.0" prefWidth="135.0" text="Set End Time" />
+                  <Button layoutX="317.0" layoutY="515.0" mnemonicParsing="false" onAction="#handleSetTimeStep" prefHeight="50.0" prefWidth="135.0" text="Set Time Step" />
+                  <Label fx:id="statusTxt" layoutX="500.0" layoutY="526.0" prefHeight="29.0" prefWidth="157.0" text="Status" />
                </children></AnchorPane>
       </content>
          <font>
@@ -37,29 +36,26 @@
     </TitledPane>
     <TitledPane animated="false" text="Step 2: Calibration">
       <content>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: lightgrey;">
                <children>
-                  <FlowPane prefHeight="200.0" prefWidth="200.0">
-                     <children>
-                        <Canvas fx:id="calCanvas" height="424.0" width="704.0" />
-                     </children>
-                  </FlowPane>
-                  <FlowPane layoutX="7.0" layoutY="438.0" prefHeight="71.0" prefWidth="724.0">
+                  <Canvas fx:id="calCanvas" height="424.0" width="704.0" AnchorPane.bottomAnchor="140.20000000000005" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="11.200000000000045" AnchorPane.topAnchor="0.0" />
+                  <FlowPane layoutX="9.0" layoutY="448.0" prefHeight="71.0" prefWidth="712.0">
                      <children>
                         <Button fx:id="calibrateXbtn" mnemonicParsing="false" onAction="#handleCalibrationX" prefHeight="50.0" prefWidth="140.0" text="Calibrating X" />
                         <Button fx:id="calibrateYbtn" mnemonicParsing="false" onAction="#handleCalibrationY" prefHeight="50.0" prefWidth="140.0" text="Calibrating Y" translateX="20.0" />
                         <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="140.0" text="Set Arena Bound" translateX="40.0" />
-                        <Button fx:id="startTrackingBtn1" mnemonicParsing="false" onAction="#handleStartTrackingButton" prefHeight="75.0" prefWidth="140.0" text="Start Tracking" translateX="100.0">
+                        <Button fx:id="startTrackingBtn1" mnemonicParsing="false" onAction="#handleStartTrackingButton" prefHeight="50.0" prefWidth="140.0" text="Start Tracking" translateX="100.0">
                            <font>
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Button>
                      </children>
                   </FlowPane>
-                  <TextField fx:id="pxPerCmY" layoutX="229.0" layoutY="506.0" prefHeight="29.0" prefWidth="85.0" />
-                  <Label layoutX="168.0" layoutY="512.0" text="Pixel/cm Y: " />
-                  <Label layoutX="10.0" layoutY="512.0" text="Pixel/cm X: " />
-                  <TextField fx:id="pxPerCmX" layoutX="72.0" layoutY="506.0" prefHeight="29.0" prefWidth="81.0" />
+                  <Label fx:id="statusTxt1" layoutX="522.0" layoutY="520.0" prefHeight="29.0" prefWidth="157.0" text="Status" />
+                  <TextField fx:id="pxPerCmY" editable="false" layoutX="231.0" layoutY="520.0" prefHeight="29.0" prefWidth="79.0" />
+                  <Label layoutX="169.0" layoutY="526.0" text="Pixel/cm Y: " />
+                  <Label layoutX="12.0" layoutY="526.0" text="Pixel/cm X: " />
+                  <TextField fx:id="pxPerCmX" editable="false" layoutX="75.0" layoutY="520.0" prefHeight="29.0" prefWidth="74.0" />
                </children></AnchorPane>
       </content>
          <font>

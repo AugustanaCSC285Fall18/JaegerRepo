@@ -25,7 +25,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="807.0" prefWidth="1031.0" style="-fx-background-color: #e5e5e5;" styleClass="application.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainWindowController">
+<BorderPane prefHeight="807.0" prefWidth="1031.0" style="-fx-background-color: #e5e5e5;" styleClass="application.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainWindowController">
    <center>
       <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="567.0" prefWidth="705.0" BorderPane.alignment="TOP_CENTER">
          <children>
@@ -58,7 +58,8 @@
                   </StackPane>
                   <FlowPane alignment="CENTER" prefHeight="117.0" prefWidth="705.0" prefWrapLength="0.0" GridPane.rowIndex="1">
                      <children>
-                        <Button fx:id="playBtn" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handlePlay" prefHeight="25.0" prefWidth="67.0" text="Play">
+                        <Button mnemonicParsing="false" onAction="#handleFrameBackward" text="&lt;&lt;--" />
+                        <Button fx:id="playBtn" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handlePlay" prefHeight="31.0" prefWidth="50.0" text="Play">
                            <FlowPane.margin>
                               <Insets right="10.0" />
                            </FlowPane.margin>
@@ -75,9 +76,10 @@
                               <Font name="D-DIN" size="15.0" />
                            </font>
                            <padding>
-                              <Insets left="15.0" />
+                              <Insets left="5.0" />
                            </padding>
                         </Label>
+                        <Button mnemonicParsing="false" onAction="#handleFrameForward" text="--&gt;&gt;" />
                      </children>
                   </FlowPane>
 
@@ -143,7 +145,11 @@
                   </GridPane>
                </content>
             </ScrollPane>
-            <Button fx:id="backBtn1" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleBackBtn" prefHeight="38.0" prefWidth="155.0" text="Back" />
+            <AnchorPane>
+               <children>
+                  <Button fx:id="backBtn1" alignment="CENTER" contentDisplay="CENTER" layoutX="58.0" layoutY="13.0" mnemonicParsing="false" onAction="#handleBackBtn" prefHeight="38.0" prefWidth="155.0" text="Back" />
+               </children>
+            </AnchorPane>
          </children>
          <padding>
             <Insets right="20.0" top="20.0" />

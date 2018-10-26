@@ -225,6 +225,13 @@ public class MainWindowController implements AutoTrackListener {
 	}
 	
 
+	@FXML
+	public void handleFrameForward() {
+	}
+	
+	@FXML
+	public void handleFrameBackward() {
+	}
 	
 	@FXML
 	public void handleSave() {
