@@ -70,7 +70,7 @@ public class MainWindowController implements AutoTrackListener {
 	@FXML
 	public void initialize() {
 		currentProject = ProjectData.getCurrentProject();
-
+		currentProject.getVideo().setCurrentFrameNum(currentProject.getVideo().getStartFrameNum());
 		currentProject.getVideo().setXPixelsPerCm(6.5); //  these are just rough estimates!
 		currentProject.getVideo().setYPixelsPerCm(6.7);
 		initializeMenu();
@@ -78,7 +78,8 @@ public class MainWindowController implements AutoTrackListener {
 		sliderVideoTime.valueProperty().addListener((obs, oldV, newV) -> showFrameAt(newV.intValue()));
 		pathGc = pathCanvas.getGraphicsContext2D();
 		vidGc = vidCanvas.getGraphicsContext2D();
-
+		
+		sliderVideoTime.setValue(sliderVideoTime.getMin());
 		sliderVideoTime.setMin(currentProject.getVideo().getStartFrameNum());
 		sliderVideoTime.setMax(currentProject.getVideo().getEndFrameNum());
 
@@ -248,7 +249,7 @@ public class MainWindowController implements AutoTrackListener {
 
 	public void showFrameAt(int frameNum) {
 		if (frameNum <= currentProject.getVideo().getEndFrameNum() && (autotracker == null || !autotracker.isRunning())) {
-			currentProject.getVideo().setCurrentFrameNum(frameNum);
+//			currentProject.getVideo().setCurrentFrameNum(frameNum);
 			Image curFrame = UtilsForOpenCV.matToJavaFXImage(currentProject.getVideo().readFrame());
 			vidGc.drawImage(curFrame, 0, 0, vidCanvas.getWidth(), vidCanvas.getHeight());
 			if (selectedChick != null) {
@@ -261,7 +262,6 @@ public class MainWindowController implements AutoTrackListener {
 			timeElapsed.setText(currentProject.getVideo().getCurrentTime());
 		} else {
 			videoPlayed = false;
-			timer.stop();
 		}
 	}
 	
@@ -328,14 +328,18 @@ public class MainWindowController implements AutoTrackListener {
 	
 	@FXML
 	public void handleAutoTrack() throws InterruptedException {
-		sliderVideoTime.setDisable(true);
-		videoPlayed = false;
+		sliderVideoTime.setDisable(!sliderVideoTime.isDisabled());
+		playBtn.setDisable(!playBtn.isDisabled());
+		if (videoPlayed) {
+			handlePlay();
+		}
+
 		if (autotracker == null || !autotracker.isRunning()) {
 			Video video = currentProject.getVideo();
 //			video.setStartFrameNum(Integer.parseInt(textfieldStartFrame.getText()));
 //			video.setEndFrameNum(Integer.parseInt(textfieldEndFrame.getText()));
-			video.setStartFrameNum(100);
-			video.setEndFrameNum(3000);
+//			video.setStartFrameNum(100);
+//			video.setEndFrameNum(3000);
 			autotracker = new AutoTracker();
 			// Use Observer Pattern to give autotracker a reference to this object, 
 			// and call back to methods in this class to update progress.
@@ -356,13 +360,12 @@ public class MainWindowController implements AutoTrackListener {
 		Image imgFrame = UtilsForOpenCV.matToJavaFXImage(frame);
 		// this method is being run by the AutoTracker's thread, so we must
 		// ask the JavaFX UI thread to update some visual properties
-		Platform.runLater(() -> { 
-			currentProject.getVideo().setCurrentFrameNum(frameNumber);
+		Platform.runLater(() -> {
 			vidGc.drawImage(imgFrame, 0, 0, vidCanvas.getWidth(), vidCanvas.getHeight());
 //			drawPath(currentTrack);
 //			System.err.println("currentTrack :" + currentTrack);
 //			progressAutoTrack.setProgress(fractionComplete);
-//			sliderVideoTime.setValue(frameNumber);
+			sliderVideoTime.setValue(frameNumber);
 //			timeElapsed.setText(currentProject.getVideo().getCurrentTime());
 		});		
 	}
