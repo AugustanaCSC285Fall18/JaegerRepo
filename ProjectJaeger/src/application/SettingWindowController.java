@@ -150,34 +150,47 @@ public class SettingWindowController {
 	
 	@FXML
 	public void handleCalibrationX() {
+		
+		TextInputDialog dialog = new TextInputDialog();
+		dialog.setTitle("Horizontal Calibration");
+		dialog.setHeaderText(null);
+		dialog.setContentText("Enter Measured X Value:");
+		Optional<String> result = dialog.showAndWait();
+		
+		
+	if (result.isPresent()) {
+			calibrateXbtn.setDisable(true);
+			measuredDistanceX=Integer.parseInt(result.get()); //need measured distance
 			calibrateXbtn.setText("First Click");
 			calCanvas.setOnMousePressed(event -> {
 				CalibrateX(event);
 				});
 	}
-	
-	@FXML
-	public void handleCalibrationY() {
-		calibrateYbtn.setText("First Click");
-			calCanvas.setOnMousePressed(event -> {
-				CalibrateY(event);
-			});
 	}
 	
 	@FXML
+	public void handleCalibrationY() {
+		TextInputDialog dialog = new TextInputDialog();
+		dialog.setTitle("Vertical Calibration");
+		dialog.setHeaderText(null);
+		dialog.setContentText("Enter Measured Y Value:");
+		Optional<String> result = dialog.showAndWait();
+		
+		if (result.isPresent()) {
+			calibrateYbtn.setDisable(true);
+			measuredDistanceY=Integer.parseInt(result.get());
+			calibrateYbtn.setText("First Click");
+			calCanvas.setOnMousePressed(event -> {
+				CalibrateY(event);
+			});
+		}
+	}
+	
 	private void CalibrateX (MouseEvent event) {
 		// test point
 		gc = calCanvas.getGraphicsContext2D();		
 		gc.fillOval(event.getX()-5, event.getY() -5, 10, 10);
-		
-		TextInputDialog dialog = new TextInputDialog();
-			dialog.setTitle("Horizontal Calibration");
-			dialog.setHeaderText(null);
-			dialog.setContentText("Enter Measured X Value:");
-			Optional<String> result = dialog.showAndWait();
-			
-		if (result.isPresent()) {
-			measuredDistanceX=Integer.parseInt(result.get()); //need measured distance
+
 			pixelPerUnitX = pixelDistanceX / measuredDistanceX;
 			if (firstCalibrationClickX < 0) { // first click during calibration
 					firstXValue = event.getX();
@@ -189,6 +202,8 @@ public class SettingWindowController {
 				pixelDistanceX = Math.abs(event.getX() - firstXValue);
 				System.out.println("horizontal2: " + event.getX());
 				System.out.println("distanceX: " + pixelDistanceX);
+				
+				pixelPerUnitX = pixelDistanceX / measuredDistanceX;
 
 				System.out.println(pixelDistanceX);
 				System.out.println(measuredDistanceX);
@@ -196,25 +211,17 @@ public class SettingWindowController {
 				calibrateXbtn.setText("Complete");
 				pxPerCmX.setText(pixelPerUnitX+" px/cm");
 			}
-		}
 		
 	}
 	
-	@FXML
 	private void CalibrateY(MouseEvent event) {
+		gc = calCanvas.getGraphicsContext2D();		
+		gc.fillOval(event.getX()-5, event.getY() -5, 10, 10);
 		
-		TextInputDialog dialog = new TextInputDialog();
-			dialog.setTitle("Vertical Calibration");
-			dialog.setHeaderText(null);
-			dialog.setContentText("Enter Measured Y Value:");
-			Optional<String> result = dialog.showAndWait();
-			
-			if (result.isPresent()) {
-				measuredDistanceY=Integer.parseInt(result.get());
 				if (firstCalibrationClickY < 0) { // first click during calibration
 					firstYValue = event.getY();
 					firstCalibrationClickY++;
-			
+		
 					System.out.println("Vertical1: " + firstYValue);
 					calibrateYbtn.setText("Second Click");
 				} else { // second click during calibration
@@ -232,6 +239,6 @@ public class SettingWindowController {
 				pxPerCmY.setText(pixelPerUnitY+" px/cm");
 			}
 		}
-	}
+	
 
 }
