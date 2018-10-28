@@ -20,6 +20,7 @@ public class ProjectData {
 	private List<AnimalTrack> unassignedSegments;
 	private int chickNum;
 	private int activeTrack;
+	private int activeUnassignedSegment;
 
 	private static ProjectData currentProject;
 	
@@ -35,6 +36,7 @@ public class ProjectData {
 		video = new Video(videoFilePath);
 		tracks = new ArrayList<>();
 		unassignedSegments = new ArrayList<>();
+		activeUnassignedSegment = 0;
 	}
 
 	public Video getVideo() {
@@ -49,6 +51,31 @@ public class ProjectData {
 		return unassignedSegments;
 	}
 	
+	public AnimalTrack getCurrentUnassignedSegment() {
+		return unassignedSegments.get(activeUnassignedSegment);
+	}	
+	
+	public void removeCurrentUnassignedSegment() {
+		unassignedSegments.remove(activeUnassignedSegment);
+		if (unassignedSegments.size() == activeUnassignedSegment) {
+			activeUnassignedSegment--;
+		}
+	}
+	
+	public void moveToPrevUnassignedSegment() {
+		activeUnassignedSegment--;
+		if (activeUnassignedSegment < 0) {
+			activeUnassignedSegment = unassignedSegments.size() - 1;
+		}
+	}
+	
+	public void moveToNextUnassignedSegment() {
+		activeUnassignedSegment++;
+		if (activeUnassignedSegment == unassignedSegments.size()) {
+			activeUnassignedSegment = 0;
+		}
+	}
+	
 	public int getChickNum() {
 		return chickNum;
 	}
@@ -57,8 +84,16 @@ public class ProjectData {
 		this.chickNum = chickNum;
 	}
 	
-	public void setActiveTrack(int trackNum) {
-		this.activeTrack = trackNum;
+	public void setActiveTrack(AnimalTrack track) {
+		if (tracks.contains(track)) {
+			this.activeTrack = tracks.indexOf(track);
+		} else {
+			throw new IllegalArgumentException("No track found.");
+		}
+	}
+	
+	public AnimalTrack getActiveTrack() {
+		return tracks.get(activeTrack);
 	}
 
 	public void exportCSVFile(File outFile) throws FileNotFoundException{
@@ -75,7 +110,7 @@ public class ProjectData {
 					fw.append(COMMA);
 					fw.append(String.valueOf(chickTrack.getTimePointAtIndex(numPoints).getX()));
 					fw.append(COMMA);
-					fw.append(String.valueOf(chickTrack.getTimePointAtIndex(numPoints).getX()));
+					fw.append(String.valueOf(chickTrack.getTimePointAtIndex(numPoints).getY()));
 					fw.append(COMMA + "\n");
 				}
 			}

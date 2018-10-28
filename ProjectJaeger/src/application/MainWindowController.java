@@ -16,6 +16,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
@@ -27,6 +28,7 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -34,42 +36,27 @@ import utils.UtilsForOpenCV;
 
 public class MainWindowController implements AutoTrackListener {
 
-	@FXML
-	private MenuItem saveBtn;
-	@FXML
-	private MenuItem exportBtn;
-	@FXML
-	private Button calibrationBtn;
-	@FXML
-	private Button playBtn;
-	@FXML
-	private Button startManualBtn;
-	@FXML
-	private Button undoBtn;
-	@FXML
-	private Canvas vidCanvas;
-	@FXML
-	private Canvas pathCanvas;
-	@FXML
-	private TextField curFrameNumTextField;
-	@FXML
-	private TextField totalDistanceTextField;
-	@FXML
-	private TextField totalDistanceToFrameTextField;
-	@FXML
-	private TextField pxPerSqrInchTextField;
-	@FXML
-	private ProgressBar autoTrackProgressBar;
-	@FXML
-	private Slider sliderVideoTime;
-	@FXML
-	private MenuButton chickMenu;
-	@FXML
-	private Button startAutoBtn;
-	@FXML
-	private Label timeElapsed;
-	@FXML
-	private Button backBtn;
+	@FXML	private MenuItem saveBtn;
+	@FXML	private MenuItem exportBtn;
+	@FXML	private Button calibrationBtn;
+	@FXML	private Button playBtn;
+	@FXML	private Button startManualBtn;
+	@FXML	private Button undoBtn;
+	@FXML	private Canvas vidCanvas;
+	@FXML	private Canvas pathCanvas;
+	@FXML	private TextField curFrameNumTextField;
+	@FXML	private TextField totalDistanceTextField;
+	@FXML	private TextField totalDistanceToFrameTextField;
+	@FXML	private TextField pxPerSqrInchTextField;
+	@FXML	private ProgressBar autoTrackProgressBar;
+	@FXML	private Slider sliderVideoTime;
+	@FXML	private MenuButton chickMenu;
+	@FXML	private Button startAutoBtn;
+	@FXML	private Label timeElapsed;
+	@FXML	private Button backBtn;
+	@FXML	private CheckBox showUnassigned;
+	@FXML	private FlowPane playFlowPane;
+	@FXML	private FlowPane segmentAssignFlowPane;
 
 	private Stage stage;
 	private AnimationTimer timer;
@@ -84,20 +71,24 @@ public class MainWindowController implements AutoTrackListener {
 	private final String[] color = { "OrangeRed", "Gold", "LawnGreen", "DarkTurquoise", "Violet", "MediumSlateBlue" };
 	private ToggleGroup menuToggleGroup;
 	protected ProjectData currentProject;
-	private AnimalTrack selectedChick;
+
+	// ratio of original vid over displaying canvas
+	private double displayScaleW;
+	private double displayScaleH;
 
 	@FXML
 	public void initialize() {
 		currentProject = ProjectData.getCurrentProject();
 		currentProject.getVideo().setCurrentFrameNum(currentProject.getVideo().getStartFrameNum());
+
+		// TODO: complete this then delete
 		currentProject.getVideo().setXPixelsPerCm(6.5); // these are just rough estimates!
 		currentProject.getVideo().setYPixelsPerCm(6.7);
-		initializeMenu();
 
 		sliderVideoTime.valueProperty().addListener((obs, oldV, newV) -> showFrameAt(newV.intValue()));
 		pathGc = pathCanvas.getGraphicsContext2D();
 		vidGc = vidCanvas.getGraphicsContext2D();
-//		
+
 		sliderVideoTime.setMin(currentProject.getVideo().getStartFrameNum());
 		sliderVideoTime.setMax(currentProject.getVideo().getEndFrameNum());
 		sliderVideoTime.setValue(sliderVideoTime.getMin());
@@ -105,12 +96,11 @@ public class MainWindowController implements AutoTrackListener {
 		// set current video canvas & overlay to the size of the video
 		Image curFrame = UtilsForOpenCV.matToJavaFXImage(currentProject.getVideo().readFrame());
 
-//		vidCanvas.setHeight(vidCanvas.getWidth() * curFrame.getHeight() / curFrame.getWidth());
-
 		pathCanvas.setWidth(vidCanvas.getWidth());
 		pathCanvas.setHeight(vidCanvas.getHeight());
+		displayScaleW = vidCanvas.getWidth() / currentProject.getVideo().getFrameWidth();
+		displayScaleH = vidCanvas.getHeight() / currentProject.getVideo().getFrameHeight();
 
-//		showFrameAt(0);
 		menuToggleGroup = new ToggleGroup();
 		showFrameAt((int) (currentProject.getVideo().getStartFrameNum()));
 
@@ -121,25 +111,6 @@ public class MainWindowController implements AutoTrackListener {
 		menuToggleGroup = new ToggleGroup();
 		stage.setOnCloseRequest(a -> System.exit(0));
 
-	}
-
-	public void initializeMenu() {
-
-//		for (int num = 0; num < currentProject.getChickNum(); num++) {
-//			RadioMenuItem item = new RadioMenuItem("Chick " + (num + 1));
-//			item.setToggleGroup(menuToggleGroup);
-//			
-//			item.setOnAction(a -> {
-//				currentTrack = Integer.parseInt(item.getId());
-//				System.err.println(Integer.parseInt(item.getId()) + 1 + " selected");
-//				System.err.println("currentTrack: " + currentTrack);
-//				showFrameAt(currentProject.getVideo().getCurrentFrameNum());
-//			});
-//			currentProject.getTracks().add(new AnimalTrack(""+ num));
-//			chickMenu.getItems().add(item);
-//			
-//
-//		}
 	}
 
 	@FXML
@@ -159,16 +130,17 @@ public class MainWindowController implements AutoTrackListener {
 			RadioMenuItem newChickItem = new RadioMenuItem(chickName);
 			chickMenu.getItems().add(newChickItem);
 			newChickItem.setOnAction(a -> {
-				selectedChick = newChick;
-				chickMenu.setText(selectedChick.getAnimalID());
+				currentProject.setActiveTrack(newChick);
+				chickMenu.setText(currentProject.getActiveTrack().getAnimalID());
 				showFrameAt(currentProject.getVideo().getCurrentFrameNum());
 			});
 			newChickItem.setToggleGroup(menuToggleGroup);
-			if (chickMenu.getItems().size() == 1) {
-				newChickItem.setSelected(true);
-				selectedChick = newChick;
-				chickMenu.setText(selectedChick.getAnimalID());
-			}
+
+			newChickItem.setSelected(true);
+			currentProject.setActiveTrack(newChick);
+			chickMenu.setText(currentProject.getActiveTrack().getAnimalID());
+			showFrameAt(currentProject.getVideo().getCurrentFrameNum());
+
 			newChickItem.setId("" + (chickMenu.getItems().size() - 1));
 			newChickItem
 					.setStyle("-fx-background-color: " + color[(chickMenu.getItems().size() - 1) % color.length] + ";");
@@ -201,7 +173,8 @@ public class MainWindowController implements AutoTrackListener {
 		if (manualTrackToggled) {
 			startManualBtn.setText("Stop Manual Tracking");
 			pathCanvas.setOnMousePressed((me) -> {
-				selectedChick.insertTimePoint(me.getX(), me.getY(), currentProject.getVideo().getCurrentFrameNum() - 1);
+				currentProject.getActiveTrack().add(me.getX() / displayScaleW, me.getY() / displayScaleH,
+						currentProject.getVideo().getCurrentFrameNum() - 1);
 				showFrameAt((int) (sliderVideoTime.getValue() + frameAdd));
 				System.out.println("Mouse pressed: " + me.getX() + " , " + me.getY() + " at frame:"
 						+ (currentProject.getVideo().getCurrentFrameNum() - 1));
@@ -284,9 +257,12 @@ public class MainWindowController implements AutoTrackListener {
 			currentProject.getVideo().setCurrentFrameNum(frameNum);
 			Image curFrame = UtilsForOpenCV.matToJavaFXImage(currentProject.getVideo().readFrame());
 			vidGc.drawImage(curFrame, 0, 0, vidCanvas.getWidth(), vidCanvas.getHeight());
-			if (selectedChick != null) {
-				drawPath(selectedChick);
-				System.err.println("chickInd at ShowFrame :" + selectedChick.getAnimalID());
+			if (currentProject.getActiveTrack() != null) {
+				clearAndDrawChickPath();
+				System.err.println("chickInd at ShowFrame :" + currentProject.getActiveTrack().getAnimalID());
+			}
+			if (showUnassigned.isSelected()) {
+				drawPath(currentProject.getCurrentUnassignedSegment());
 			}
 
 			// curFrameNumTextField.setText(String.format("%05d",frameNum));
@@ -297,11 +273,14 @@ public class MainWindowController implements AutoTrackListener {
 		}
 	}
 
-	private void drawPath(AnimalTrack curChick) {
-
+	private void clearAndDrawChickPath() {
 		pathGc.clearRect(0, 0, pathCanvas.getWidth(), pathCanvas.getHeight());
+		drawPath(currentProject.getActiveTrack());
+	}
+
+	private void drawPath(AnimalTrack curChick) {
 		if (curChick.getTimePoints().size() != 0) {
-			pathGc.setFill(Color.WHITE);
+			pathGc.setFill(curChick.getColor());
 			pathGc.setStroke(curChick.getColor());
 			TimePoint prevTp = curChick.getTimePoints().get(0);
 
@@ -310,6 +289,10 @@ public class MainWindowController implements AutoTrackListener {
 				// percentage of time elapsed between 2 time points
 				double percTimeElapsed;
 				double curframeNum = currentProject.getVideo().getCurrentFrameNum();
+				double prevTpScaledX = prevTp.getX() * displayScaleW;
+				double prevTpScaledY = prevTp.getY() * displayScaleH;
+				double tpScaledX = tp.getX() * displayScaleW;
+				double tpScaledY = tp.getY() * displayScaleH;
 				if (prevTp.getFrameNum() <= curframeNum && curframeNum <= tp.getFrameNum() && undoModeToggled) {
 					percTimeElapsed = 1.0 * (currentProject.getVideo().getCurrentFrameNum() - prevTp.getFrameNum())
 							/ tp.getTimeDiffAfter(prevTp);
@@ -318,14 +301,14 @@ public class MainWindowController implements AutoTrackListener {
 				} else {
 					percTimeElapsed = 1;
 				}
-				double x = prevTp.getX() + (tp.getX() - prevTp.getX()) * percTimeElapsed + ovalDiameter / 2;
-				double y = prevTp.getY() + (tp.getY() - prevTp.getY()) * percTimeElapsed + ovalDiameter / 2;
+				double x = prevTpScaledX + (tpScaledX - prevTpScaledX) * percTimeElapsed + ovalDiameter / 2;
+				double y = prevTpScaledY + (tpScaledY - prevTpScaledY) * percTimeElapsed + ovalDiameter / 2;
 				pathGc.setLineWidth(3);
 				if (prevTp.getFrameNum() <= curframeNum || !undoModeToggled) {
-					pathGc.strokeLine(prevTp.getX() + ovalDiameter / 2, prevTp.getY() + ovalDiameter / 2, x, y);
+					pathGc.strokeLine(prevTpScaledX + ovalDiameter / 2, prevTpScaledY + ovalDiameter / 2, x, y);
 				}
 				if (tp.getFrameNum() <= curframeNum || !undoModeToggled) {
-					pathGc.fillOval(tp.getX(), tp.getY(), ovalDiameter, ovalDiameter);
+					pathGc.fillOval(tpScaledX, tpScaledY, ovalDiameter, ovalDiameter);
 				}
 				prevTp = tp;
 			}
@@ -360,18 +343,14 @@ public class MainWindowController implements AutoTrackListener {
 
 	@FXML
 	public void handleAutoTrack() throws InterruptedException {
-		sliderVideoTime.setDisable(!sliderVideoTime.isDisabled());
-		playBtn.setDisable(!playBtn.isDisabled());
+		playFlowPane.setDisable(!playFlowPane.isDisabled());
 		if (videoPlayed) {
 			handlePlay();
 		}
 
 		if (autotracker == null || !autotracker.isRunning()) {
+			pathGc.clearRect(0, 0, pathCanvas.getWidth(), pathCanvas.getHeight());
 			Video video = currentProject.getVideo();
-//			video.setStartFrameNum(Integer.parseInt(textfieldStartFrame.getText()));
-//			video.setEndFrameNum(Integer.parseInt(textfieldEndFrame.getText()));
-//			video.setStartFrameNum(100);
-//			video.setEndFrameNum(3000);
 			autotracker = new AutoTracker();
 			// Use Observer Pattern to give autotracker a reference to this object,
 			// and call back to methods in this class to update progress.
@@ -381,9 +360,12 @@ public class MainWindowController implements AutoTrackListener {
 			// so that we don't freeze up the main JavaFX UI thread.
 			autotracker.startAnalysis(video);
 			startAutoBtn.setText("CANCEL Auto Tracking");
+
 		} else {
+
 			autotracker.cancelAnalysis();
 			startAutoBtn.setText("Start Auto Tracking");
+
 		}
 
 	}
@@ -408,14 +390,48 @@ public class MainWindowController implements AutoTrackListener {
 		currentProject.getUnassignedSegments().addAll(trackedSegments);
 
 		for (AnimalTrack track : trackedSegments) {
+
 			System.out.println(track);
 		}
+
 		Platform.runLater(() -> {
-			sliderVideoTime.setDisable(!sliderVideoTime.isDisabled());
-			playBtn.setDisable(!playBtn.isDisabled());
+			playFlowPane.setDisable(false);
+			segmentAssignFlowPane.setDisable(false);
+
 			autoTrackProgressBar.setProgress(1.0);
 			startAutoBtn.setText("Start auto-tracking");
 		});
 	}
 
+	@FXML
+	public void handleShowUnassigned() {
+		showFrameAt(currentProject.getCurrentUnassignedSegment().getFinalTimePoint().getFrameNum());
+		System.out.println(currentProject.getCurrentUnassignedSegment().getFinalTimePoint().getFrameNum() + " "
+				+ currentProject.getVideo().getStartFrameNum());
+	}
+
+	@FXML
+	public void handlePrevSegment() {
+		currentProject.moveToPrevUnassignedSegment();
+		showFrameAt(currentProject.getCurrentUnassignedSegment().getFinalTimePoint().getFrameNum());
+	}
+
+	@FXML
+	public void handleSetSegment() {
+		currentProject.getActiveTrack().addAll(currentProject.getCurrentUnassignedSegment());
+		currentProject.removeCurrentUnassignedSegment();
+		if (currentProject.getUnassignedSegments().size() == 0) {
+			segmentAssignFlowPane.setDisable(true);
+			showUnassigned.setSelected(false);
+		} else {
+			showFrameAt(currentProject.getCurrentUnassignedSegment().getFinalTimePoint().getFrameNum());
+			System.out.println(currentProject.getCurrentUnassignedSegment().getFinalTimePoint().getFrameNum());
+		}
+	}
+
+	@FXML
+	public void handleNexStegment() {
+		currentProject.moveToNextUnassignedSegment();
+		showFrameAt(currentProject.getCurrentUnassignedSegment().getFinalTimePoint().getFrameNum());
+	}
 }
