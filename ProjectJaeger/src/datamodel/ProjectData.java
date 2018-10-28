@@ -3,7 +3,6 @@ package datamodel;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
@@ -64,15 +63,15 @@ public class ProjectData {
 	public void exportCSVFile(File outFile) throws FileNotFoundException{
 		try {
 			FileWriter fw = new FileWriter(outFile);
-			fw.append("Chick ID, Time, X, Y");
+			fw.append("Chick ID, Time, X(cm), Y(cm)" + COMMA + "\n");
 			
 			for (int numChicks = 0; numChicks < tracks.size(); numChicks++) {
 				AnimalTrack chickTrack = tracks.get(numChicks);
 				for (int numPoints = 0; numPoints < chickTrack.getNumPoints(); numPoints++) {
 					fw.append(String.valueOf(chickTrack.getAnimalID()) + COMMA);
 					fw.append(String.valueOf(video.getCurrentTime(chickTrack.getTimePointAtIndex(numPoints).getFrameNum())) + COMMA);
-					fw.append(String.valueOf(chickTrack.getTimePointAtIndex(numPoints).getX()) + COMMA);
-					fw.append(String.valueOf(chickTrack.getTimePointAtIndex(numPoints).getY()) + COMMA + "\n");
+					fw.append(String.valueOf(chickTrack.getTimePointAtIndex(numPoints).getX()/video.getXPixelsPerCm()) + COMMA);
+					fw.append(String.valueOf(chickTrack.getTimePointAtIndex(numPoints).getY()/video.getYPixelsPerCm()) + COMMA + "\n");
 				}
 			}
 			fw.flush();

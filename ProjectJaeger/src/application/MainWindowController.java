@@ -34,42 +34,24 @@ import utils.UtilsForOpenCV;
 
 public class MainWindowController implements AutoTrackListener {
 
-	@FXML
-	private MenuItem saveBtn;
-	@FXML
-	private MenuItem exportBtn;
-	@FXML
-	private Button calibrationBtn;
-	@FXML
-	private Button playBtn;
-	@FXML
-	private Button startManualBtn;
-	@FXML
-	private Button undoBtn;
-	@FXML
-	private Canvas vidCanvas;
-	@FXML
-	private Canvas pathCanvas;
-	@FXML
-	private TextField curFrameNumTextField;
-	@FXML
-	private TextField totalDistanceTextField;
-	@FXML
-	private TextField totalDistanceToFrameTextField;
-	@FXML
-	private TextField pxPerSqrInchTextField;
-	@FXML
-	private ProgressBar autoTrackProgressBar;
-	@FXML
-	private Slider sliderVideoTime;
-	@FXML
-	private MenuButton chickMenu;
-	@FXML
-	private Button startAutoBtn;
-	@FXML
-	private Label timeElapsed;
-	@FXML
-	private Button backBtn;
+	@FXML private MenuItem saveBtn;
+	@FXML private MenuItem exportBtn;
+	@FXML private Button calibrationBtn;
+	@FXML private Button playBtn;
+	@FXML private Button startManualBtn;
+	@FXML private Button undoBtn;
+	@FXML private Canvas vidCanvas;
+	@FXML private Canvas pathCanvas;
+	@FXML private TextField curFrameNumTextField;
+	@FXML private TextField totalDistanceTextField;
+	@FXML private TextField totalDistanceToFrameTextField;
+	@FXML private TextField pxPerSqrInchTextField;
+	@FXML private ProgressBar autoTrackProgressBar;
+	@FXML private Slider sliderVideoTime;
+	@FXML private MenuButton chickMenu;
+	@FXML private Button startAutoBtn;
+	@FXML private Label timeElapsed;
+	@FXML private Button backBtn;
 
 	private Stage stage;
 	private AnimationTimer timer;
@@ -255,7 +237,7 @@ public class MainWindowController implements AutoTrackListener {
 	public void handleSave() throws FileNotFoundException {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Save Progress");
-		fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("TXT", "*.txt"));
+		fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("JSON", "*.json"));
 
 		File file = fileChooser.showSaveDialog(stage);
 		if (file != null) {
