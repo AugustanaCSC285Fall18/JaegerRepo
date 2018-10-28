@@ -38,8 +38,6 @@ public class StartWindowController {
 		currentProject = ProjectData.getCurrentProject();
 		if (currentProject != null) {
 			browseTextField.setText(currentProject.getVideo().getFilePath());
-			
-		
 		}
 		
 	}
