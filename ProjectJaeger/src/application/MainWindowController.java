@@ -273,7 +273,6 @@ public class MainWindowController implements AutoTrackListener {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Save CSV File");
 		fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("CSV", "*.csv"));
-		fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("TXT", "*.txt"));
 
 		File file = fileChooser.showSaveDialog(stage);
 		if (file != null) {
