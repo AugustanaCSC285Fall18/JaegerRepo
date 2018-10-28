@@ -28,29 +28,48 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import utils.UtilsForOpenCV;
 
 public class MainWindowController implements AutoTrackListener {
-	
-	@FXML   private MenuItem saveBtn;
-	@FXML   private MenuItem exportBtn;
-	@FXML   private Button calibrationBtn;
-	@FXML	private Button playBtn;
-	@FXML	private Button startManualBtn;
-	@FXML	private Button undoBtn;
-	@FXML 	private Canvas vidCanvas;
-	@FXML 	private Canvas pathCanvas;
-	@FXML 	private TextField curFrameNumTextField;
-	@FXML 	private TextField totalDistanceTextField;
-	@FXML 	private TextField totalDistanceToFrameTextField;
-	@FXML 	private TextField pxPerSqrInchTextField;
-	@FXML	private ProgressBar	autoTrackProgressBar;
-	@FXML	private Slider sliderVideoTime;
-	@FXML	private MenuButton chickMenu;
-	@FXML private Button startAutoBtn;
-	@FXML private Label timeElapsed;
-	@FXML private Button backBtn;
+
+	@FXML
+	private MenuItem saveBtn;
+	@FXML
+	private MenuItem exportBtn;
+	@FXML
+	private Button calibrationBtn;
+	@FXML
+	private Button playBtn;
+	@FXML
+	private Button startManualBtn;
+	@FXML
+	private Button undoBtn;
+	@FXML
+	private Canvas vidCanvas;
+	@FXML
+	private Canvas pathCanvas;
+	@FXML
+	private TextField curFrameNumTextField;
+	@FXML
+	private TextField totalDistanceTextField;
+	@FXML
+	private TextField totalDistanceToFrameTextField;
+	@FXML
+	private TextField pxPerSqrInchTextField;
+	@FXML
+	private ProgressBar autoTrackProgressBar;
+	@FXML
+	private Slider sliderVideoTime;
+	@FXML
+	private MenuButton chickMenu;
+	@FXML
+	private Button startAutoBtn;
+	@FXML
+	private Label timeElapsed;
+	@FXML
+	private Button backBtn;
 
 	private Stage stage;
 	private AnimationTimer timer;
@@ -71,7 +90,7 @@ public class MainWindowController implements AutoTrackListener {
 	public void initialize() {
 		currentProject = ProjectData.getCurrentProject();
 		currentProject.getVideo().setCurrentFrameNum(currentProject.getVideo().getStartFrameNum());
-		currentProject.getVideo().setXPixelsPerCm(6.5); //  these are just rough estimates!
+		currentProject.getVideo().setXPixelsPerCm(6.5); // these are just rough estimates!
 		currentProject.getVideo().setYPixelsPerCm(6.7);
 		initializeMenu();
 
@@ -96,8 +115,6 @@ public class MainWindowController implements AutoTrackListener {
 		showFrameAt((int) (currentProject.getVideo().getStartFrameNum()));
 
 	}
-	
-	
 
 	public void initializeWithStage(Stage stage) {
 		this.stage = stage;
@@ -107,7 +124,7 @@ public class MainWindowController implements AutoTrackListener {
 	}
 
 	public void initializeMenu() {
-		
+
 //		for (int num = 0; num < currentProject.getChickNum(); num++) {
 //			RadioMenuItem item = new RadioMenuItem("Chick " + (num + 1));
 //			item.setToggleGroup(menuToggleGroup);
@@ -124,7 +141,7 @@ public class MainWindowController implements AutoTrackListener {
 //
 //		}
 	}
-	
+
 	@FXML
 	private void handleAddChickBtn() {
 		String suggestedInput = "Chick #" + (chickMenu.getItems().size() + 1);
@@ -136,7 +153,8 @@ public class MainWindowController implements AutoTrackListener {
 		Optional<String> result = dialog.showAndWait();
 		if (result.isPresent()) {
 			String chickName = result.get();
-			AnimalTrack newChick = new AnimalTrack(chickName, Color.web((color[chickMenu.getItems().size() % color.length])));
+			AnimalTrack newChick = new AnimalTrack(chickName,
+					Color.web((color[chickMenu.getItems().size() % color.length])));
 			currentProject.getTracks().add(newChick);
 			RadioMenuItem newChickItem = new RadioMenuItem(chickName);
 			chickMenu.getItems().add(newChickItem);
@@ -152,9 +170,10 @@ public class MainWindowController implements AutoTrackListener {
 				chickMenu.setText(selectedChick.getAnimalID());
 			}
 			newChickItem.setId("" + (chickMenu.getItems().size() - 1));
-			newChickItem.setStyle("-fx-background-color: " + color[(chickMenu.getItems().size() - 1) % color.length] + ";");
+			newChickItem
+					.setStyle("-fx-background-color: " + color[(chickMenu.getItems().size() - 1) % color.length] + ";");
 		}
-		
+
 	}
 
 	@FXML
@@ -190,7 +209,8 @@ public class MainWindowController implements AutoTrackListener {
 			});
 		} else {
 			startManualBtn.setText("Start Manual Tracking");
-			pathCanvas.setOnMousePressed(handle -> {});
+			pathCanvas.setOnMousePressed(handle -> {
+			});
 		}
 	}
 
@@ -207,52 +227,60 @@ public class MainWindowController implements AutoTrackListener {
 
 	@FXML
 	public void handleBackBtn() {
-		 try{
-	    	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("StartWindow.fxml"));
-	    	BorderPane root = (BorderPane) fxmlLoader.load();
-	    	StartWindowController controller = fxmlLoader.getController();
-	    	Scene scene = new Scene(root,root.getPrefWidth(),root.getPrefHeight());
-	    	scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-	    	
-	    	stage.setTitle("Chick Tracker");
-	    	stage.setScene(scene);
-	    	controller.initializeWithStage(stage);
-	    	stage.show();
-	    	
-	    } catch (Exception e) {
-	    	e.printStackTrace();
-	    }
+		try {
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("StartWindow.fxml"));
+			BorderPane root = (BorderPane) fxmlLoader.load();
+			StartWindowController controller = fxmlLoader.getController();
+			Scene scene = new Scene(root, root.getPrefWidth(), root.getPrefHeight());
+			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+
+			stage.setTitle("Chick Tracker");
+			stage.setScene(scene);
+			controller.initializeWithStage(stage);
+			stage.show();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
-	
 
 	@FXML
 	public void handleFrameForward() {
 	}
-	
+
 	@FXML
 	public void handleFrameBackward() {
 	}
-	
+
 	@FXML
 	public void handleSave() {
-		//currentProject.saveToFile();
-		
+		// currentProject.saveToFile();
+
 	}
-	
-	
+
 	@FXML
 	public void handleExport() throws FileNotFoundException {
-		//I have code in the DataProject class to export a csv file, not sure if this 
-		//method is needed or if i should just do it in the DataProject class
-		
-		File outFile = new File("tracking.txt");
-		currentProject.exportCSVFile(outFile);
-		PrintWriter pw = new PrintWriter(outFile);
+		// I have code in the DataProject class to export a csv file, not sure if this
+		// method is needed or if i should just do it in the DataProject class
 
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Save CSV File");
+		fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("CSV", "*.csv"));
+		fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("TXT", "*.txt"));
+
+		File file = fileChooser.showSaveDialog(stage);
+		if (file != null) {
+			try {
+				currentProject.exportCSVFile(file);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public void showFrameAt(int frameNum) {
-		if (frameNum <= currentProject.getVideo().getEndFrameNum() && (autotracker == null || !autotracker.isRunning())) {
+		if (frameNum <= currentProject.getVideo().getEndFrameNum()
+				&& (autotracker == null || !autotracker.isRunning())) {
 			currentProject.getVideo().setCurrentFrameNum(frameNum);
 			Image curFrame = UtilsForOpenCV.matToJavaFXImage(currentProject.getVideo().readFrame());
 			vidGc.drawImage(curFrame, 0, 0, vidCanvas.getWidth(), vidCanvas.getHeight());
@@ -261,14 +289,14 @@ public class MainWindowController implements AutoTrackListener {
 				System.err.println("chickInd at ShowFrame :" + selectedChick.getAnimalID());
 			}
 
-
 			// curFrameNumTextField.setText(String.format("%05d",frameNum));
-			timeElapsed.setText(currentProject.getVideo().getCurrentTime(currentProject.getVideo().getCurrentFrameNum()));
+			timeElapsed
+					.setText(currentProject.getVideo().getCurrentTime(currentProject.getVideo().getCurrentFrameNum()));
 		} else {
 			videoPlayed = false;
 		}
 	}
-	
+
 	private void drawPath(AnimalTrack curChick) {
 
 		pathGc.clearRect(0, 0, pathCanvas.getWidth(), pathCanvas.getHeight());
@@ -329,7 +357,7 @@ public class MainWindowController implements AutoTrackListener {
 
 		timer.start();
 	}
-	
+
 	@FXML
 	public void handleAutoTrack() throws InterruptedException {
 		sliderVideoTime.setDisable(!sliderVideoTime.isDisabled());
@@ -345,10 +373,10 @@ public class MainWindowController implements AutoTrackListener {
 //			video.setStartFrameNum(100);
 //			video.setEndFrameNum(3000);
 			autotracker = new AutoTracker();
-			// Use Observer Pattern to give autotracker a reference to this object, 
+			// Use Observer Pattern to give autotracker a reference to this object,
 			// and call back to methods in this class to update progress.
 			autotracker.addAutoTrackListener(this);
-			
+
 			// this method will start a new thread to run AutoTracker in the background
 			// so that we don't freeze up the main JavaFX UI thread.
 			autotracker.startAnalysis(video);
@@ -357,8 +385,9 @@ public class MainWindowController implements AutoTrackListener {
 			autotracker.cancelAnalysis();
 			startAutoBtn.setText("Start Auto Tracking");
 		}
-		 
+
 	}
+
 	@Override
 	public void handleTrackedFrame(Mat frame, int frameNumber, double fractionComplete) {
 		Image imgFrame = UtilsForOpenCV.matToJavaFXImage(frame);
@@ -370,7 +399,7 @@ public class MainWindowController implements AutoTrackListener {
 //			System.err.println("currentTrack :" + currentTrack);
 			autoTrackProgressBar.setProgress(fractionComplete);
 //			timeElapsed.setText(currentProject.getVideo().getCurrentTime());
-		});		
+		});
 	}
 
 	@Override
@@ -378,15 +407,15 @@ public class MainWindowController implements AutoTrackListener {
 		currentProject.getUnassignedSegments().clear();
 		currentProject.getUnassignedSegments().addAll(trackedSegments);
 
-		for (AnimalTrack track: trackedSegments) {
+		for (AnimalTrack track : trackedSegments) {
 			System.out.println(track);
 		}
-		Platform.runLater(() -> { 
+		Platform.runLater(() -> {
 			sliderVideoTime.setDisable(!sliderVideoTime.isDisabled());
 			playBtn.setDisable(!playBtn.isDisabled());
 			autoTrackProgressBar.setProgress(1.0);
 			startAutoBtn.setText("Start auto-tracking");
-		});	
+		});
 	}
 
 }

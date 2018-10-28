@@ -13,6 +13,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 public class ProjectData {
+	private static final String COMMA = ",";
+	
 	private Video video;
 	private List<AnimalTrack> tracks;
 	private List<AnimalTrack> unassignedSegments;
@@ -29,12 +31,6 @@ public class ProjectData {
 		return currentProject;
 	}
 	
-
-	private static final String FILE_HEADER = "animalID, positions";
-	private static final String COMMA = ",";
-	private static final String NEW_LINE_SEPARATOR = "\n";
-	
-
 	private ProjectData(String videoFilePath) throws FileNotFoundException {
 		video = new Video(videoFilePath);
 		tracks = new ArrayList<>();
@@ -66,48 +62,40 @@ public class ProjectData {
 	}
 
 	public void exportCSVFile(File outFile) throws FileNotFoundException{
-		FileWriter fileWriter = null;
+//		FileWriter fileWriter = null;
 		try {
-			fileWriter = new FileWriter(outFile);
-			fileWriter.write(FILE_HEADER.toString());
-			fileWriter.write(NEW_LINE_SEPARATOR);
+			FileWriter fw = new FileWriter(outFile);
 			
 			for (int numChicks = 0; numChicks < tracks.size(); numChicks++) {
 				AnimalTrack chickTrack = tracks.get(numChicks);
 				for (int numPoints = 0; numPoints < chickTrack.getNumPoints(); numPoints++) {
-					fileWriter.write(String.valueOf(chickTrack.getAnimalID()));
-					fileWriter.write(COMMA);
-					fileWriter.write(String.valueOf(chickTrack.getTimePointAtIndex(numPoints).getFrameNum()));
-					fileWriter.write(COMMA);
-					fileWriter.write(String.valueOf(chickTrack.getTimePointAtIndex(numPoints).getX()));
-					fileWriter.write(COMMA);
-					fileWriter.write(String.valueOf(chickTrack.getTimePointAtIndex(numPoints).getX()));
-					
-//					System.out.print(chickTrack.getAnimalID());
-//					System.out.print(COMMA);
-//					System.out.print(chickTrack.getTimePointAtIndex(numPoints).getFrameNum());
-//					System.out.print(COMMA);
-//					System.out.print(chickTrack.getTimePointAtIndex(numPoints).getX());
-//					System.out.print(COMMA);
-//					System.out.print(chickTrack.getTimePointAtIndex(numPoints).getX());
+					fw.append(String.valueOf(chickTrack.getAnimalID()));
+					fw.append(COMMA);
+					fw.append(String.valueOf(video.getCurrentTime(chickTrack.getTimePointAtIndex(numPoints).getFrameNum())));
+					fw.append(COMMA);
+					fw.append(String.valueOf(chickTrack.getTimePointAtIndex(numPoints).getX()));
+					fw.append(COMMA);
+					fw.append(String.valueOf(chickTrack.getTimePointAtIndex(numPoints).getX()));
+					fw.append(COMMA + "\n");
 				}
 			}
 			
-			System.out.println("CSV file was created successfully.");
-			
+			System.err.println("CSV file was created successfully.");
+			fw.flush();
+			fw.close();
 		} catch(Exception e) {
-			System.out.println("Error in CsvFileWriter");
-			e.printStackTrace();
-		} finally {
-			
-			try {
-				fileWriter.flush();
-				fileWriter.close();
-			} catch(IOException e) {
-				System.out.println("Error while flushing/closing fileWriter.");
-				e.printStackTrace();
-			}
-		}
+			System.err.println("Error in CsvFileWriter");
+			e.printStackTrace();}
+//		} finally {
+//			
+//			try {
+//				fw.flush();
+//				fw.close();
+//			} catch(IOException e) {
+//				System.out.println("Error while flushing/closing fileWriter.");
+//				e.printStackTrace();
+//			}
+//		}
 	}
 	
 	public void saveToFile(File saveFile) throws FileNotFoundException {
