@@ -97,40 +97,26 @@ public class ProjectData {
 	}
 
 	public void exportCSVFile(File outFile) throws FileNotFoundException{
-//		FileWriter fileWriter = null;
 		try {
 			FileWriter fw = new FileWriter(outFile);
+			fw.append("Chick ID, Time, X, Y");
 			
 			for (int numChicks = 0; numChicks < tracks.size(); numChicks++) {
 				AnimalTrack chickTrack = tracks.get(numChicks);
 				for (int numPoints = 0; numPoints < chickTrack.getNumPoints(); numPoints++) {
-					fw.append(String.valueOf(chickTrack.getAnimalID()));
-					fw.append(COMMA);
-					fw.append(String.valueOf(video.getCurrentTime(chickTrack.getTimePointAtIndex(numPoints).getFrameNum())));
-					fw.append(COMMA);
-					fw.append(String.valueOf(chickTrack.getTimePointAtIndex(numPoints).getX()));
-					fw.append(COMMA);
-					fw.append(String.valueOf(chickTrack.getTimePointAtIndex(numPoints).getY()));
-					fw.append(COMMA + "\n");
+					fw.append(String.valueOf(chickTrack.getAnimalID()) + COMMA);
+					fw.append(String.valueOf(video.getCurrentTime(chickTrack.getTimePointAtIndex(numPoints).getFrameNum())) + COMMA);
+					fw.append(String.valueOf(chickTrack.getTimePointAtIndex(numPoints).getX()) + COMMA);
+					fw.append(String.valueOf(chickTrack.getTimePointAtIndex(numPoints).getY()) + COMMA + "\n");
 				}
 			}
-			
-			System.err.println("CSV file was created successfully.");
 			fw.flush();
 			fw.close();
+			
+			System.err.println("CSV file was created successfully.");
 		} catch(Exception e) {
 			System.err.println("Error in CsvFileWriter");
 			e.printStackTrace();}
-//		} finally {
-//			
-//			try {
-//				fw.flush();
-//				fw.close();
-//			} catch(IOException e) {
-//				System.out.println("Error while flushing/closing fileWriter.");
-//				e.printStackTrace();
-//			}
-//		}
 	}
 	
 	public void saveToFile(File saveFile) throws FileNotFoundException {

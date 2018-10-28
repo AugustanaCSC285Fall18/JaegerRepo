@@ -160,7 +160,6 @@ public class MainWindowController implements AutoTrackListener {
 			}
 			videoPlayed = !videoPlayed;
 		}
-
 	}
 
 	// try a few variables
@@ -226,20 +225,27 @@ public class MainWindowController implements AutoTrackListener {
 	}
 
 	@FXML
-	public void handleSave() {
-		// currentProject.saveToFile();
+	public void handleSave() throws FileNotFoundException {
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Save Progress");
+		fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("TXT", "*.txt"));
+
+		File file = fileChooser.showSaveDialog(stage);
+		if (file != null) {
+			try {
+				currentProject.saveToFile(file);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 
 	}
 
 	@FXML
 	public void handleExport() throws FileNotFoundException {
-		// I have code in the DataProject class to export a csv file, not sure if this
-		// method is needed or if i should just do it in the DataProject class
-
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Save CSV File");
 		fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("CSV", "*.csv"));
-		fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("TXT", "*.txt"));
 
 		File file = fileChooser.showSaveDialog(stage);
 		if (file != null) {
