@@ -175,6 +175,7 @@ public class SettingWindowController {
 		dialog.setHeaderText(null);
 		dialog.setContentText("Enter Measured Y Value:");
 		Optional<String> result = dialog.showAndWait();
+		calCanvas.setDisable(false);
 		
 		if (result.isPresent()) {
 			calibrateYbtn.setDisable(true);
@@ -202,14 +203,14 @@ public class SettingWindowController {
 				pixelDistanceX = Math.abs(event.getX() - firstXValue);
 				System.out.println("horizontal2: " + event.getX());
 				System.out.println("distanceX: " + pixelDistanceX);
-				
+				calCanvas.setDisable(true);
 				pixelPerUnitX = pixelDistanceX / measuredDistanceX;
 
 				System.out.println(pixelDistanceX);
 				System.out.println(measuredDistanceX);
 				System.out.println(pixelPerUnitX);
 				calibrateXbtn.setText("Complete");
-				pxPerCmX.setText(pixelPerUnitX+" px/cm");
+				pxPerCmX.setText(" "+pixelPerUnitX);
 			}
 		
 	}
@@ -228,6 +229,7 @@ public class SettingWindowController {
 					pixelDistanceY = Math.abs(event.getY() - firstYValue);
 					System.out.println("Vertical2: " + event.getY());
 					System.out.println("distanceY: " + pixelDistanceY);
+					calCanvas.setDisable(true);
 			
 			
 				pixelPerUnitY = pixelDistanceY / measuredDistanceY;
@@ -236,7 +238,7 @@ public class SettingWindowController {
 				System.out.println(measuredDistanceY);
 				System.out.println(pixelPerUnitY);
 				calibrateYbtn.setText("Complete");
-				pxPerCmY.setText(pixelPerUnitY+" px/cm");
+				pxPerCmY.setText(" "+pixelPerUnitY);
 			}
 		}
 	
