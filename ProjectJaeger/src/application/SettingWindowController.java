@@ -179,14 +179,16 @@ public class SettingWindowController {
 		Optional<String> result = dialog.showAndWait();
 		
 		
-	if (result.isPresent()) {
+		if (result.isPresent()) {
 			calibrateXbtn.setDisable(true);
-			measuredDistanceX=Integer.parseInt(result.get()); //need measured distance
+
+			measuredDistanceX = Integer.parseInt(result.get()); // need measured distance
 			calibrateXbtn.setText("First Click");
 			calCanvas.setOnMousePressed(event -> {
-				CalibrateX(event);
-				});
-	}
+				calibrateX(event);
+
+			});
+		}
 	}
 	
 	/**
@@ -206,65 +208,67 @@ public class SettingWindowController {
 			measuredDistanceY=Integer.parseInt(result.get());
 			calibrateYbtn.setText("First Click");
 			calCanvas.setOnMousePressed(event -> {
-				CalibrateY(event);
+				calibrateY(event);
 			});
 		}
 	}
 	
-	private void CalibrateX (MouseEvent event) {
+	private void calibrateX (MouseEvent event) {
 		// test point
 		gc = calCanvas.getGraphicsContext2D();		
 		gc.fillOval(event.getX()-5, event.getY() -5, 10, 10);
 
-			pixelPerUnitX = pixelDistanceX / measuredDistanceX;
-			if (firstCalibrationClickX < 0) { // first click during calibration
-					firstXValue = event.getX();
-					firstCalibrationClickX++;
-			
-					System.out.println("horizontal1: " + firstXValue);
-					calibrateXbtn.setText("Second Click");
-			} else { // second click during calibration
-				pixelDistanceX = Math.abs(event.getX() - firstXValue);
-				System.out.println("horizontal2: " + event.getX());
-				System.out.println("distanceX: " + pixelDistanceX);
-				calCanvas.setDisable(true);
-				pixelPerUnitX = pixelDistanceX / measuredDistanceX;
+		pixelPerUnitX = pixelDistanceX / measuredDistanceX;
+		if (firstCalibrationClickX < 0) { // first click during calibration
+			firstXValue = event.getX();
+			firstCalibrationClickX++;
 
-				System.out.println(pixelDistanceX);
-				System.out.println(measuredDistanceX);
-				System.out.println(pixelPerUnitX);
-				calibrateXbtn.setText("Complete");
-				pxPerCmX.setText(df.format(pixelPerUnitX));
-			}
+			System.out.println("horizontal1: " + firstXValue);
+			calibrateXbtn.setText("Second Click");
+		} else { // second click during calibration
+			pixelDistanceX = Math.abs(event.getX() - firstXValue);
+			System.out.println("horizontal2: " + event.getX());
+			System.out.println("distanceX: " + pixelDistanceX);
+			calCanvas.setDisable(true);
+			pixelPerUnitX = pixelDistanceX / measuredDistanceX;
+
+			System.out.println(pixelDistanceX);
+			System.out.println(measuredDistanceX);
+			System.out.println(pixelPerUnitX);
+			calibrateXbtn.setText("Complete");
+			pxPerCmX.setText(df.format(pixelPerUnitX));
+			currentProject.setPixelCmX(pixelPerUnitX);
+			calibrateYbtn.setDisable(false);
+		}
 		
 	}
 	
-	private void CalibrateY(MouseEvent event) {
+	private void calibrateY(MouseEvent event) {
 		gc = calCanvas.getGraphicsContext2D();		
 		gc.fillOval(event.getX()-5, event.getY() -5, 10, 10);
 		
-				if (firstCalibrationClickY < 0) { // first click during calibration
-					firstYValue = event.getY();
-					firstCalibrationClickY++;
-		
-					System.out.println("Vertical1: " + firstYValue);
-					calibrateYbtn.setText("Second Click");
-				} else { // second click during calibration
-					pixelDistanceY = Math.abs(event.getY() - firstYValue);
-					System.out.println("Vertical2: " + event.getY());
-					System.out.println("distanceY: " + pixelDistanceY);
-					calCanvas.setDisable(true);
+		if (firstCalibrationClickY < 0) { // first click during calibration
+			firstYValue = event.getY();
+			firstCalibrationClickY++;
+
+			System.out.println("Vertical1: " + firstYValue);
+			calibrateYbtn.setText("Second Click");
+		} else { // second click during calibration
+			pixelDistanceY = Math.abs(event.getY() - firstYValue);
+			System.out.println("Vertical2: " + event.getY());
+			System.out.println("distanceY: " + pixelDistanceY);
+			calCanvas.setDisable(true);
 			
-			
-				pixelPerUnitY = pixelDistanceY / measuredDistanceY;
-			
-				System.out.println(pixelDistanceY);
-				System.out.println(measuredDistanceY);
-				System.out.println(pixelPerUnitY);
-				calibrateYbtn.setText("Complete");
-				pxPerCmY.setText(df.format(pixelPerUnitY));
-			}
+			pixelPerUnitY = pixelDistanceY / measuredDistanceY;
+
+			System.out.println(pixelDistanceY);
+			System.out.println(measuredDistanceY);
+			System.out.println(pixelPerUnitY);
+			calibrateYbtn.setText("Complete");
+			pxPerCmY.setText(df.format(pixelPerUnitY));
+			currentProject.setPixelCmY(pixelPerUnitY);
 		}
+	}
 	
 
 }

@@ -21,6 +21,8 @@ public class ProjectData {
 	private int chickNum;
 	private int activeTrack;
 	private int activeUnassignedSegment;
+	private double pixelCmX;
+	private double pixelCmY;
 	
 	private LocalDateTime lastModifiedDate = LocalDateTime.now(); 
 
@@ -150,12 +152,32 @@ public class ProjectData {
 		return tracks.get(activeTrack);
 	}
 
+	/**
+	 * remove the active track from the tracks list.
+	 */
 	public void removeActiveTrack() {
 		tracks.remove(activeTrack);
 		if (tracks.size() == activeTrack) {
 			activeTrack--;
 		}
 	}
+	
+	/**
+	 * 
+	 * @return total distance traveled in centimeters by the active track
+	 */
+	public double getActiveTrackCmDistance() {
+		return getActiveTrack().getDistanceInPixels() / Math.sqrt(pixelCmX * pixelCmX + pixelCmY * pixelCmY);
+	}
+	
+	public void setPixelCmX(double pixelCmX) {
+		this.pixelCmX = pixelCmX;
+	}
+	
+	public void setPixelCmY(double pixelCmY) {
+		this.pixelCmY = pixelCmY;
+	}
+	
 	/**
 	 * takes a file and exports it to CSV
 	 * @param outFile

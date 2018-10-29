@@ -1,6 +1,7 @@
 package application;
 
 import java.io.*;
+import java.text.DecimalFormat;
 import java.util.*;
 
 import org.opencv.core.Mat;
@@ -48,7 +49,6 @@ public class MainWindowController implements AutoTrackListener {
 	@FXML	private Canvas pathCanvas;
 	@FXML	private TextField curFrameNumTextField;
 	@FXML	private TextField totalDistanceTextField;
-	@FXML	private TextField totalDistanceToFrameTextField;
 	@FXML	private TextField pxPerSqrInchTextField;
 	@FXML	private ProgressBar autoTrackProgressBar;
 	@FXML	private Slider sliderVideoTime;
@@ -59,6 +59,8 @@ public class MainWindowController implements AutoTrackListener {
 	@FXML	private CheckBox showUnassigned;
 	@FXML	private FlowPane playFlowPane;
 	@FXML	private FlowPane segmentAssignFlowPane;
+	
+	private DecimalFormat df = new DecimalFormat("#.##");
 
 	private Stage stage;
 	private AnimationTimer timer;
@@ -125,17 +127,19 @@ public class MainWindowController implements AutoTrackListener {
 			newChickItem.setOnAction(a -> {
 				currentProject.setActiveTrack(curChick);
 				chickMenu.setText(currentProject.getActiveTrack().getAnimalID());
-				showFrameAt(currentProject.getVideo().getCurrentFrameNum());
+				clearAndDrawChickPath();
 			});
 			currentProject.setActiveTrack(curChick);
 			
 			newChickItem.setToggleGroup(menuToggleGroup);
-			newChickItem.setSelected(true);
+			if (i == currentProject.getTracks().size() - 1) {
+				newChickItem.setSelected(true);
+			}
 			newChickItem.setId("" + (chickMenu.getItems().size() - 1));
 			newChickItem.setStyle("-fx-background-color: " + color[(chickMenu.getItems().size() - 1) % color.length] + ";");
 			chickMenu.setText(currentProject.getActiveTrack().getAnimalID());
 		}
-		showFrameAt(currentProject.getVideo().getCurrentFrameNum());
+		clearAndDrawChickPath();
 	}
 
 	@FXML
@@ -149,15 +153,14 @@ public class MainWindowController implements AutoTrackListener {
 		Optional<String> result = dialog.showAndWait();
 		if (result.isPresent()) {
 			String chickName = result.get();
-			AnimalTrack newChick = new AnimalTrack(chickName,
-					Color.web((color[chickMenu.getItems().size() % color.length])));
+			AnimalTrack newChick = new AnimalTrack(chickName, color[chickMenu.getItems().size() % color.length]);
 			currentProject.getTracks().add(newChick);
 			RadioMenuItem newChickItem = new RadioMenuItem(chickName);
 			chickMenu.getItems().add(newChickItem);
 			newChickItem.setOnAction(a -> {
 				currentProject.setActiveTrack(newChick);
 				chickMenu.setText(currentProject.getActiveTrack().getAnimalID());
-				showFrameAt(currentProject.getVideo().getCurrentFrameNum());
+				clearAndDrawChickPath();
 			});
 			newChickItem.setToggleGroup(menuToggleGroup);
 			newChickItem.setSelected(true);
@@ -166,7 +169,7 @@ public class MainWindowController implements AutoTrackListener {
 			
 			currentProject.setActiveTrack(newChick);
 			chickMenu.setText(currentProject.getActiveTrack().getAnimalID());
-			showFrameAt(currentProject.getVideo().getCurrentFrameNum());
+			clearAndDrawChickPath();
 
 		}
 
@@ -328,12 +331,7 @@ public class MainWindowController implements AutoTrackListener {
 			currentProject.getVideo().setCurrentFrameNum(frameNum);
 			Image curFrame = UtilsForOpenCV.matToJavaFXImage(currentProject.getVideo().readFrame());
 			vidGc.drawImage(curFrame, 0, 0, vidCanvas.getWidth(), vidCanvas.getHeight());
-			if (currentProject.getActiveTrack() != null) {
-				clearAndDrawChickPath();
-			}
-			if (showUnassigned.isSelected()) {
-				drawPath(currentProject.getCurrentUnassignedSegment());
-			}
+			clearAndDrawChickPath();
 
 			// curFrameNumTextField.setText(String.format("%05d",frameNum));
 			timeElapsed
@@ -345,13 +343,19 @@ public class MainWindowController implements AutoTrackListener {
 
 	private void clearAndDrawChickPath() {
 		pathGc.clearRect(0, 0, pathCanvas.getWidth(), pathCanvas.getHeight());
-		drawPath(currentProject.getActiveTrack());
+		if (currentProject.getActiveTrack() != null) {
+			totalDistanceTextField.setText(df.format(currentProject.getActiveTrackCmDistance()/100.0) + " meter(s)");
+			drawPath(currentProject.getActiveTrack());
+		}
+		if (showUnassigned.isSelected()) {
+			drawPath(currentProject.getCurrentUnassignedSegment());
+		}
 	}
 
 	private void drawPath(AnimalTrack curChick) {
 		if (curChick.getTimePoints().size() != 0) {
-			pathGc.setFill(curChick.getColor());
-			pathGc.setStroke(curChick.getColor());
+			pathGc.setFill(Color.web(curChick.getColor()));
+			pathGc.setStroke(Color.web(curChick.getColor()));
 			TimePoint prevTp = curChick.getTimePoints().get(0);
 
 			for (TimePoint tp : curChick.getTimePoints()) {
@@ -503,7 +507,7 @@ public class MainWindowController implements AutoTrackListener {
 	public void handlePrevSegment() {
 		currentProject.moveToPrevUnassignedSegment();
 		sliderVideoTime.setValue(currentProject.getCurrentUnassignedSegment().getFinalTimePoint().getFrameNum() - 1);
-//		showFrameAt(currentProject.getCurrentUnassignedSegment().getFinalTimePoint().getFrameNum());
+		showFrameAt(currentProject.getCurrentUnassignedSegment().getFinalTimePoint().getFrameNum());
 	}
 
 	/**
@@ -518,7 +522,7 @@ public class MainWindowController implements AutoTrackListener {
 			showUnassigned.setSelected(false);
 			showFrameAt(currentProject.getVideo().getCurrentFrameNum());
 		} else {
-//			showFrameAt(currentProject.getCurrentUnassignedSegment().getFinalTimePoint().getFrameNum());
+			showFrameAt(currentProject.getCurrentUnassignedSegment().getFinalTimePoint().getFrameNum());
 			sliderVideoTime.setValue(currentProject.getCurrentUnassignedSegment().getFinalTimePoint().getFrameNum() - 1);
 			System.out.println(currentProject.getCurrentUnassignedSegment().getFinalTimePoint().getFrameNum());
 		}
@@ -531,7 +535,7 @@ public class MainWindowController implements AutoTrackListener {
 	public void handleNextSegment() {
 		currentProject.moveToNextUnassignedSegment();
 		sliderVideoTime.setValue(currentProject.getCurrentUnassignedSegment().getFinalTimePoint().getFrameNum() - 1);
-//		showFrameAt(currentProject.getCurrentUnassignedSegment().getFinalTimePoint().getFrameNum());
+		showFrameAt(currentProject.getCurrentUnassignedSegment().getFinalTimePoint().getFrameNum());
 	}
 	
 	@FXML
@@ -539,7 +543,19 @@ public class MainWindowController implements AutoTrackListener {
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Project Contributions");
 		alert.setHeaderText(null);
-		alert.setContentText("Team Jaeger Chick Tracking Software \nProject Supervisor: Forrest Stonedahl\n Coders: Tiffany Nguyen, Tuan Nguyen, Meghan Stovall, Jake Hanlon \nInstitution: Augustana College CSC 285");
+		alert.setContentText("Team Jaeger Chick Tracking Software \n"
+				+ "______________________________________________ \n"
+				+ "Project Supervisor: Forrest Stonedahl \n"
+				+ "Coders: \n"
+				+ " + Tiffany Nguyen \n"
+				+ " + Tuan Nguyen \n"
+				+ " + Meghan Stovall \n"
+				+ " + Jake Hanlon \n"
+				+ "Institution: Augustana College CSC 285 \n"
+				+ "______________________________________________ \n"
+				+ "Credit : \n"
+				+ " + Dr. Stonedahl helped with handling multiple threads running at the same time \n"
+				+ " + Minh Ta helped with deploying project into runnable JAR and testing the autotrack");
 
 		alert.showAndWait();
 	}

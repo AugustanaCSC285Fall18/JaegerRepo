@@ -8,14 +8,14 @@ import javafx.scene.paint.Color;
 public class AnimalTrack {
 	private String animalID;
 	private List<TimePoint> positions;
-	private Color color;
+	private String color;
 	
 	/**
 	 * Constructor
 	 * @param id
 	 */
 	public AnimalTrack(String id) {
-		this(id, Color.GRAY);
+		this(id, "gray");
 	}
 	
 	/**
@@ -23,7 +23,7 @@ public class AnimalTrack {
 	 * @param id
 	 * @param color
 	 */
-	public AnimalTrack(String id, Color color) {
+	public AnimalTrack(String id, String color) {
 		this.animalID = id;
 		positions = new ArrayList<TimePoint>();
 		this.color = color;
@@ -96,7 +96,7 @@ public class AnimalTrack {
 	 * 
 	 * @param color
 	 */
-	public void setColor(Color color) {
+	public void setColor(String color) {
 		this.color = color;
 	}
 	
@@ -104,7 +104,7 @@ public class AnimalTrack {
 	 * 
 	 * @return color
 	 */
-	public Color getColor() {
+	public String getColor() {
 		return color;
 	}
 	
@@ -139,6 +139,18 @@ public class AnimalTrack {
 	 */
 	public TimePoint getFinalTimePoint() {
 		return positions.get(positions.size()-1);
+	}
+	
+	/**
+	 * 
+	 * @return total distance the track traveled.
+	 */
+	public double getDistanceInPixels() {
+		double sum = 0;
+		for (int i = 0; i < positions.size() - 2; i++) {
+			sum += positions.get(i).getDistanceTo(positions.get(i + 1));
+		}
+		return sum;
 	}
 	
 	/**

@@ -67,7 +67,7 @@
                   <FlowPane fx:id="playFlowPane" alignment="CENTER" prefHeight="117.0" prefWidth="705.0" prefWrapLength="0.0" GridPane.rowIndex="1">
                      <children>
                         <Button mnemonicParsing="false" onAction="#handleFrameBackward" text="&lt;&lt;--" />
-                        <Button fx:id="playBtn" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handlePlay" prefHeight="31.0" prefWidth="50.0" text="Play">
+                        <Button fx:id="playBtn" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handlePlay" prefHeight="31.0" prefWidth="72.0" text="Play">
                            <FlowPane.margin>
                               <Insets right="10.0" />
                            </FlowPane.margin>
@@ -78,7 +78,7 @@
                               <ColorAdjust brightness="-0.23" contrast="0.37" hue="-0.93" />
                            </effect>
                         </Button>
-                        <Slider fx:id="sliderVideoTime" prefHeight="37.0" prefWidth="483.0" />
+                        <Slider fx:id="sliderVideoTime" prefHeight="37.0" prefWidth="465.0" />
                         <Label fx:id="timeElapsed" prefHeight="26.0" prefWidth="71.0" text="00:00:00" wrapText="true">
                            <font>
                               <Font name="D-DIN" size="15.0" />
@@ -124,8 +124,6 @@
                      <children>
                         <Label text="Total Distance:" GridPane.rowIndex="4" />
                         <TextField fx:id="totalDistanceTextField" editable="false" prefWidth="100.0" text="0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                        <Label text="Current Distance:" GridPane.rowIndex="5" />
-                        <TextField fx:id="totalDistanceToFrameTextField" editable="false" prefWidth="100.0" text="0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                         <Button fx:id="undoBtn" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleUndo" prefHeight="59.0" prefWidth="238.0" text="View Mode: Partial Path" GridPane.rowIndex="2">
                            <effect>
                               <ColorAdjust brightness="-0.23" contrast="0.37" hue="-0.93" />

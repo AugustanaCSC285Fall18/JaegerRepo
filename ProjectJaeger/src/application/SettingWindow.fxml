@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Accordion?>
@@ -12,7 +18,7 @@
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.text.Font?>
 
-<Accordion maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="652.0" prefWidth="730.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SettingWindowController">
+<Accordion maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="652.0" prefWidth="730.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SettingWindowController">
   <panes>
     <TitledPane prefHeight="388.0" prefWidth="682.0" text="Step 1: Time Cropping">
       <content>
@@ -46,7 +52,7 @@
                   <FlowPane layoutX="9.0" layoutY="448.0" prefHeight="71.0" prefWidth="712.0" AnchorPane.bottomAnchor="45.19999999999999" AnchorPane.rightAnchor="-5.7999999999999545">
                      <children>
                         <Button fx:id="calibrateXbtn" mnemonicParsing="false" onAction="#handleCalibrationX" prefHeight="50.0" prefWidth="140.0" text="Calibrating X" />
-                        <Button fx:id="calibrateYbtn" mnemonicParsing="false" onAction="#handleCalibrationY" prefHeight="50.0" prefWidth="140.0" text="Calibrating Y" translateX="20.0" />
+                        <Button fx:id="calibrateYbtn" disable="true" mnemonicParsing="false" onAction="#handleCalibrationY" prefHeight="50.0" prefWidth="140.0" text="Calibrating Y" translateX="20.0" />
                         <Button mnemonicParsing="false" onAction="#handleStartTrackingButton" prefHeight="50.0" prefWidth="140.0" text="Start Tracking" translateX="100.0">
                            <font>
                               <Font name="System Bold" size="15.0" />
