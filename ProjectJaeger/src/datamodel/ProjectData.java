@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -20,6 +22,9 @@ public class ProjectData {
 	private int chickNum;
 	private int activeTrack;
 	private int activeUnassignedSegment;
+	
+	private LocalDateTime lastModifiedDate = LocalDateTime.now(); 
+
 
 	private static ProjectData currentProject;
 	
@@ -30,6 +35,7 @@ public class ProjectData {
 	public static ProjectData getCurrentProject() {
 		return currentProject;
 	}
+	
 	
 	private ProjectData(String videoFilePath) throws FileNotFoundException {
 		video = new Video(videoFilePath);
@@ -44,6 +50,10 @@ public class ProjectData {
 	
 	public List<AnimalTrack> getTracks() {
 		return tracks;
+	}
+	
+	public LocalDateTime getModifiedDate() {
+		return lastModifiedDate;
 	}
 
 	public List<AnimalTrack> getUnassignedSegments() {

@@ -3,6 +3,8 @@ package application;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.text.DecimalFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 import com.google.gson.Gson;
@@ -28,11 +30,14 @@ public class StartWindowController {
 	@FXML private TextField browseTextField;
 	@FXML private TextField vidLengthTxt;
 	@FXML private TextField dateTxt;
-	@FXML private TextField vidSizeTxt;
+	@FXML private TextField sizeTxt;
 	@FXML private TextField editorTxt;
 	@FXML private TextField verticalPxCm;
 	@FXML private Button startTrackingBtn;
 
+	
+
+	private DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd"); 
 	private DecimalFormat df = new DecimalFormat("#.##");
 	protected ProjectData currentProject;
 
@@ -41,8 +46,12 @@ public class StartWindowController {
 	@FXML
 	public void initialize() {
 		currentProject = ProjectData.getCurrentProject();
+ 
 		if (currentProject != null) {
 			browseTextField.setText(currentProject.getVideo().getFilePath());
+			vidLengthTxt.setText(currentProject.getVideo().getCurrentTime(currentProject.getVideo().getTotalNumFrames()));
+			dateTxt.setText(dtf.format(currentProject.getModifiedDate()));
+			sizeTxt.setText(df.format(currentProject.getVideo().getVidSize()) + " MB");
 		}
 	}
 
@@ -58,12 +67,15 @@ public class StartWindowController {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Open Video File");
 		File chosenFile = fileChooser.showOpenDialog(stage);
+		
 
 		if (chosenFile != null) {
-			browseTextField.setText(chosenFile.getAbsolutePath());
 			loadVideo(chosenFile.getAbsolutePath());
-			vidLengthTxt
-					.setText(currentProject.getVideo().getCurrentTime(currentProject.getVideo().getTotalNumFrames()));
+			currentProject.getVideo().setVidSize(chosenFile.length()/(1024*1024.0));
+			sizeTxt.setText(df.format(currentProject.getVideo().getVidSize()) + " MB");
+			browseTextField.setText(chosenFile.getAbsolutePath());
+			vidLengthTxt.setText(currentProject.getVideo().getCurrentTime(currentProject.getVideo().getTotalNumFrames()));
+			dateTxt.setText(dtf.format(currentProject.getModifiedDate()));
 		}
 	}
 

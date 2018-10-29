@@ -94,7 +94,7 @@ public class SettingWindowController {
 	 */
 	@FXML
 	public void handleEndTimeBtn() {
-		currentProject.getVideo().setEndFrameNum(currentProject.getVideo().getCurrentFrameNum());
+		currentProject.getVideo().setEndFrameNum(currentProject.getVideo().getCurrentFrameNum() - 1);
 		statusTxt.setText("End time is set at " + currentProject.getVideo().getCurrentTime(currentProject.getVideo().getCurrentFrameNum()));
 	}
 	
@@ -108,11 +108,10 @@ public class SettingWindowController {
 		dialog.setHeaderText(null);
 		dialog.setContentText("Enter time step (in seconds): ");
 		Optional<String> result = dialog.showAndWait();
-		
-	if (result.isPresent()) {
-		
-		currentProject.getVideo().setTimeStep(currentProject.getVideo().convertSecondsToFrameNums(Integer.parseInt(result.get())));
-		statusTxt.setText("Time step is set to " + currentProject.getVideo().getTimeStep() + " frame(s)/click"); 
+			
+		if (result.isPresent()) {
+			currentProject.getVideo().setTimeStep(currentProject.getVideo().convertSecondsToFrameNums(Double.parseDouble(result.get())));
+			statusTxt.setText("Time step is set to " + currentProject.getVideo().getTimeStep() + " frame(s)/click"); 
 		}
 	}
 	
@@ -121,28 +120,28 @@ public class SettingWindowController {
 	 */
 	@FXML
 	public void handleStartTrackingButton() {
-		try {
-			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("MainWindow.fxml"));
-	    	BorderPane root = (BorderPane) fxmlLoader.load();
-	    	MainWindowController controller = fxmlLoader.getController();
-	    	Scene scene = new Scene(root,root.getPrefWidth(),root.getPrefHeight());
-	    	scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-	
-	//    	currentProject.getVideo().setStartFrameNum(currentProject.getVideo().convertSecondsToFrameNums(Double.parseDouble(startTime.getText())));
-	//    	currentProject.getVideo().setCurrentFrameNum(currentProject.getVideo().convertSecondsToFrameNums(Double.parseDouble(startTime.getText()) + 1));
-	//    	currentProject.getVideo().setEndFrameNum(currentProject.getVideo().convertSecondsToFrameNums(Double.parseDouble(endTime.getText())));
+		if (currentProject.getVideo().getTimeStep() == 0 || pxPerCmX.getText().equals("") || pxPerCmY.getText().equals("")) {
+			Alert alert = new Alert(AlertType.ERROR, "Make sure the calibration and time step are set");		
+			alert.setTitle("Settings incomplete");
+			alert.showAndWait();
+
+		} else {
+			try {
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("MainWindow.fxml"));
+		    	BorderPane root = (BorderPane) fxmlLoader.load();
+		    	MainWindowController controller = fxmlLoader.getController();
+		    	Scene scene = new Scene(root,root.getPrefWidth(),root.getPrefHeight());
+		    	scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+		
+		    	stage.setScene(scene);
+		    	controller.initializeWithStage(stage);
+		    	stage.show();
 	    	
-	//    	currentProject.setChickNum(Integer.parseInt(chickNum.getText()));
-	//    	System.err.println(Integer.parseInt(chickNum.getText()));
-	
-	//    	stage.setTitle("Chick Tracker");
-	    	stage.setScene(scene);
-	    	controller.initializeWithStage(stage);
-	    	stage.show();
-    	
-		} catch (Exception e) {
-			e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
+		
 	}
 	
 
