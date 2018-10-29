@@ -76,7 +76,7 @@ public class MainWindowController implements AutoTrackListener {
 	private ToggleGroup menuToggleGroup;
 	protected ProjectData currentProject;
 
-	// ratio of original vid over displaying canvas
+	// ratio of original video over displaying canvas
 	private double displayScaleW;
 	private double displayScaleH;
 

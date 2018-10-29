@@ -13,6 +13,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 public class ProjectData {
+	
 	private static final String COMMA = ",";
 	
 	private Video video;
@@ -178,12 +179,7 @@ public class ProjectData {
 		this.pixelCmY = pixelCmY;
 	}
 	
-	/**
-	 * takes a file and exports it to CSV
-	 * @param outFile
-	 * @throws FileNotFoundException
-	 */
-	public void exportCSVFile(File outFile) throws FileNotFoundException{
+	public void exportCSVFile(File outFile) {
 		try {
 			FileWriter fw = new FileWriter(outFile);
 			fw.append("Chick ID, Time, X(cm), Y(cm)" + COMMA + "\n");
@@ -237,7 +233,7 @@ public class ProjectData {
 	}
 	
 	/**
-	 * Converts a String to a projectdata object 
+	 * Converts a String to a project data object 
 	 * @param jsonText
 	 * @return ProjectData
 	 * @throws FileNotFoundException
