@@ -57,7 +57,6 @@
                         </Button>
                      </children>
                   </FlowPane>
-                  <Label fx:id="statusTxt1" layoutX="404.0" layoutY="520.0" prefHeight="29.0" prefWidth="229.0" text="Status" />
                   <TextField fx:id="pxPerCmY" editable="false" layoutX="231.0" layoutY="520.0" prefHeight="29.0" prefWidth="79.0" />
                   <Label layoutX="169.0" layoutY="526.0" text="Pixel/cm Y: " />
                   <Label layoutX="12.0" layoutY="526.0" text="Pixel/cm X: " />

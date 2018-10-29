@@ -182,9 +182,10 @@
                   <MenuItem fx:id="exportBtn" mnemonicParsing="false" onAction="#handleExport" text="Export to.." />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Edit" />
-          <Menu mnemonicParsing="false" text="Help" />
-            <Menu mnemonicParsing="false" onAction="#handleAbout" text="About" />
+          <Menu mnemonicParsing="false" text="Help">
+               <items>
+                  <MenuItem fx:id="aboutBtn" mnemonicParsing="false" onAction="#handleAbout" text="About" />
+               </items></Menu>
         </menus>
          <padding>
             <Insets top="5.0" />
