@@ -210,7 +210,7 @@ public class SettingWindowController {
 				System.out.println(measuredDistanceX);
 				System.out.println(pixelPerUnitX);
 				calibrateXbtn.setText("Complete");
-				pxPerCmX.setText(" "+pixelPerUnitX);
+				pxPerCmX.setText(df.format(pixelPerUnitX));
 			}
 		
 	}
@@ -238,7 +238,7 @@ public class SettingWindowController {
 				System.out.println(measuredDistanceY);
 				System.out.println(pixelPerUnitY);
 				calibrateYbtn.setText("Complete");
-				pxPerCmY.setText(" "+pixelPerUnitY);
+				pxPerCmY.setText(df.format(pixelPerUnitY));
 			}
 		}
 	
