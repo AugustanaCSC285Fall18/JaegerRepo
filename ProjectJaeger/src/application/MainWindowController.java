@@ -148,6 +148,9 @@ public class MainWindowController implements AutoTrackListener {
 
 	}
 
+	/**
+	 * Plays the video
+	 */
 	@FXML
 	public void handlePlay() {
 		if (currentProject.getVideo() != null) {
@@ -164,12 +167,17 @@ public class MainWindowController implements AutoTrackListener {
 
 	// try a few variables
 	int ovalDiameter = 6;
-	int frameAdd = 20;
 
+
+	/**
+	 * Allows users to manually track
+	 */
 	@FXML
 	public void handleManualTrack() {
 		manualTrackToggled = !manualTrackToggled;
+		
 		if (manualTrackToggled) {
+			double frameAdd = currentProject.getVideo().getTimeStep();
 			startManualBtn.setText("Stop Manual Tracking");
 			pathCanvas.setOnMousePressed((me) -> {
 				currentProject.getActiveTrack().add(me.getX() / displayScaleW, me.getY() / displayScaleH,
@@ -186,6 +194,9 @@ public class MainWindowController implements AutoTrackListener {
 		}
 	}
 
+	/**
+	 * 
+	 */
 	@FXML
 	public void handleUndo() {
 		undoModeToggled = !undoModeToggled;
@@ -197,6 +208,9 @@ public class MainWindowController implements AutoTrackListener {
 		}
 	}
 
+	/**
+	 * Moves to the Start Window
+	 */
 	@FXML
 	public void handleBackBtn() {
 		try {
@@ -224,6 +238,10 @@ public class MainWindowController implements AutoTrackListener {
 	public void handleFrameBackward() {
 	}
 
+	/**
+	 * Lets users to save the tracking progress in their PCs
+	 * @throws FileNotFoundException
+	 */
 	@FXML
 	public void handleSave() throws FileNotFoundException {
 		FileChooser fileChooser = new FileChooser();
@@ -241,6 +259,10 @@ public class MainWindowController implements AutoTrackListener {
 
 	}
 
+	/**
+	 * Exports the tracking data to CSV Files
+	 * @throws FileNotFoundException
+	 */
 	@FXML
 	public void handleExport() throws FileNotFoundException {
 		FileChooser fileChooser = new FileChooser();
@@ -257,6 +279,10 @@ public class MainWindowController implements AutoTrackListener {
 		}
 	}
 
+	/**
+	 * Shows the video frame
+	 * @param frameNum - the number of frames
+	 */
 	public void showFrameAt(int frameNum) {
 		if (frameNum <= currentProject.getVideo().getEndFrameNum()
 				&& (autotracker == null || !autotracker.isRunning())) {
@@ -346,6 +372,10 @@ public class MainWindowController implements AutoTrackListener {
 		timer.start();
 	}
 
+	/**
+	 * Starts auto-tracking
+	 * @throws InterruptedException
+	 */
 	@FXML
 	public void handleAutoTrack() throws InterruptedException {
 		playFlowPane.setDisable(!playFlowPane.isDisabled());
@@ -367,14 +397,20 @@ public class MainWindowController implements AutoTrackListener {
 			startAutoBtn.setText("CANCEL Auto Tracking");
 
 		} else {
-
+			
 			autotracker.cancelAnalysis();
 			startAutoBtn.setText("Start Auto Tracking");
+			Platform.runLater(() -> {
+				sliderVideoTime.setValue(currentProject.getVideo().getCurrentFrameNum() - 1);
+			});
 
 		}
 
 	}
 
+	/**
+	 * 
+	 */
 	@Override
 	public void handleTrackedFrame(Mat frame, int frameNumber, double fractionComplete) {
 		Image imgFrame = UtilsForOpenCV.matToJavaFXImage(frame);
@@ -389,6 +425,9 @@ public class MainWindowController implements AutoTrackListener {
 		});
 	}
 
+	/**
+	 * Replaces all the unassigned segments by manual-tracked segments
+	 */
 	@Override
 	public void trackingComplete(List<AnimalTrack> trackedSegments) {
 		currentProject.getUnassignedSegments().clear();
@@ -408,6 +447,9 @@ public class MainWindowController implements AutoTrackListener {
 		});
 	}
 
+	/**
+	 * Shows unassigned segments on the video
+	 */
 	@FXML
 	public void handleShowUnassigned() {
 		showFrameAt(currentProject.getCurrentUnassignedSegment().getFinalTimePoint().getFrameNum());
@@ -415,12 +457,18 @@ public class MainWindowController implements AutoTrackListener {
 				+ currentProject.getVideo().getStartFrameNum());
 	}
 
+	/**
+	 * Moves to the previous unassigned segments
+	 */
 	@FXML
 	public void handlePrevSegment() {
 		currentProject.moveToPrevUnassignedSegment();
 		showFrameAt(currentProject.getCurrentUnassignedSegment().getFinalTimePoint().getFrameNum());
 	}
 
+	/**
+	 * Assigns the unassigned segment to a chick
+	 */
 	@FXML
 	public void handleSetSegment() {
 		currentProject.getActiveTrack().addAll(currentProject.getCurrentUnassignedSegment());
@@ -434,6 +482,9 @@ public class MainWindowController implements AutoTrackListener {
 		}
 	}
 
+	/**
+	 * Moves to the next unassigned segments
+	 */
 	@FXML
 	public void handleNexStegment() {
 		currentProject.moveToNextUnassignedSegment();

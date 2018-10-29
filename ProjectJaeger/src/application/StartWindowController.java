@@ -3,6 +3,8 @@ package application;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.text.DecimalFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 import com.google.gson.Gson;
@@ -28,11 +30,14 @@ public class StartWindowController {
 	@FXML private TextField browseTextField;
 	@FXML private TextField vidLengthTxt;
 	@FXML private TextField dateTxt;
-	@FXML private TextField vidSizeTxt;
+	@FXML private TextField sizeTxt;
 	@FXML private TextField editorTxt;
 	@FXML private TextField verticalPxCm;
 	@FXML private Button startTrackingBtn;
 
+	
+
+	private DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd"); 
 	private DecimalFormat df = new DecimalFormat("#.##");
 	protected ProjectData currentProject;
 
@@ -41,8 +46,12 @@ public class StartWindowController {
 	@FXML
 	public void initialize() {
 		currentProject = ProjectData.getCurrentProject();
+ 
 		if (currentProject != null) {
 			browseTextField.setText(currentProject.getVideo().getFilePath());
+			vidLengthTxt.setText(currentProject.getVideo().getCurrentTime(currentProject.getVideo().getTotalNumFrames()));
+			dateTxt.setText(dtf.format(currentProject.getModifiedDate()));
+			sizeTxt.setText(df.format(currentProject.getVideo().getVidSize()) + " MB");
 		}
 	}
 
@@ -50,20 +59,29 @@ public class StartWindowController {
 		this.stage = stage;
 	}
 
+	/**
+	 * Let users browse the video in their PCs
+	 */
 	@FXML
 	public void handleBrowseBtn() {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Open Video File");
 		File chosenFile = fileChooser.showOpenDialog(stage);
+		
 
 		if (chosenFile != null) {
-			browseTextField.setText(chosenFile.getAbsolutePath());
 			loadVideo(chosenFile.getAbsolutePath());
-			vidLengthTxt
-					.setText(currentProject.getVideo().getCurrentTime(currentProject.getVideo().getTotalNumFrames()));
+			currentProject.getVideo().setVidSize(chosenFile.length()/(1024*1024.0));
+			sizeTxt.setText(df.format(currentProject.getVideo().getVidSize()) + " MB");
+			browseTextField.setText(chosenFile.getAbsolutePath());
+			vidLengthTxt.setText(currentProject.getVideo().getCurrentTime(currentProject.getVideo().getTotalNumFrames()));
+			dateTxt.setText(dtf.format(currentProject.getModifiedDate()));
 		}
 	}
 
+	/**
+	 * Moves to the Setting Window
+	 */
 	@FXML
 	public void handleStartTrackingBtn() {
 		try {
@@ -89,6 +107,10 @@ public class StartWindowController {
 		}
 	}
 
+	/**
+	 * Loads the chosen video
+	 * @param filePath - the chosen video's file path
+	 */
 	public void loadVideo(String filePath) {
 		try {
 			ProjectData.loadCurrentProject(filePath);
@@ -99,6 +121,10 @@ public class StartWindowController {
 		}
 	}
 
+	/**
+	 * Loads the saved progress
+	 */
+	@FXML
 	public void handleLoadProgress() {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Load Progress");
@@ -107,28 +133,30 @@ public class StartWindowController {
 		File file = fileChooser.showOpenDialog(stage);
 		if (file != null) {
 			try {
-//				ProjectData.loadCurrentProject(filePath);
 				currentProject = loadFromFile(file);
-				
-				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("MainWindow.fxml"));
-		    	BorderPane root = (BorderPane) fxmlLoader.load();
-		    	MainWindowController controller = fxmlLoader.getController();
-		    	Scene scene = new Scene(root,root.getPrefWidth(),root.getPrefHeight());
-		    	scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-		    	stage.setScene(scene);
-		    	controller.initializeWithStage(stage);
-		    	stage.show();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 	}
 
+	/**
+	 * Converts the .json file to ProjectData 
+	 * @param loadFile - the loaded file
+	 * @return the data converted from .json file
+	 * @throws FileNotFoundException
+	 */
 	public static ProjectData loadFromFile(File loadFile) throws FileNotFoundException {
 		String json = new Scanner(loadFile).useDelimiter("\\Z").next();
 		return fromJSON(json);
 	}
 
+	/**
+	 * Converts the json text to ProjectData
+	 * @param jsonText - the json text in .json file
+	 * @return the data converted from json text
+	 * @throws FileNotFoundException
+	 */
 	public static ProjectData fromJSON(String jsonText) throws FileNotFoundException {
 		Gson gson = new Gson();
 		ProjectData data = gson.fromJson(jsonText, ProjectData.class);
