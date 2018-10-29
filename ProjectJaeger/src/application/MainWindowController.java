@@ -15,6 +15,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -38,6 +40,7 @@ public class MainWindowController implements AutoTrackListener {
 
 	@FXML	private MenuItem saveBtn;
 	@FXML	private MenuItem exportBtn;
+	@FXML	private MenuItem aboutBtn;
 	@FXML	private Button calibrationBtn;
 	@FXML	private Button playBtn;
 	@FXML	private Button startManualBtn;
@@ -504,5 +507,15 @@ public class MainWindowController implements AutoTrackListener {
 	public void handleNexStegment() {
 		currentProject.moveToNextUnassignedSegment();
 		showFrameAt(currentProject.getCurrentUnassignedSegment().getFinalTimePoint().getFrameNum());
+	}
+	
+	@FXML
+	public void handleAbout() {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Project Contributions");
+		alert.setHeaderText(null);
+		alert.setContentText("Team Jaeger Chick Tracking Software/n Project Supervisor: Forrest Stonedahl /nCoders: Tiffany Nguyen, Tuan Nguyen, Meghan Stovall, Jake Hanlon /nInstitution: Augustana College CSC 285");
+
+		alert.showAndWait();
 	}
 }

@@ -177,11 +177,8 @@
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Edit" />
-          <Menu mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem mnemonicParsing="false" text="About" />
-            </items>
-          </Menu>
+          <Menu mnemonicParsing="false" text="Help" />
+            <Menu mnemonicParsing="false" onAction="#handleAbout" text="About" />
         </menus>
          <padding>
             <Insets top="5.0" />
