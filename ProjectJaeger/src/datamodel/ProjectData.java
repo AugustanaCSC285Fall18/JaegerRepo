@@ -99,13 +99,27 @@ public class ProjectData {
 		try {
 			FileWriter fw = new FileWriter(outFile);
 			fw.append("Chick ID, Time, X(cm), Y(cm)" + COMMA + "\n");
+			double duplicate=0;
+			String duplicateID="";
 			
 			for (AnimalTrack chickTrack : tracks) {		
 				for (TimePoint pt : chickTrack.getTimePoints()) {
+					if(duplicateID.equals(chickTrack.getAnimalID())) {
+						if(video.convertFrameNumsToSeconds(pt.getFrameNum())-duplicate>=1) {
+							fw.append(String.valueOf(chickTrack.getAnimalID()) + COMMA);
+							fw.append(String.valueOf(video.getCurrentTime(pt.getFrameNum())) + COMMA);
+							fw.append(String.valueOf(pt.getX()/video.getXPixelsPerCm()) + COMMA);
+							fw.append(String.valueOf(pt.getY()/video.getYPixelsPerCm()) + COMMA + "\n");
+							duplicate=video.convertFrameNumsToSeconds(pt.getFrameNum());
+						}
+						
+					}else {
 					fw.append(String.valueOf(chickTrack.getAnimalID()) + COMMA);
 					fw.append(String.valueOf(video.getCurrentTime(pt.getFrameNum())) + COMMA);
 					fw.append(String.valueOf(pt.getX()/video.getXPixelsPerCm()) + COMMA);
 					fw.append(String.valueOf(pt.getY()/video.getYPixelsPerCm()) + COMMA + "\n");
+					}
+					duplicateID=chickTrack.getAnimalID();
 				}
 			}
 			fw.flush();
