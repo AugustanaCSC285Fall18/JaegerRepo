@@ -5,7 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -210,10 +209,11 @@ public class ProjectData {
 	 * @return ProjectData
 	 * @throws FileNotFoundException
 	 */
-	public static ProjectData loadFromFile(File loadFile) throws FileNotFoundException {
+	public static void loadFromFile(File loadFile) throws FileNotFoundException {
 		String json = new Scanner(loadFile).useDelimiter("\\Z").next();
-		return fromJSON(json);
+		currentProject = fromJSON(json);
 	}
+	
 	/**
 	 * Converts a String to a projectdata object 
 	 * @param jsonText

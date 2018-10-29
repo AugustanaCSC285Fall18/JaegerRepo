@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Button?>
@@ -26,7 +33,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="807.0" prefWidth="1031.0" style="-fx-background-color: #e5e5e5;" styleClass="application.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainWindowController">
+<BorderPane prefHeight="807.0" prefWidth="1031.0" style="-fx-background-color: #e5e5e5;" styleClass="application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainWindowController">
    <center>
       <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="567.0" prefWidth="705.0" BorderPane.alignment="TOP_CENTER">
          <children>
@@ -247,7 +254,7 @@
                                           <ColorAdjust brightness="-0.23" contrast="0.37" hue="-0.93" />
                                        </effect>
                                     </Button>
-                                    <Button alignment="CENTER" mnemonicParsing="false" onAction="#handleNexStegment" prefHeight="35.0" prefWidth="80.0" text="Next">
+                                    <Button alignment="CENTER" mnemonicParsing="false" onAction="#handleNextSegment" prefHeight="35.0" prefWidth="80.0" text="Next">
                                        <FlowPane.margin>
                                           <Insets left="15.0" />
                                        </FlowPane.margin>

@@ -133,7 +133,8 @@ public class StartWindowController {
 
 		File file = fileChooser.showOpenDialog(stage);
 		if (file != null) {
-			currentProject = loadFromFile(file);
+			ProjectData.loadFromFile(file);
+			currentProject = ProjectData.getCurrentProject();
 			try {
 				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("MainWindow.fxml"));
 		    	BorderPane root = (BorderPane) fxmlLoader.load();
@@ -148,29 +149,5 @@ public class StartWindowController {
 				e.printStackTrace();
 			}
 		}
-	}
-
-	/**
-	 * Converts the .json file to ProjectData Object
-	 * @param loadFile - the loaded file
-	 * @return the data converted from .json file
-	 * @throws FileNotFoundException
-	 */
-	public static ProjectData loadFromFile(File loadFile) throws FileNotFoundException {
-		String json = new Scanner(loadFile).useDelimiter("\\Z").next();
-		return fromJSON(json);
-	}
-
-	/**
-	 * Converts the json text to ProjectData Object
-	 * @param jsonText - the json text in .json file
-	 * @return the data converted from json text
-	 * @throws FileNotFoundException
-	 */
-	public static ProjectData fromJSON(String jsonText) throws FileNotFoundException {
-		Gson gson = new Gson();
-		ProjectData data = gson.fromJson(jsonText, ProjectData.class);
-		data.getVideo().connectVideoCapture();
-		return data;
 	}
 }

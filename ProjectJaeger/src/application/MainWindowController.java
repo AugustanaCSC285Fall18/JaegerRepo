@@ -96,6 +96,7 @@ public class MainWindowController implements AutoTrackListener {
 		sliderVideoTime.setMax(currentProject.getVideo().getEndFrameNum());
 		sliderVideoTime.setValue(sliderVideoTime.getMin());
 
+		initializeMenuButton();
 		// set current video canvas & overlay to the size of the video
 		Image curFrame = UtilsForOpenCV.matToJavaFXImage(currentProject.getVideo().readFrame());
 
@@ -114,6 +115,28 @@ public class MainWindowController implements AutoTrackListener {
 		menuToggleGroup = new ToggleGroup();
 		stage.setOnCloseRequest(a -> System.exit(0));
 
+	}
+	
+	private void initializeMenuButton() {
+		for (int i = 1; i < currentProject.getTracks().size(); i++) {
+			AnimalTrack curChick = currentProject.getTracks().get(i);
+			String chickName = currentProject.getTracks().get(i).getAnimalID();
+			RadioMenuItem newChickItem = new RadioMenuItem(chickName);
+			chickMenu.getItems().add(newChickItem);
+			newChickItem.setOnAction(a -> {
+				currentProject.setActiveTrack(curChick);
+				chickMenu.setText(currentProject.getActiveTrack().getAnimalID());
+				showFrameAt(currentProject.getVideo().getCurrentFrameNum());
+			});
+			currentProject.setActiveTrack(curChick);
+			
+			newChickItem.setToggleGroup(menuToggleGroup);
+			newChickItem.setSelected(true);
+			newChickItem.setId("" + (chickMenu.getItems().size() - 1));
+			newChickItem.setStyle("-fx-background-color: " + color[(chickMenu.getItems().size() - 1) % color.length] + ";");
+			chickMenu.setText(currentProject.getActiveTrack().getAnimalID());
+		}
+		showFrameAt(currentProject.getVideo().getCurrentFrameNum());
 	}
 
 	@FXML
@@ -138,15 +161,14 @@ public class MainWindowController implements AutoTrackListener {
 				showFrameAt(currentProject.getVideo().getCurrentFrameNum());
 			});
 			newChickItem.setToggleGroup(menuToggleGroup);
-
 			newChickItem.setSelected(true);
+			newChickItem.setId("" + (chickMenu.getItems().size() - 1));
+			newChickItem.setStyle("-fx-background-color: " + color[(chickMenu.getItems().size() - 1) % color.length] + ";");
+			
 			currentProject.setActiveTrack(newChick);
 			chickMenu.setText(currentProject.getActiveTrack().getAnimalID());
 			showFrameAt(currentProject.getVideo().getCurrentFrameNum());
 
-			newChickItem.setId("" + (chickMenu.getItems().size() - 1));
-			newChickItem
-					.setStyle("-fx-background-color: " + color[(chickMenu.getItems().size() - 1) % color.length] + ";");
 		}
 
 	}
@@ -213,7 +235,7 @@ public class MainWindowController implements AutoTrackListener {
 	}
 
 	/**
-	 * 
+	 * Show either partial path or full path of the selected track.
 	 */
 	@FXML
 	public void handleUndo() {
@@ -427,7 +449,7 @@ public class MainWindowController implements AutoTrackListener {
 	}
 
 	/**
-	 * 
+	 * Draw an image of the auto-tracked frame. This method is called repeatedly by the autotracker.
 	 */
 	@Override
 	public void handleTrackedFrame(Mat frame, int frameNumber, double fractionComplete) {
@@ -444,7 +466,7 @@ public class MainWindowController implements AutoTrackListener {
 	}
 
 	/**
-	 * Replaces all the unassigned segments by manual-tracked segments
+	 * After done auto-tracking, add all unassigned segments into the project.
 	 */
 	@Override
 	public void trackingComplete(List<AnimalTrack> trackedSegments) {
@@ -481,7 +503,8 @@ public class MainWindowController implements AutoTrackListener {
 	@FXML
 	public void handlePrevSegment() {
 		currentProject.moveToPrevUnassignedSegment();
-		showFrameAt(currentProject.getCurrentUnassignedSegment().getFinalTimePoint().getFrameNum());
+		sliderVideoTime.setValue(currentProject.getCurrentUnassignedSegment().getFinalTimePoint().getFrameNum() - 1);
+//		showFrameAt(currentProject.getCurrentUnassignedSegment().getFinalTimePoint().getFrameNum());
 	}
 
 	/**
@@ -494,8 +517,10 @@ public class MainWindowController implements AutoTrackListener {
 		if (currentProject.getUnassignedSegments().size() == 0) {
 			segmentAssignFlowPane.setDisable(true);
 			showUnassigned.setSelected(false);
+			showFrameAt(currentProject.getVideo().getCurrentFrameNum());
 		} else {
-			showFrameAt(currentProject.getCurrentUnassignedSegment().getFinalTimePoint().getFrameNum());
+//			showFrameAt(currentProject.getCurrentUnassignedSegment().getFinalTimePoint().getFrameNum());
+			sliderVideoTime.setValue(currentProject.getCurrentUnassignedSegment().getFinalTimePoint().getFrameNum() - 1);
 			System.out.println(currentProject.getCurrentUnassignedSegment().getFinalTimePoint().getFrameNum());
 		}
 	}
@@ -504,9 +529,10 @@ public class MainWindowController implements AutoTrackListener {
 	 * Moves to the next unassigned segments
 	 */
 	@FXML
-	public void handleNexStegment() {
+	public void handleNextSegment() {
 		currentProject.moveToNextUnassignedSegment();
-		showFrameAt(currentProject.getCurrentUnassignedSegment().getFinalTimePoint().getFrameNum());
+		sliderVideoTime.setValue(currentProject.getCurrentUnassignedSegment().getFinalTimePoint().getFrameNum() - 1);
+//		showFrameAt(currentProject.getCurrentUnassignedSegment().getFinalTimePoint().getFrameNum());
 	}
 	
 	@FXML
