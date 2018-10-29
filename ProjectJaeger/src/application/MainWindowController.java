@@ -41,7 +41,6 @@ public class MainWindowController implements AutoTrackListener {
 	@FXML	private MenuItem saveBtn;
 	@FXML	private MenuItem exportBtn;
 	@FXML	private MenuItem aboutBtn;
-	@FXML	private Button calibrationBtn;
 	@FXML	private Button playBtn;
 	@FXML	private Button startManualBtn;
 	@FXML	private Button undoBtn;
@@ -540,7 +539,7 @@ public class MainWindowController implements AutoTrackListener {
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Project Contributions");
 		alert.setHeaderText(null);
-		alert.setContentText("Team Jaeger Chick Tracking Software/n Project Supervisor: Forrest Stonedahl /nCoders: Tiffany Nguyen, Tuan Nguyen, Meghan Stovall, Jake Hanlon /nInstitution: Augustana College CSC 285");
+		alert.setContentText("Team Jaeger Chick Tracking Software \nProject Supervisor: Forrest Stonedahl\n Coders: Tiffany Nguyen, Tuan Nguyen, Meghan Stovall, Jake Hanlon \nInstitution: Augustana College CSC 285");
 
 		alert.showAndWait();
 	}
