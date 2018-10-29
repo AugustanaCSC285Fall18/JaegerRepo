@@ -95,7 +95,7 @@ public class StartWindowController {
 //	    	currentProject.getVideo().setCurrentFrameNum(currentProject.getVideo().convertSecondsToFrameNums(Double.parseDouble(startTime.getText()) + 1));
 //	    	currentProject.getVideo().setEndFrameNum(currentProject.getVideo().convertSecondsToFrameNums(Double.parseDouble(endTime.getText())));
 
-			currentProject.setChickNum(5);
+//			currentProject.setChickNum(5);
 
 			stage.setTitle("Chick Tracker");
 			stage.setScene(scene);
@@ -115,7 +115,7 @@ public class StartWindowController {
 		try {
 			ProjectData.loadCurrentProject(filePath);
 			currentProject = ProjectData.getCurrentProject();
-			ProjectData.getCurrentProject().getTracks().add(new AnimalTrack("Chick 1"));
+			ProjectData.getCurrentProject().getTracks().add(new AnimalTrack("Anonymous Chick"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

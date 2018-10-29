@@ -147,6 +147,21 @@ public class MainWindowController implements AutoTrackListener {
 		}
 
 	}
+	
+	@FXML
+	private void handleRemoveChickBtn() {
+		if (chickMenu.getItems().size() > 0) {
+			chickMenu.getItems().remove(currentProject.getTracks().indexOf(currentProject.getActiveTrack())-1);
+			currentProject.removeActiveTrack();
+			if (chickMenu.getItems().size() > 0) {
+				RadioMenuItem newSelectedChick = (RadioMenuItem) chickMenu.getItems().get(currentProject.getTracks().indexOf(currentProject.getActiveTrack())-1);
+				newSelectedChick.setSelected(true);
+			}
+
+			chickMenu.setText(currentProject.getActiveTrack().getAnimalID());
+		}
+	}
+	
 
 	/**
 	 * Plays the video

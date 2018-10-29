@@ -99,6 +99,7 @@ public class ProjectData {
 			activeUnassignedSegment--;
 		}
 	}
+
 	/**
 	 * Switches to the last unassigned track segment
 	 */
@@ -149,6 +150,7 @@ public class ProjectData {
 	public AnimalTrack getActiveTrack() {
 		return tracks.get(activeTrack);
 	}
+
 	/**
 	 * takes a file and exports it to CSV
 	 * @param outFile
