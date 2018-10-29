@@ -109,13 +109,19 @@
                      </font>
                   </Label>
                   <TextField fx:id="vidLengthTxt" editable="false" prefHeight="25.0" prefWidth="136.0" GridPane.columnIndex="1" />
-                  <TextField fx:id="dateTxt" prefHeight="25.0" prefWidth="172.0" promptText="Enter the date" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <TextField fx:id="dateTxt" editable="false" prefHeight="25.0" prefWidth="172.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <Label prefHeight="17.0" prefWidth="102.0" text="Editor" GridPane.rowIndex="1">
                      <font>
                         <Font name="D-DIN" size="15.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="vidSizeTxt" promptText="Enter your name" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField promptText="Enter your name" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Label layoutX="20.0" layoutY="166.0" text="Size" GridPane.rowIndex="3">
+                     <font>
+                        <Font name="D-DIN" size="15.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="sizeTxt" editable="false" layoutX="193.0" layoutY="153.0" prefHeight="25.0" prefWidth="172.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                </children>
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="173.0" minWidth="10.0" prefWidth="132.0" />

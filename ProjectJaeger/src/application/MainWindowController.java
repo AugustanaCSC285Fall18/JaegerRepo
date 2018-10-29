@@ -164,12 +164,14 @@ public class MainWindowController implements AutoTrackListener {
 
 	// try a few variables
 	int ovalDiameter = 6;
-	int frameAdd = 20;
+
 
 	@FXML
 	public void handleManualTrack() {
 		manualTrackToggled = !manualTrackToggled;
+		
 		if (manualTrackToggled) {
+			double frameAdd = currentProject.getVideo().getTimeStep();
 			startManualBtn.setText("Stop Manual Tracking");
 			pathCanvas.setOnMousePressed((me) -> {
 				currentProject.getActiveTrack().add(me.getX() / displayScaleW, me.getY() / displayScaleH,
@@ -367,9 +369,12 @@ public class MainWindowController implements AutoTrackListener {
 			startAutoBtn.setText("CANCEL Auto Tracking");
 
 		} else {
-
+			
 			autotracker.cancelAnalysis();
 			startAutoBtn.setText("Start Auto Tracking");
+			Platform.runLater(() -> {
+				sliderVideoTime.setValue(currentProject.getVideo().getCurrentFrameNum() - 1);
+			});
 
 		}
 
