@@ -10,16 +10,29 @@ public class AnimalTrack {
 	private List<TimePoint> positions;
 	private Color color;
 	
-	
+	/**
+	 * Constructor
+	 * @param id
+	 */
 	public AnimalTrack(String id) {
 		this(id, Color.GRAY);
 	}
+	
+	/**
+	 * Constructor
+	 * @param id
+	 * @param color
+	 */
 	public AnimalTrack(String id, Color color) {
 		this.animalID = id;
 		positions = new ArrayList<TimePoint>();
 		this.color = color;
 	}
 	
+	/**
+	 * 
+	 * @param pt
+	 */
 	public void add(TimePoint pt) {
 		if (positions.size() == 0) {
 			positions.add(pt);
@@ -34,33 +47,63 @@ public class AnimalTrack {
 		}
 	}
 	
+	/**
+	 * Adds all the timepoints in a positions array
+	 * @param segment
+	 */
 	public void addAll(AnimalTrack segment) {
 		for(TimePoint pt : segment.positions) {
 			add(pt);
 		}
 	}
 	
+	/**
+	 * Adds a new timepoint
+	 * @param x
+	 * @param y
+	 * @param frameNum
+	 */
 	public void add(double x, double y, int frameNum) {
 		add(new TimePoint(x, y, frameNum));
 	}
 
-	
+	/**
+	 * 
+	 * @return String animalID
+	 */
 	public String getAnimalID() {
 		return animalID;
 	}
 	
+	/**
+	 * 
+	 * @param index
+	 * @return the timepoint at an index in the array of positions
+	 */
 	public TimePoint getTimePointAtIndex(int index) {
 		return positions.get(index);
 	}
 	
+	/**
+	 * 
+	 * @return number of timepoints in the positions array
+	 */
 	public int getNumPoints() {
 		return positions.size();
 	}
 	
+	/**
+	 * 
+	 * @param color
+	 */
 	public void setColor(Color color) {
 		this.color = color;
 	}
 	
+	/**
+	 * 
+	 * @return color
+	 */
 	public Color getColor() {
 		return color;
 	}
@@ -90,10 +133,17 @@ public class AnimalTrack {
 		return null;
 	}
 	
+	/**
+	 *
+	 * @return the final timepoint of the animal track
+	 */
 	public TimePoint getFinalTimePoint() {
 		return positions.get(positions.size()-1);
 	}
 	
+	/**
+	 * Creates a string describing the animal track
+	 */
 	public String toString() {
 		int startFrame = positions.get(0).getFrameNum();
 		int endFrame = getFinalTimePoint().getFrameNum();

@@ -123,17 +123,27 @@ public class StartWindowController {
 
 	/**
 	 * Loads the saved progress
+	 * @throws FileNotFoundException 
 	 */
 	@FXML
-	public void handleLoadProgress() {
+	public void handleLoadProgress() throws FileNotFoundException {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Load Progress");
 		fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("JSON", "*.json"));
 
 		File file = fileChooser.showOpenDialog(stage);
 		if (file != null) {
+			currentProject = loadFromFile(file);
 			try {
-				currentProject = loadFromFile(file);
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("MainWindow.fxml"));
+		    	BorderPane root = (BorderPane) fxmlLoader.load();
+		    	MainWindowController controller = fxmlLoader.getController();
+		    	Scene scene = new Scene(root,root.getPrefWidth(),root.getPrefHeight());
+		    	scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+		
+		    	stage.setScene(scene);
+		    	controller.initializeWithStage(stage);
+		    	stage.show();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -141,7 +151,7 @@ public class StartWindowController {
 	}
 
 	/**
-	 * Converts the .json file to ProjectData 
+	 * Converts the .json file to ProjectData Object
 	 * @param loadFile - the loaded file
 	 * @return the data converted from .json file
 	 * @throws FileNotFoundException
@@ -152,7 +162,7 @@ public class StartWindowController {
 	}
 
 	/**
-	 * Converts the json text to ProjectData
+	 * Converts the json text to ProjectData Object
 	 * @param jsonText - the json text in .json file
 	 * @return the data converted from json text
 	 * @throws FileNotFoundException
