@@ -71,6 +71,7 @@ public class ProjectData {
 		}
 	}
 	
+	
 	public void moveToPrevUnassignedSegment() {
 		activeUnassignedSegment--;
 		if (activeUnassignedSegment < 0) {
@@ -104,6 +105,14 @@ public class ProjectData {
 	public AnimalTrack getActiveTrack() {
 		return tracks.get(activeTrack);
 	}
+	
+	public void removeActiveTrack() {
+		tracks.remove(activeTrack);
+		if (tracks.size() == activeTrack) {
+			activeTrack--;
+		}
+	}
+	
 
 	public void exportCSVFile(File outFile) throws FileNotFoundException{
 		try {
