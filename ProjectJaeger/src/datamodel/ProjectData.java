@@ -151,6 +151,12 @@ public class ProjectData {
 		return tracks.get(activeTrack);
 	}
 
+	public void removeActiveTrack() {
+		tracks.remove(activeTrack);
+		if (tracks.size() == activeTrack) {
+			activeTrack--;
+		}
+	}
 	/**
 	 * takes a file and exports it to CSV
 	 * @param outFile

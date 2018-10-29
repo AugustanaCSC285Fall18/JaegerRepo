@@ -40,6 +40,10 @@ public class SettingWindowController {
 	@FXML private Button setStartTimeBtn;
 	@FXML private Button setEndTimeBtn;
 	@FXML private Label statusTxt;
+	@FXML private Label startTimeLabel;
+	@FXML private Label endTimeLabel;
+	@FXML private Label timeStepLabel;
+	
 	
 	@FXML private Label timeLabel;
 	private GraphicsContext gc;
@@ -87,6 +91,7 @@ public class SettingWindowController {
 	public void handleStartTimeBtn() {
 		currentProject.getVideo().setStartFrameNum(currentProject.getVideo().getCurrentFrameNum());
 		statusTxt.setText("Start time is set at " + currentProject.getVideo().getCurrentTime(currentProject.getVideo().getCurrentFrameNum()));
+		startTimeLabel.setText("" + currentProject.getVideo().getCurrentTime(currentProject.getVideo().getCurrentFrameNum()));
 	}
 	
 	/**
@@ -96,6 +101,7 @@ public class SettingWindowController {
 	public void handleEndTimeBtn() {
 		currentProject.getVideo().setEndFrameNum(currentProject.getVideo().getCurrentFrameNum() - 1);
 		statusTxt.setText("End time is set at " + currentProject.getVideo().getCurrentTime(currentProject.getVideo().getCurrentFrameNum()));
+		endTimeLabel.setText("" + currentProject.getVideo().getCurrentTime(currentProject.getVideo().getCurrentFrameNum()));
 	}
 	
 	/**
@@ -112,6 +118,7 @@ public class SettingWindowController {
 		if (result.isPresent()) {
 			currentProject.getVideo().setTimeStep(currentProject.getVideo().convertSecondsToFrameNums(Double.parseDouble(result.get())));
 			statusTxt.setText("Time step is set to " + currentProject.getVideo().getTimeStep() + " frame(s)/click"); 
+			timeStepLabel.setText("" + currentProject.getVideo().getTimeStep() + " frame(s)/click");
 		}
 	}
 	
