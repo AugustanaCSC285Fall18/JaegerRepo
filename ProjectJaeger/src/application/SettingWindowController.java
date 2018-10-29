@@ -78,26 +78,31 @@ public class SettingWindowController {
 
 	public void initializeWithStage(Stage stage) {
 		this.stage = stage;	
-	
-	
 	}
 	
+	/**
+	 * Lets users select the beginning time for video tracking
+	 */
 	@FXML
 	public void handleStartTimeBtn() {
 		currentProject.getVideo().setStartFrameNum(currentProject.getVideo().getCurrentFrameNum());
 		statusTxt.setText("Start time is set at " + currentProject.getVideo().getCurrentTime(currentProject.getVideo().getCurrentFrameNum()));
 	}
 	
+	/**
+	 * Lets users select the ending time for video tracking
+	 */
 	@FXML
 	public void handleEndTimeBtn() {
 		currentProject.getVideo().setEndFrameNum(currentProject.getVideo().getCurrentFrameNum() - 1);
 		statusTxt.setText("End time is set at " + currentProject.getVideo().getCurrentTime(currentProject.getVideo().getCurrentFrameNum()));
 	}
 	
-	// fix this to secs later
+	/**
+	 * Lets users choose the time step for video tracking
+	 */
 	@FXML
 	public void handleSetTimeStep() {
-		
 		TextInputDialog dialog = new TextInputDialog();
 		dialog.setTitle("Set Time Step");
 		dialog.setHeaderText(null);
@@ -109,6 +114,10 @@ public class SettingWindowController {
 			statusTxt.setText("Time step is set to " + currentProject.getVideo().getTimeStep() + " frame(s)/click"); 
 		}
 	}
+	
+	/**
+	 * Moves to the Main Window to start tracking
+	 */
 	@FXML
 	public void handleStartTrackingButton() {
 		if (currentProject.getVideo().getTimeStep() == 0 || pxPerCmX.getText().equals("") || pxPerCmY.getText().equals("")) {
@@ -136,6 +145,10 @@ public class SettingWindowController {
 	}
 	
 
+	/**
+	 * Shows the video frame
+	 * @param frameNum - the number of frames
+	 */
 	public void showFrameAt(int frameNum) {
 		if (frameNum < currentProject.getVideo().getTotalNumFrames()) {
 			currentProject.getVideo().setCurrentFrameNum(frameNum);
@@ -146,7 +159,9 @@ public class SettingWindowController {
 		} 
 	}
 	
-	
+	/**
+	 * Calibrates the horizontal interval
+	 */
 	@FXML
 	public void handleCalibrationX() {
 		
@@ -167,6 +182,9 @@ public class SettingWindowController {
 	}
 	}
 	
+	/**
+	 * Calibrates the vertical interval
+	 */
 	@FXML
 	public void handleCalibrationY() {
 		TextInputDialog dialog = new TextInputDialog();
