@@ -19,6 +19,7 @@ public class ProjectData {
 	private List<AnimalTrack> unassignedSegments;
 	private int chickNum;
 	private int activeTrack;
+	private int activeUnassignedSegment;
 
 	private static ProjectData currentProject;
 	
@@ -34,6 +35,7 @@ public class ProjectData {
 		video = new Video(videoFilePath);
 		tracks = new ArrayList<>();
 		unassignedSegments = new ArrayList<>();
+		activeUnassignedSegment = 0;
 	}
 
 	public Video getVideo() {
@@ -48,6 +50,31 @@ public class ProjectData {
 		return unassignedSegments;
 	}
 	
+	public AnimalTrack getCurrentUnassignedSegment() {
+		return unassignedSegments.get(activeUnassignedSegment);
+	}	
+	
+	public void removeCurrentUnassignedSegment() {
+		unassignedSegments.remove(activeUnassignedSegment);
+		if (unassignedSegments.size() == activeUnassignedSegment) {
+			activeUnassignedSegment--;
+		}
+	}
+	
+	public void moveToPrevUnassignedSegment() {
+		activeUnassignedSegment--;
+		if (activeUnassignedSegment < 0) {
+			activeUnassignedSegment = unassignedSegments.size() - 1;
+		}
+	}
+	
+	public void moveToNextUnassignedSegment() {
+		activeUnassignedSegment++;
+		if (activeUnassignedSegment == unassignedSegments.size()) {
+			activeUnassignedSegment = 0;
+		}
+	}
+	
 	public int getChickNum() {
 		return chickNum;
 	}
@@ -56,8 +83,16 @@ public class ProjectData {
 		this.chickNum = chickNum;
 	}
 	
-	public void setActiveTrack(int trackNum) {
-		this.activeTrack = trackNum;
+	public void setActiveTrack(AnimalTrack track) {
+		if (tracks.contains(track)) {
+			this.activeTrack = tracks.indexOf(track);
+		} else {
+			throw new IllegalArgumentException("No track found.");
+		}
+	}
+	
+	public AnimalTrack getActiveTrack() {
+		return tracks.get(activeTrack);
 	}
 
 	public void exportCSVFile(File outFile) throws FileNotFoundException{
@@ -65,13 +100,12 @@ public class ProjectData {
 			FileWriter fw = new FileWriter(outFile);
 			fw.append("Chick ID, Time, X(cm), Y(cm)" + COMMA + "\n");
 			
-			for (int numChicks = 0; numChicks < tracks.size(); numChicks++) {
-				AnimalTrack chickTrack = tracks.get(numChicks);
-				for (int numPoints = 0; numPoints < chickTrack.getNumPoints(); numPoints++) {
+			for (AnimalTrack chickTrack : tracks) {		
+				for (TimePoint pt : chickTrack.getTimePoints()) {
 					fw.append(String.valueOf(chickTrack.getAnimalID()) + COMMA);
-					fw.append(String.valueOf(video.getCurrentTime(chickTrack.getTimePointAtIndex(numPoints).getFrameNum())) + COMMA);
-					fw.append(String.valueOf(chickTrack.getTimePointAtIndex(numPoints).getX()/video.getXPixelsPerCm()) + COMMA);
-					fw.append(String.valueOf(chickTrack.getTimePointAtIndex(numPoints).getY()/video.getYPixelsPerCm()) + COMMA + "\n");
+					fw.append(String.valueOf(video.getCurrentTime(pt.getFrameNum())) + COMMA);
+					fw.append(String.valueOf(pt.getX()/video.getXPixelsPerCm()) + COMMA);
+					fw.append(String.valueOf(pt.getY()/video.getYPixelsPerCm()) + COMMA + "\n");
 				}
 			}
 			fw.flush();

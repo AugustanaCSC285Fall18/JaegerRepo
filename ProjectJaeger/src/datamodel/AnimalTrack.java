@@ -12,7 +12,7 @@ public class AnimalTrack {
 	
 	
 	public AnimalTrack(String id) {
-		this(id, Color.SALMON);
+		this(id, Color.GRAY);
 	}
 	public AnimalTrack(String id, Color color) {
 		this.animalID = id;
@@ -21,8 +21,29 @@ public class AnimalTrack {
 	}
 	
 	public void add(TimePoint pt) {
-		positions.add(pt);
+		if (positions.size() == 0) {
+			positions.add(pt);
+		} else if (positions.get(positions.size() - 1).getFrameNum() < pt.getFrameNum()) {
+			positions.add(pt);
+		} else {
+			int index = 0;
+			while (positions.get(index).getFrameNum() < pt.getFrameNum()) {
+				index++;
+			}
+			positions.add(index, pt);
+		}
 	}
+	
+	public void addAll(AnimalTrack segment) {
+		for(TimePoint pt : segment.positions) {
+			add(pt);
+		}
+	}
+	
+	public void add(double x, double y, int frameNum) {
+		add(new TimePoint(x, y, frameNum));
+	}
+
 	
 	public String getAnimalID() {
 		return animalID;
@@ -78,26 +99,6 @@ public class AnimalTrack {
 		int endFrame = getFinalTimePoint().getFrameNum();
 		return "AnimalTrack[id="+ animalID + ",numPts=" + positions.size()+" start=" + startFrame + " end=" + endFrame +"]"; 
 	}
-	
-	public void insertTimePoint(double x, double y, int frameNum) {
-		if (positions.size() != 0) {
-			int index = 0;
-			if (positions.get(positions.size() - 1).getFrameNum() > frameNum) {
-				for (int i = 1; i < positions.size(); i++) {
-					if (positions.get(i).getFrameNum() > frameNum) {
-						index = i;
-						break;
-					}
-				}
-				positions.add(index, new TimePoint(x, y, frameNum));
-			} else {
-				positions.add(new TimePoint(x, y, frameNum));
-			}
-		} else {
-			positions.add(new TimePoint(x, y, frameNum));
-		}
 		
-	}
-	
 }
 
