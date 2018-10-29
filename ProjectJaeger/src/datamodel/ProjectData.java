@@ -140,6 +140,4 @@ public class ProjectData {
 		data.getVideo().connectVideoCapture();
 		return data;
 	}
-
-	
 }
